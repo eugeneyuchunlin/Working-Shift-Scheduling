@@ -22,6 +22,8 @@ public:
         return(re);
     }
 };
+void ReWrite(const char* File_name,Queue<string> date,Queue<string>day);
+Queue<Queue<string> > FileProcess(const char *File_name);
 
 class cDay{
 public:
@@ -182,8 +184,8 @@ private:
     Queue<cLabor>labors;
     void OpenRule();
     Queue<Queue<string> > OpenSchedule_pre();
-    void ReWrite(const char* File_name,Queue<string> date,Queue<string>day);
-    Queue<Queue<string> > FileProcess(const char *File_name);
+    //void ReWrite(const char* File_name,Queue<string> date,Queue<string>day);
+    //Queue<Queue<string> > FileProcess(const char *File_name);
     void OpenSchedule();
     Queue<cDay> OpenNext_pre();
     void OpenNext();
@@ -209,7 +211,7 @@ void cBoss::OpenRule(){
 void cBoss::pre_process(){
     OpenRule();
     OpenSchedule();
-    
+    labors[0].show_last_schedule();
 }
 Queue<Queue<string> > cBoss::OpenSchedule_pre(){
     Queue<Queue<string> >data;
@@ -223,6 +225,7 @@ Queue<Queue<string> > cBoss::OpenSchedule_pre(){
     ReWrite("schedule_date_and_day.txt",date,day);
     return data;
 }
+/*
 Queue<Queue<string> > cBoss::FileProcess(const char *File_name){
     ifstream file(File_name);
     string linestr;
@@ -248,6 +251,7 @@ Queue<Queue<string> > cBoss::FileProcess(const char *File_name){
     }
     return data;
 }
+*/
 void cBoss::OpenSchedule(){
     Queue<Queue<string> >data;
     data=OpenSchedule_pre();
@@ -275,6 +279,7 @@ void cBoss::OpenSchedule(){
         }
     }
 }
+/*
 void cBoss::ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
     ofstream file(File_name);
     if(file.is_open()){
@@ -285,6 +290,7 @@ void cBoss::ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
         printf("schedule_date_and_day.txt cannot be writen\n");
     }
 }
+*/
 Queue<cDay> cBoss::OpenNext_pre(){
     Queue<cDay> day;
     cDay tempday;
@@ -312,7 +318,44 @@ void cBoss::OpenNext(){
     }
 }
 
+
+
 int main(){
     cBoss boss(5);
     boss.pre_process();
+}
+void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
+    ofstream file(File_name);
+    if(file.is_open()){
+        for(unsigned int i=0;i<date.size();++i){
+            file<<date[i]<<" "<<day[i]<<'\n';
+        }
+    }else{
+        printf("%s cannot be writen\n",File_name);
+    }
+}
+Queue<Queue<string> > FileProcess(const char *File_name){
+    ifstream file(File_name);
+    string linestr;
+    string spread;
+    Queue<string> linedata;
+    Queue<Queue<string> > data;
+    char str[100];
+    char *pch;
+    int i=0;
+    if(file.is_open()){
+        while(!file.eof()){
+            getline(file,linestr,'\n');
+            strcpy(str,linestr.c_str());
+            pch=strtok(str,",");
+            while(pch!=NULL){
+                spread.assign(pch);
+                linedata.enqueue(spread);
+                pch=strtok(NULL,",");
+            }
+            data.enqueue(linedata);
+            linedata.clear();
+        }
+    }
+    return data;
 }
