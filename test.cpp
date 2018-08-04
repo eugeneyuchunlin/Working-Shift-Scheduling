@@ -66,8 +66,7 @@ private:
 	map<int,string>rule;
     string last_year_month;
     void reset();
-    void SetCanlendar(int month);
-    void TransCalendar();
+    
 public:
     cLabor(char attr,char next_attribute){
         reset();
@@ -100,30 +99,6 @@ void cLabor::GetRule(Queue<string> qrule){
     for(unsigned int i=0,j=1;i<qrule.size();i++,j++)
         rule[j]=qrule[i];
 }
-void cLabor::TransCalendar(){
-    ifstream file("calendar.csv");
-    ofstream temp_file("calendar.txt");
-    string file_str;
-	vector<string>date_day;
-	char file_char[10];
-	char *pch = NULL; 
-	int i = 0, j = 0;
-	if (file.is_open()&&temp_file.is_open()){
-		while (!file.eof()){
-			getline(file, file_str,'\n');
-			strcpy(file_char, file_str.c_str());
-			pch = strtok(file_char, ",");
-			while (pch != NULL){
-				date_day.push_back(pch);
-				//printf("%s\n", pch);
-				pch = strtok(NULL, ",");
-			}
-            temp_file<<date_day[0]<<" "<<date_day[1]<<'\n';
-			date_day.clear();
-		}
-	}
-    else printf("file open failed");
-}
 void cLabor::show_schedule(){
     for(unsigned int i=0;i<days.size();++i){
         printf("attribute : %s\n",days[i].attribute.c_str());
@@ -131,27 +106,6 @@ void cLabor::show_schedule(){
 		printf("day : %s\n", days[i].day.c_str());
 		printf("\n\n");
     }
-}
-void cLabor::SetCanlendar(int month){
-    int date=0;
-    char day[20];
-    cDay TempDay;
-    FILE *f=NULL;
-    f=fopen("calendar.txt","r");
-    if(f!=NULL){
-        while(EOF!=fscanf(f,"%d %s",&date,day)){
-            TempDay.date=date;
-            TempDay.day=day;
-            TempDay.attribute=rule[month];
-            days.enqueue(TempDay);
-        }
-    }
-    fclose(f);
-}
-void cLabor::pre_process(int month){
-    TransCalendar();
-    SetCanlendar(month);
-    //show_schedule();
 }
 void cLabor::LastSchedule(Queue<int>dates,Queue<string>day,Queue<string>attr){
     cDay tempday;
@@ -184,12 +138,10 @@ private:
     Queue<cLabor>labors;
     void OpenRule();
     Queue<Queue<string> > OpenSchedule_pre();
-    //void ReWrite(const char* File_name,Queue<string> date,Queue<string>day);
-    //Queue<Queue<string> > FileProcess(const char *File_name);
     void OpenSchedule();
     Queue<cDay> OpenNext_pre();
     void OpenNext();
-
+    void OpenCalendar();
 public:
     void pre_process();
     cBoss(int mon){
@@ -211,7 +163,7 @@ void cBoss::OpenRule(){
 void cBoss::pre_process(){
     OpenRule();
     OpenSchedule();
-    labors[0].show_last_schedule();
+    
 }
 Queue<Queue<string> > cBoss::OpenSchedule_pre(){
     Queue<Queue<string> >data;
@@ -225,33 +177,6 @@ Queue<Queue<string> > cBoss::OpenSchedule_pre(){
     ReWrite("schedule_date_and_day.txt",date,day);
     return data;
 }
-/*
-Queue<Queue<string> > cBoss::FileProcess(const char *File_name){
-    ifstream file(File_name);
-    string linestr;
-    string spread;
-    Queue<string> linedata;
-    Queue<Queue<string> > data;
-    char str[100];
-    char *pch;
-    int i=0;
-    if(file.is_open()){
-        while(!file.eof()){
-            getline(file,linestr,'\n');
-            strcpy(str,linestr.c_str());
-            pch=strtok(str,",");
-            while(pch!=NULL){
-                spread.assign(pch);
-                linedata.enqueue(spread);
-                pch=strtok(NULL,",");
-            }
-            data.enqueue(linedata);
-            linedata.clear();
-        }
-    }
-    return data;
-}
-*/
 void cBoss::OpenSchedule(){
     Queue<Queue<string> >data;
     data=OpenSchedule_pre();
@@ -279,18 +204,6 @@ void cBoss::OpenSchedule(){
         }
     }
 }
-/*
-void cBoss::ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
-    ofstream file(File_name);
-    if(file.is_open()){
-        for(unsigned int i=0;i<date.size();++i){
-            file<<date[i]<<" "<<day[i]<<'\n';
-        }
-    }else{
-        printf("schedule_date_and_day.txt cannot be writen\n");
-    }
-}
-*/
 Queue<cDay> cBoss::OpenNext_pre(){
     Queue<cDay> day;
     cDay tempday;
@@ -313,16 +226,31 @@ Queue<cDay> cBoss::OpenNext_pre(){
 void cBoss::OpenNext(){
     Queue<cDay> template_day;
     template_day=OpenNext_pre();
-    for(unsigned int i=0;i,labors.size();++i){
+    for(unsigned int i=0;labors.size();++i){
         labors[i].SetNextCalendar(template_day);
     }
 }
-
-
+void cBoss::OpenCalendar(){
+    Queue<Queue<string> > data;
+    data=FileProcess("calendar.csv");
+    ReWrite("NewCalendar.txt",data[0],data[1]);
+    ifstream f("NewCalendar.txt");
+    cDay temp;
+    Queue<cDay>template_days;
+    if(f.is_open()){
+        while(!f.eof()){
+            f>>temp.date>>temp.day;
+            template_days.enqueue(temp);
+        }
+    }
+    template_days.pop_back();
+}
 
 int main(){
     cBoss boss(5);
     boss.pre_process();
+    cLabor labor;
+    labor.pre_process(5);
 }
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
     ofstream file(File_name);
