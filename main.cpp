@@ -222,8 +222,8 @@ private:
     void OpenNext();
     void OpenCalendar();
     Queue<cDay> ReRead(const char *file_name);
-    void GroupUp_groups();
-    void GroupUp_Nextgroup();
+    void ShowGroup(map<string,cGroup>group);
+    void GroupUp(map<string,cGroup>&group,int month);
 public:
     void pre_process();
     cBoss(int mon){
@@ -247,13 +247,14 @@ void cBoss::pre_process(){
     OpenSchedule();
     OpenCalendar();
     OpenNext();
-    int count=0;
+    /*    
     for(std::map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
         //it->second.ShowCalendar();
         it->second.ShowNextCalendar();
         //it->second.ShowHoliday();
         cout<<"======================\n";
     }
+    */
 }
 Queue<Queue<string> > cBoss::OpenCalendar_pre(const char *file_in_name,const char *file_out_name){
     Queue<Queue<string> >data;
@@ -281,10 +282,6 @@ Queue<cDay> cBoss::OpenNext_pre(){
         }
     }
     template_day.pop_back();
-    /*
-    for(unsigned int i=0;i<template_day.size();++i)
-        cout<<template_day[i].date<<template_day[i].day<<endl;
-        */
     return template_day;
 }
 void cBoss::OpenSchedule(){
@@ -329,13 +326,40 @@ Queue<cDay> cBoss::ReRead(const char *file_name){
     template_day.pop_back();
     return template_day;
 }
-void cBoss::GroupUp_groups(){
-    
+void cBoss::GroupUp(map<string,cGroup>&group,int month){
+    for(map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
+        group[it->second.Label(month)].plabors[it->second.name()]=&it->second;
+    }
+    string D="D";
+    string A="A";
+    string special_name="吳榮鈞";
+    map<string,cGroup>::iterator it;
+    it=group.find(D);
+    group.erase(it);
+    cLabor *ps;
+    ps=&labors[special_name];
+    group[A].plabors[special_name]=ps;
 }
-
+void cBoss::ShowGroup(map<string,cGroup>group){
+    for(map<string,cGroup>::iterator itg=group.begin();itg!=group.end();itg++){
+        cout<<"Group "<<itg->first<<endl;
+        for(map<string,cLabor *>::iterator itlp=itg->second.plabors.begin();itlp!=itg->second.plabors.end();itlp++){
+            cout<<"Name"<<itlp->first<<endl;
+        }
+    }
+}
+void cBoss::GroupUp(){
+    GroupUp(groups,month);
+    ShowGroup(groups);
+    cout<<"=======================\n";
+    GroupUp(Nextgroups,month+1);
+    ShowGroup(Nextgroups);
+    cout<<"=======================\n";
+}
 int main(){
     cBoss boss(5);
     boss.pre_process();
+    boss.GroupUp();
 }
 
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
