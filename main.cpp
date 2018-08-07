@@ -12,8 +12,10 @@ public:
         vector<T>::push_back(ob);
     }
     void dequeue(unsigned int num){
-        for(int i=0;i<num;i++)
-            vector<T>::erase(vector<T>::begin());
+        if (num< vector<T>::size()){
+            for(int i=0;i<num;i++)
+                vector<T>::erase(vector<T>::begin());
+        }
     }
     T dequeue(){
         T re;
@@ -64,13 +66,16 @@ private:
 	Queue<cDay>last7;
 	Queue<cDay>next7;
 	Queue<cDay>days;
+    Queue<cDay>special;
 	map<int,string>rule;
     string last_year_month;
     void reset();
     void SetDayInfo(Queue<cDay> &what,Queue<int>date,Queue<string>day,Queue<string> attr);
     void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day,int month);
     void Show(Queue<cDay>for_what);
-    void SetHoliday(int order,Queue<cDay>&what_day);
+    void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day);
+    void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay> template_day,Queue<string>attr);
+    void SetHoliday();
 public:
     cLabor(char attr,char next_attribute){
         reset();
@@ -83,13 +88,13 @@ public:
     void pre_process(int month);
     void show_schedule();
     string name(){return(Name);}
-    void SetLastSchedule(Queue<int> date,Queue<string> day,Queue<string>attr);
+    void SetLastSchedule(Queue<cDay>template_day,Queue<string> attr);
     void ShowLastSchedule();
-    void SetCalendar(Queue<cDay> template_day,int month);
+    void SetCalendar(Queue<cDay> template_day,Queue<string> attr,int month);
     void ShowCalendar();
     void SetNextCalendar(Queue<cDay> template_day,int month);
     void ShowNextCalendar();
-    void SetHoliday(int order);
+    void ShowHoliday();
 };
 void cLabor::ShowRule(){
     printf("Name is %s\n",Name.c_str());
@@ -113,6 +118,17 @@ void cLabor::SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day,int mon
         for_what.enqueue(template_day[i]);
     }
 }
+void cLabor::SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day){
+    for(unsigned int i=0;i<template_day.size();i++){
+        for_what.enqueue(template_day[i]);
+    }
+}
+void cLabor::SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day,Queue<string>attr){
+    for(unsigned int i=0;i<template_day.size();i++){
+        template_day[i].attribute=attr[i];
+        for_what.enqueue(template_day[i]);
+    }
+}
 void cLabor::SetDayInfo(Queue<cDay>&what,Queue<int>date,Queue<string>day,Queue<string> attr){
     cDay tempday;
     for(unsigned int i=0;i<day.size();++i){
@@ -122,10 +138,11 @@ void cLabor::SetDayInfo(Queue<cDay>&what,Queue<int>date,Queue<string>day,Queue<s
         what.enqueue(tempday);
     }
 }
-void cLabor::SetLastSchedule(Queue<int> date,Queue<string>day,Queue<string>attr){
-    SetDayInfo(last7,date,day,attr);
+void cLabor::SetLastSchedule(Queue<cDay>template_day,Queue<string> attr){
+    SetTemplateDay(last7,template_day,attr);
 }
 void cLabor::Show(Queue<cDay>for_what){
+    cout<<"Name :"<<Name<<endl;
     for(unsigned int i=0;i<for_what.size();i++){
         printf("attribute : %s\n",for_what[i].attribute.c_str());
         printf("date : %d\n", for_what[i].date);
@@ -136,7 +153,10 @@ void cLabor::Show(Queue<cDay>for_what){
 void cLabor::ShowLastSchedule(){
     Show(last7);
 }
-void cLabor::SetCalendar(Queue<cDay> template_day,int month){
+void cLabor::SetCalendar(Queue<cDay> template_day,Queue<string> attr,int month){
+    SetTemplateDay(days,template_day,attr);
+    SetHoliday();
+    days.clear();
     SetTemplateDay(days,template_day,month);
 }
 void cLabor::ShowCalendar(){
@@ -144,39 +164,42 @@ void cLabor::ShowCalendar(){
 }
 void cLabor::SetNextCalendar(Queue<cDay> template_day,int month){
     SetTemplateDay(next7,template_day,month);
+
 }
 void cLabor::ShowNextCalendar(){
     Show(next7);
 }
-void cLabor::SetHoliday(int order,Queue<cDay>&what_day){
-    for(unsigned int i=0;i<what_day.size();i++){
-        if(what_day[i].date == order){
-            what_day[i].attribute='z';
-            order+=3;
+void cLabor::SetHoliday(){
+    string Z,z;
+    Z="Z";
+    z="z";
+    for(unsigned int i=0;i<days.size();i++){
+        if(days[i].attribute == Z || days[i].attribute == z){
+            special.enqueue(days[i]);
         }
     }
 }
-void cLabor::SetHoliday(int order){
-    SetHoliday(order,days);
-    SetHoliday(order,next7);
+void cLabor::ShowHoliday(){
+    Show(special);
 }
+
+
 class cGroup{
-public:
-    
+public: 
 };
 
 class cBoss{
 private:
     int last_month;
     int month;
-    Queue<cLabor>labors;
+    map<string,cLabor>labors;
     void OpenRule();
-    Queue<Queue<string> > OpenSchedule_pre();
+    Queue<Queue<string> > OpenCalendar_pre(const char *file_in_name,const char *file_out_name);
     void OpenSchedule();
     Queue<cDay> OpenNext_pre();
     void OpenNext();
     void OpenCalendar();
-    void OpenSpecialHoliday();
+    Queue<cDay> ReRead(const char *file_name);
 public:
     void pre_process();
     cBoss(int mon){
@@ -192,39 +215,33 @@ void cBoss::OpenRule(){
     cLabor temp;
     for(int i=0;i<data.size();i++){
         temp.GetRule(data[i]);
-        labors.enqueue(temp);
+        labors[temp.name()]=temp;
     }
 }
 void cBoss::pre_process(){
-    //printf("test\n");
     OpenRule();
     OpenSchedule();
     OpenCalendar();
-    OpenNext();
-    cout<<labors.size()<<endl;
-    /*
-    for(unsigned int i = 0;i<labors.size();i+=1){
-        labors[i].ShowLastSchedule();
-        printf("\\\\\\\\\\\\\\\\n");
-        labors[i].ShowCalendar();
-        printf("\\\\\\\\\\\\\\\\n");
-        labors[i].ShowNextCalendar();
+    //OpenNext();
+    int count=0;
+    
+    for(std::map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
+        it->second.ShowCalendar();
+        it->second.ShowHoliday();
+        cout<<"======================\n";
     }
-    */
-    labors[0].SetHoliday(1);
-    labors[0].ShowCalendar();
-    labors[0].ShowNextCalendar();
+    
 }
-Queue<Queue<string> > cBoss::OpenSchedule_pre(){
+Queue<Queue<string> > cBoss::OpenCalendar_pre(const char *file_in_name,const char *file_out_name){
     Queue<Queue<string> >data;
     Queue<string>date;
     Queue<string>day;
-    data=FileProcess("schedule.csv");
+    data=FileProcess(file_in_name);
     date=data.dequeue();
     day=data.dequeue();
     date.dequeue();
     day.dequeue();
-    ReWrite("schedule_date_and_day.txt",date,day);
+    ReWrite(file_out_name,date,day);
     return data;
 }
 Queue<cDay> cBoss::OpenNext_pre(){
@@ -249,58 +266,45 @@ Queue<cDay> cBoss::OpenNext_pre(){
 }
 void cBoss::OpenSchedule(){
     Queue<Queue<string> >data;
-    data=OpenSchedule_pre();
-    Queue<int> date;
-    Queue<string> day;
-    int tempdate=0;
-    string tempday;
-    ifstream file("schedule_date_and_day.txt");
-    int i=0;
-    if(file.is_open()){
-        while(!file.eof()){
-            file>>tempdate>>tempday;
-            date.enqueue(tempdate);
-            day.enqueue(tempday);
-        }
-    }
-    date.pop_back();
-    day.pop_back();
+    data=OpenCalendar_pre("schedule.csv","schedule_date_and_day.txt");
+    string name;
+    Queue<cDay> template_day;
+    template_day=ReRead("schedule_date_and_day.txt");
     for(unsigned int i=0;i<data.size();++i){
-        for(unsigned int j=0;i<labors.size();++j){
-            if(data[i][0]==labors[j].name()){
-                labors[j].SetLastSchedule(date,day,data[i]);
-                break;
-            }
-        }
+        name=data[i].dequeue();
+        labors[name].SetLastSchedule(template_day,data[i]);
     }
 }
 void cBoss::OpenCalendar(){
     Queue<Queue<string> > data;
-    data=FileProcess("calendar.csv");
-    ReWrite("NewCalendar.txt",data[0],data[1]);
-    ifstream f("NewCalendar.txt");
-    cDay temp;
-    Queue<cDay>template_days;
-    if(f.is_open()){
-        while(!f.eof()){
-            f>>temp.date>>temp.day;
-            template_days.enqueue(temp);
-        }
-    }
-    template_days.pop_back();
-    for(unsigned int i=0;i<labors.size();i++){
-        labors[i].SetCalendar(template_days,month);
+    data=OpenCalendar_pre("Calendar.csv","calendar_date_and_day.txt");
+    string name;
+    Queue<cDay> template_day;
+    template_day=ReRead("calendar_date_and_day.txt");
+    for(unsigned int i=0;i<data.size();++i){
+        name=data[i].dequeue();
+        labors[name].SetCalendar(template_day,data[i],month);
     }
 }
 void cBoss::OpenNext(){
     Queue<cDay> template_day;
     template_day=OpenNext_pre();
-    for(unsigned int i=0;i<labors.size();i++){
-        labors[i].SetNextCalendar(template_day,month+1);
+    for(std::map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
+        it->second.SetNextCalendar(template_day,month+1);
     }
 }
-void cBoss::OpenSpecialHoliday(){
-    Queue<Queue<string> >data;
+Queue<cDay> cBoss::ReRead(const char *file_name){
+    ifstream file(file_name);
+    cDay day;
+    Queue<cDay>template_day;
+    if(file.is_open()){
+        while(!file.eof()){
+            file>>day.date>>day.day;
+            template_day.enqueue(day);
+        }
+    }
+    template_day.pop_back();
+    return template_day;
 }
 
 
@@ -308,6 +312,7 @@ int main(){
     cBoss boss(5);
     boss.pre_process();
 }
+
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
     ofstream file(File_name);
     if(file.is_open()){

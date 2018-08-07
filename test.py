@@ -1,4 +1,4 @@
-
+import os
 def boring(name):
     result=[]
     print(name)
@@ -14,9 +14,10 @@ def boring(name):
         return name[0]
     return ans
         
-
+os.system("pause")
 name=[9,7,12,8,20,8]
 num=boring(name)
+print(num)
 '''
 a=float(input("First Number = "))
 b=float(input("Second Number = "))
