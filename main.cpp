@@ -76,6 +76,7 @@ private:
     void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day);
     void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay> template_day,Queue<string>attr);
     void SetHoliday();
+    void SetHoliday(int order,Queue<cDay>&what_day);
 public:
     cLabor(char attr,char next_attribute){
         reset();
@@ -95,6 +96,8 @@ public:
     void SetNextCalendar(Queue<cDay> template_day,int month);
     void ShowNextCalendar();
     void ShowHoliday();
+    void SetHoliday(int order);
+    string Label(int month);
 };
 void cLabor::ShowRule(){
     printf("Name is %s\n",Name.c_str());
@@ -179,13 +182,30 @@ void cLabor::SetHoliday(){
         }
     }
 }
+void cLabor::SetHoliday(int order,Queue<cDay>&what_day){
+    for(unsigned int i=0;i<what_day.size();i++){
+        if(what_day[i].date == order){
+            what_day[i].attribute='Z';
+            order+=3;
+        }
+    }
+}
+void cLabor::SetHoliday(int order){
+    SetHoliday(order,days);
+    SetHoliday(order,next7);
+}
 void cLabor::ShowHoliday(){
     Show(special);
+}
+string cLabor::Label(int month){
+    return rule[month];
 }
 
 
 class cGroup{
 public: 
+    map<string,cLabor *> plabors;
+
 };
 
 class cBoss{
@@ -193,6 +213,8 @@ private:
     int last_month;
     int month;
     map<string,cLabor>labors;
+    map<string,cGroup>groups;
+    map<string,cGroup>Nextgroups;
     void OpenRule();
     Queue<Queue<string> > OpenCalendar_pre(const char *file_in_name,const char *file_out_name);
     void OpenSchedule();
@@ -200,18 +222,20 @@ private:
     void OpenNext();
     void OpenCalendar();
     Queue<cDay> ReRead(const char *file_name);
+    void GroupUp_groups();
+    void GroupUp_Nextgroup();
 public:
     void pre_process();
     cBoss(int mon){
         month=mon;
         last_month=mon-1;
     }
+    void GroupUp();
 };
 void cBoss::OpenRule(){
     Queue<Queue <string> > data;
     data=FileProcess("rule.csv");
     data.dequeue();
-    //printf("test size:%lu\n",data.size());
     cLabor temp;
     for(int i=0;i<data.size();i++){
         temp.GetRule(data[i]);
@@ -222,15 +246,14 @@ void cBoss::pre_process(){
     OpenRule();
     OpenSchedule();
     OpenCalendar();
-    //OpenNext();
+    OpenNext();
     int count=0;
-    
     for(std::map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
-        it->second.ShowCalendar();
-        it->second.ShowHoliday();
+        //it->second.ShowCalendar();
+        it->second.ShowNextCalendar();
+        //it->second.ShowHoliday();
         cout<<"======================\n";
     }
-    
 }
 Queue<Queue<string> > cBoss::OpenCalendar_pre(const char *file_in_name,const char *file_out_name){
     Queue<Queue<string> >data;
@@ -306,7 +329,9 @@ Queue<cDay> cBoss::ReRead(const char *file_name){
     template_day.pop_back();
     return template_day;
 }
-
+void cBoss::GroupUp_groups(){
+    
+}
 
 int main(){
     cBoss boss(5);
