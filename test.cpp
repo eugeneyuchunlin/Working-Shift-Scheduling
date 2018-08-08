@@ -1,7 +1,8 @@
 #include<iostream>
+#include<vector>
+#include<map>
 using namespace std;
 int main(){
-    printf("start\n");
-    system("open ./test.py");
-    printf("end\n");
+    vector<int>vint;
+    
 }

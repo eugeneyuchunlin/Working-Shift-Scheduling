@@ -3,6 +3,7 @@
 #include<string>
 #include<fstream>
 #include<map>
+#include<time.h>
 using namespace std;
 
 template<class T>
@@ -56,7 +57,6 @@ private:virtual void function()=0;
 
 class cLabor:protected cBase{
 private:
-    virtual void function(){}
     string Name;
 	int Wh, Xh;
 	int Wf, Xf;
@@ -69,6 +69,9 @@ private:
     Queue<cDay>special;
 	map<int,string>rule;
     string last_year_month;
+    int SpecialHolidayAmounts;
+private:
+    virtual void function(){}
     void reset();
     void SetDayInfo(Queue<cDay> &what,Queue<int>date,Queue<string>day,Queue<string> attr);
     void SetTemplateDay(Queue<cDay>&for_what,Queue<cDay>template_day,int month);
@@ -98,6 +101,11 @@ public:
     void ShowHoliday();
     void SetHoliday(int order);
     string Label(int month);
+    unsigned int DayAmount();
+    int HolidayAmount();
+    int SpecialHolidayAmount();
+    void InitHoliday(int boss_holiday);
+    int RandomChooseDay(Queue<cDay>d,string attr);
 };
 void cLabor::ShowRule(){
     printf("Name is %s\n",Name.c_str());
@@ -108,6 +116,7 @@ void cLabor::ShowRule(){
 }
 void cLabor::reset(){
     Wh = Xh = Wf = Xf = Wff = Xff = 0;
+    SpecialHolidayAmounts=0;
 }
 void cLabor::GetRule(Queue<string> qrule){
     Name=qrule.dequeue();
@@ -200,13 +209,79 @@ void cLabor::ShowHoliday(){
 string cLabor::Label(int month){
     return rule[month];
 }
-
+unsigned int cLabor::DayAmount(){
+    return days.size();
+}
+int cLabor::HolidayAmount(){
+    int count=0;
+    string day1="Sat";
+    string day2="Sun";
+    for(unsigned int i=0;i<days.size();i++){
+        if(days[i].day==day1 || days[i].day==day2){
+            ++count;
+        }
+    }
+    return count;
+}
+int cLabor::SpecialHolidayAmount(){
+    SpecialHolidayAmounts=special.size();
+    return SpecialHolidayAmounts;
+}
+void cLabor::InitHoliday(int boss_holiday){//that isn't completed
+    int totalHoliday=0;
+    totalHoliday=boss_holiday+SpecialHolidayAmounts;
+    
+}
+int cLabor::RandomChooseDay(Queue<cDay>d,string attr){
+    int U=1,D=d.size();
+    int rnd;
+    
+    while (true){
+        rnd=(int)(((double)U - (double)D + 1)*rand() / (double)RAND_MAX + (double)D);
+        for(auto x:d){
+            if (rnd==x.date && x.attribute==attr){
+                return x.date;
+            }
+        }
+    }
+}
 
 class cGroup{
 public: 
     map<string,cLabor *> plabors;
-
+    void init();
+    void ShowCalendar();
+    void ShowNextCalendar();
 };
+void cGroup::init(){
+    map<string,cLabor *>::iterator itpl;
+    int count=1;
+    for(itpl=plabors.begin();itpl!=plabors.end();itpl++){
+        itpl->second->SetHoliday(count);
+        /*
+        cout<<"Name"<<itpl->first<<endl;
+        cout<<"count = "<<count<<endl;
+        system("pause");
+        itpl->second->ShowCalendar();
+        itpl->second->ShowNextCalendar();
+        system("pause");
+        */
+        ++count;
+    }
+}
+void cGroup::ShowCalendar(){
+    map<string,cLabor *>::iterator itpl;
+    for(itpl=plabors.begin();itpl!=plabors.end();itpl++){
+        itpl->second->ShowCalendar();
+    }
+}
+void cGroup::ShowNextCalendar(){
+    map<string,cLabor *>::iterator itpl;
+    for(itpl=plabors.begin();itpl!=plabors.end();itpl++){
+        itpl->second->ShowNextCalendar();
+    }
+}
+
 
 class cBoss{
 private:
@@ -215,6 +290,8 @@ private:
     map<string,cLabor>labors;
     map<string,cGroup>groups;
     map<string,cGroup>Nextgroups;
+    int HolidayAmounts;
+private:
     void OpenRule();
     Queue<Queue<string> > OpenCalendar_pre(const char *file_in_name,const char *file_out_name);
     void OpenSchedule();
@@ -224,13 +301,20 @@ private:
     Queue<cDay> ReRead(const char *file_name);
     void ShowGroup(map<string,cGroup>group);
     void GroupUp(map<string,cGroup>&group,int month);
+    void init(map<string,cGroup>&group);
+    void InitHoliday();
 public:
-    void pre_process();
     cBoss(int mon){
         month=mon;
         last_month=mon-1;
+        srand(time(NULL));
     }
     void GroupUp();
+    void pre_process();
+    void init();
+    void ShowCalendar();
+    void ShowNextCalendar();
+    int ComputeHoliday();
 };
 void cBoss::OpenRule(){
     Queue<Queue <string> > data;
@@ -247,14 +331,6 @@ void cBoss::pre_process(){
     OpenSchedule();
     OpenCalendar();
     OpenNext();
-    /*    
-    for(std::map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
-        //it->second.ShowCalendar();
-        it->second.ShowNextCalendar();
-        //it->second.ShowHoliday();
-        cout<<"======================\n";
-    }
-    */
 }
 Queue<Queue<string> > cBoss::OpenCalendar_pre(const char *file_in_name,const char *file_out_name){
     Queue<Queue<string> >data;
@@ -356,12 +432,47 @@ void cBoss::GroupUp(){
     ShowGroup(Nextgroups);
     cout<<"=======================\n";
 }
+void cBoss::init(map<string,cGroup>&group){
+    map<string,cGroup>::iterator itg;
+    for(itg=group.begin();itg!=group.end();itg++){
+        itg->second.init();
+    }
+}
+void cBoss::init(){
+    init(groups);
+    ComputeHoliday();
+}
+void cBoss::ShowCalendar(){
+    map<string,cGroup>::iterator itg;
+    for(itg=groups.begin();itg!=groups.end();itg++){
+        cout<<"Group "<<itg->first<<endl;
+        itg->second.ShowCalendar();
+        cout<<"======================\n";
+    }
+}
+void cBoss::ShowNextCalendar(){
+    map<string,cGroup>::iterator itg;
+    for(itg=Nextgroups.begin();itg!=Nextgroups.end();itg++){
+        cout<<"Group "<<itg->first<<endl;
+        itg->second.ShowNextCalendar();
+        cout<<"======================\n";
+    }
+}
+int cBoss::ComputeHoliday(){
+    string BossName="黃文松";
+    HolidayAmounts=labors[BossName].HolidayAmount();
+    return HolidayAmounts;
+}
+
+
 int main(){
     cBoss boss(5);
     boss.pre_process();
     boss.GroupUp();
+    boss.init();
+    //boss.ShowCalendar();
+    //boss.ShowNextCalendar();
 }
-
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
     ofstream file(File_name);
     if(file.is_open()){
