@@ -68,6 +68,12 @@ private:
     Map<int,cDay>Next7;
     Map<int,cDay>Special;
     Queue<Map<int,cDay>::iterator>Combine;
+    Queue<Map<int,cDay>::iterator>::iterator LBegin;
+    Queue<Map<int,cDay>::iterator>::iterator LEnd;
+    Queue<Map<int,cDay>::iterator>::iterator DBegin;
+    Queue<Map<int,cDay>::iterator>::iterator DEnd;
+    Queue<Map<int,cDay>::iterator>::iterator NBegin;
+    Queue<Map<int,cDay>::iterator>::iterator NEnd;
 private:
     string Name;
 	int Wh, Xh;
@@ -177,6 +183,10 @@ void cLabor::SetDayInfo(Queue<cDay>&what,Queue<int>date,Queue<string>day,Queue<s
 }
 void cLabor::SetLastSchedule(Queue<cDay>template_day,Queue<string> attr){
     SetTemplateDay(last7,template_day,attr);
+    int num=0;
+    num=last7.size();
+    num-=7;
+    last7.dequeue(num);
 }
 void cLabor::Show(Queue<cDay>for_what){
     cout<<"Name :"<<Name<<endl;
@@ -191,8 +201,8 @@ void cLabor::Show(Map<int,cDay>for_what){
     cout<<"Name :"<<Name<<endl;
     for(auto x:for_what){
         cout<<"attribure : "<<x.second.attribute<<endl;
-        cout<<"date : "<<x.second.date<<endl;
-        cout<<"day : "<<x.first<<endl;
+        cout<<"date : "<<x.first<<endl;
+        cout<<"day : "<<x.second.day<<endl;
         cout<<"\n\n";
     }
 }
@@ -266,7 +276,7 @@ int cLabor::SpecialHolidayAmount(){
     SpecialHolidayAmounts=special.size();
     return SpecialHolidayAmounts;
 }
-void cLabor::InitHoliday(){//that isn't completed
+void cLabor::InitHoliday(){
     int totalHoliday=0,nowholiday=0,difference=0;
     int date=0;
     string W=rule[month];
@@ -275,12 +285,14 @@ void cLabor::InitHoliday(){//that isn't completed
     totalHoliday=HolidayAmounts+SpecialHolidayAmounts;
     nowholiday=ComputeHoliday(Day);
     difference=totalHoliday-nowholiday;
+    /*
     cout<<"Calendar is "<<endl;
     ShowCalendar();
     cout<<"Now Holiday is"<<nowholiday<<endl;
     cout<<"Rule Holiday is"<<HolidayAmounts<<endl;
     cout<<"Difference is "<<difference<<endl;
     system("pause");
+    */
     if(difference>0){//that means holiday is insufficient;
         for(int i=0;i<difference;i++){
             date=RandomChooseDay(Day,W);
@@ -293,10 +305,12 @@ void cLabor::InitHoliday(){//that isn't completed
             Day[date].attribute=W;
         }
     }
+    /*
     cout<<"Now Holiday Amounts is "<<ComputeHoliday(Day)<<endl;
     system("pause");
     ShowCalendar();
     system("pause");
+    */
 }
 void cLabor::init(Queue<cDay> day,Map<int,cDay>&Newday){
     for(unsigned int i=0;i<day.size();++i){
@@ -311,11 +325,65 @@ void cLabor::init(){
     InitHoliday();
 }
 void cLabor::Mix(){
+    cout<<"Name is "<<Name<<endl;
     Map<int,cDay>::iterator mit;
-    for(mit=Last7.begin();mit!=Last7.end();mit++){
+    int sum=0;
+    sum+=Last7.size()+Day.size()+Next7.size();
+    Combine.reserve(sum);
+    Queue<Map<int,cDay>::iterator>::iterator QMitit;
+    for(mit=Last7.begin();mit!=Last7.end();++mit){
         Combine.enqueue(mit);
     }
-    
+    LBegin=Combine.begin();
+    LEnd=Combine.end();
+    /*
+    for(QMitit=LBegin;QMitit!=LEnd;++QMitit){
+        cout<<"Date "<<(*QMitit)->first<<endl;
+        cout<<"Day "<<(*QMitit)->second.day<<endl;
+        cout<<"Attribute "<<(*QMitit)->second.attribute<<endl;
+        cout<<"\n\n";
+    }
+    cout<<"==========================\n"<<endl;
+    system("pause");
+    */
+    DBegin=LEnd;
+    for(mit=Day.begin();mit!=Day.end();++mit){
+        Combine.enqueue(mit);
+    }
+    DEnd=Combine.end();
+    /*
+    for(QMitit=DBegin;QMitit!=DEnd;++QMitit){
+        cout<<"Date "<<(*QMitit)->first<<endl;
+        cout<<"Day "<<(*QMitit)->second.day<<endl;
+        cout<<"Attribute "<<(*QMitit)->second.attribute<<endl;
+        cout<<"\n\n";
+    }
+    cout<<"==========================\n"<<endl;
+    system("pause");
+    */
+    NBegin=DEnd;
+    for(mit=Next7.begin();mit!=Next7.end();++mit){
+        Combine.enqueue(mit);
+    }
+    NEnd=Combine.end();
+    /*
+    for(QMitit=NBegin;QMitit!=NEnd;++QMitit){
+        cout<<"Date "<<(*QMitit)->first<<endl;
+        cout<<"Day "<<(*QMitit)->second.day<<endl;
+        cout<<"Attribute "<<(*QMitit)->second.attribute<<endl;
+        cout<<"\n\n";
+    }
+    cout<<"==========================\n"<<endl;
+    system("pause");
+    for(QMitit=Combine.begin();QMitit!=Combine.end();++QMitit){
+        cout<<"Date "<<(*QMitit)->first<<endl;
+        cout<<"Day "<<(*QMitit)->second.day<<endl;
+        cout<<"Attribute "<<(*QMitit)->second.attribute<<endl;
+        cout<<"\n\n";
+    }
+    cout<<"==========================\n"<<endl;
+    system("pause");
+    */
 }
 int cLabor::RandomChooseDay(Map<int,cDay>d,string attr){
     int U=1,D=d.size();
@@ -411,6 +479,7 @@ public:
     void ShowNextCalendar();
     int ComputeHoliday();
     void test();
+    void ShowLastSchedule();
 };
 void cBoss::OpenRule(){
     Queue<Queue <string> > data;
@@ -537,6 +606,9 @@ void cBoss::init(map<string,cGroup>&group){
 void cBoss::init(){
     init(groups);
     ComputeHoliday();
+    for(auto x:labors){
+        x.second.Mix();
+    }
 }
 void cBoss::ShowCalendar(){
     map<string,cGroup>::iterator itg;
@@ -562,13 +634,19 @@ int cBoss::ComputeHoliday(){
 void cBoss::test(){
 
 }
+void cBoss::ShowLastSchedule(){
+    for(auto x:labors){
+        x.second.ShowLastSchedule();
+    }
+}
 
 int main(){
     cBoss boss(5);
     boss.pre_process();
     boss.GroupUp();
     boss.init();
-    boss.ShowCalendar();
+    //boss.ShowCalendar();
+    //boss.ShowLastSchedule();
     //boss.ShowNextCalendar();
 }
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
