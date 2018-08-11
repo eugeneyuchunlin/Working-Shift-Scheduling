@@ -18,6 +18,7 @@ os.system("pause")
 name=[9,7,12,8,20,8]
 num=boring(name)
 print(num)
+
 '''
 a=float(input("First Number = "))
 b=float(input("Second Number = "))

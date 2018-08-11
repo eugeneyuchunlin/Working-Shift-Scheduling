@@ -155,6 +155,7 @@ public:
     void ShowCombine();
     void ShowSpecialHoliday();
     void Exchange();
+    void ReAsign(cLabor S);
 };
 void cLabor::ShowRule(){
     printf("Name is %s\n",Name.c_str());
@@ -545,11 +546,13 @@ int cLabor::ComputePQ(){
     ComputeXdc();
     ComputeXf();
     ComputeXff();
+    /*
     cout<<"Xh = "<<Xh<<endl;
     cout<<"X6 = "<<X6<<endl;
     cout<<"Xdc = "<<Xdc<<endl;
     cout<<"Xf = "<<Xf<<endl;
     cout<<"Xff = "<<Xff<<endl;
+    */
     PQ=Wh*Xh+W6*X6+Wdc*Xdc+Wf*Xf+Wff*Xff;
     return PQ;
 }
@@ -565,9 +568,17 @@ void cLabor::Exchange(){
     int date1=0,date2=0;
     date1=RandomChooseDay(Day,Z);
     date2=RandomChooseDay(Day,W);
+    //cout<<"Exchange"<<endl;
+    //cout<<"Date 1 "<<date1<<endl;
+    //cout<<"Date 2 "<<date2<<endl;
+    //system("pause");
     Day[date1].attribute=W;
     Day[date2].attribute=Z;
 }
+void cLabor::ReAsign(cLabor S){
+    Day=S.Day;
+    Next7=S.Next7;
+} 
 
 
 class cGroup{
@@ -576,6 +587,7 @@ private:
     int W1,X1;
     double TQ;
     double TQmin;
+    double T;
     map<string,cLabor>S;
     map<string,cLabor>Sp;
     map<string,cLabor>Smin;
@@ -585,11 +597,13 @@ private:
     int ComputeXno();
     int ComputeX1();
     Queue<int>PQ;
-    void Record(map<string,cLabor>);
+    void Record(map<string,cLabor>&for_what);
+    void ReAssign();
 public:
     cGroup(){
         Wno=Xno=W1=X1=TQ=1;
         TQmin=0;
+        T=0;
     }
     map<string,cLabor *> plabors;
     void init();
@@ -599,6 +613,8 @@ public:
     void Secheduling();
     string RandomChooseName();
     void ShowName();
+    void ShowSmin();
+    void test();
 };
 void cGroup::init(){
     map<string,cLabor *>::iterator itpl;
@@ -679,15 +695,19 @@ double cGroup::ComputeTQ(){
     ComputeXno();
     ComputeX1();
     sort(PQ.begin(),PQ.end());
+    //cout<<"min = "<<*PQ.begin()<<endl;
+    //cout<<"Max = "<<*(PQ.end()-1)<<endl;
     TQ=Wno*Xno+W1*X1+(*PQ.begin()+*(PQ.end()-1))/3;
     return TQ;
 }
-void cGroup::Record(map<string,cLabor>for_what){
+void cGroup::Record(map<string,cLabor>&for_what){
     for_what.clear();
     map<string,cLabor*>::iterator mslpit;
     for(mslpit=plabors.begin();mslpit!=plabors.end();mslpit++){
+        //cout<<"in"<<endl;
         for_what[mslpit->first]=*(mslpit->second);
     }
+    //cout<<"size"<<for_what.size()<<endl;
 }
 void cGroup::ShowName(){
     for(auto x:Name){
@@ -703,12 +723,70 @@ string cGroup::RandomChooseName(){
     }else if(rnd==D){
         rnd-=1;
     }
-    cout<<"rnd = "<<rnd;
+    //cout<<"rnd = "<<rnd;
     return Name[rnd];
+}
+void cGroup::ShowSmin(){
+    for(auto x:Smin){
+        x.second.ShowCalendar();
+    }
 }
 void cGroup::Secheduling(){
     int i=0;
-    cout<<"rName "<<RandomChooseName()<<endl;
+    int r=0,c=0;
+    double TQp=0.0;
+    string name;
+    Record(Smin);
+    TQmin=ComputeTQ();
+    T=0.05*TQmin;
+    while(r<20){
+        while(c<100){
+            name=RandomChooseName();
+            plabors[name]->Exchange();
+            TQp=ComputeTQ();
+            //cout<<"TQp = "<<TQp<<endl;
+            //cout<<"TQmin = "<<TQmin<<endl;
+            //system("pause");
+            if(TQp<TQmin){
+                TQmin=TQp;
+                Record(Smin);
+                Record(Sp);
+                Record(S);
+                ++c;
+                
+            }else if(TQp<TQmin+T){
+                Record(S);
+                ++c;
+            }
+            ReAssign();
+            //cout<<"r = "<<r<<" c = "<<c<<endl;
+        }
+        c=0;
+        T=0.99*T;
+        ++r;
+    }
+}
+void cGroup::ReAssign(){
+    for(auto x:plabors){
+        x.second->ReAsign(S[x.first]);
+    }
+}
+void cGroup::test(){
+    string name;
+    name=RandomChooseName();
+    cout<<"name = "<<name<<endl;
+    plabors[name]->ShowCalendar();
+    cout<<"Ready to exchange"<<endl;
+    system("pause");
+    plabors[name]->Exchange();
+    plabors[name]->ShowCalendar();
+    system("pause");
+    Record(S);
+    cout<<S.size()<<endl;
+    for(auto x:S){
+        x.second.ShowCalendar();
+        system("pause");
+    }
 }
 
 class cBoss{
@@ -745,6 +823,7 @@ public:
     int ComputeHoliday();
     void test();
     void ShowLastSchedule();
+    void Scheduling();
 };
 void cBoss::OpenRule(){
     Queue<Queue <string> > data;
@@ -899,12 +978,20 @@ int cBoss::ComputeHoliday(){
 }
 void cBoss::test(){
     string group="A";
+    //groups[group].test();
     groups[group].Secheduling();
-    //system("pause");
+    //groups[group].ShowCalendar();
+    groups[group].ShowSmin();
 }
 void cBoss::ShowLastSchedule(){
     for(auto x:labors){
         x.second.ShowLastSchedule();
+    }
+}
+void cBoss::Scheduling(){
+    for(auto x:groups){
+        x.second.Secheduling();
+        x.second.ShowCalendar();
     }
 }
 
@@ -913,10 +1000,7 @@ int main(){
     boss.pre_process();
     boss.GroupUp();
     boss.init();
-    boss.test();
-    //boss.ShowCalendar();
-    //boss.ShowLastSchedule();
-    //boss.ShowNextCalendar();
+    boss.Scheduling();
 }
 void ReWrite(const char* File_name,Queue<string> date,Queue<string>day){
     ofstream file(File_name);
