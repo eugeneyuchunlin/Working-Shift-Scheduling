@@ -86,12 +86,6 @@ private:
 	int Wff, Xff;
 	string attribute;
 	string next_attr;
-    //Choosing Queue to be the container of cDay is wrong policy.Next Update should replace Queue by Map<int,cDay>
-	//Queue<cDay>last7;
-	//Queue<cDay>next7;
-	//Queue<cDay>days;
-    //Queue<cDay>special;
-    //----------------------------------------
 	map<int,string>rule;
     string last_year_month;
     int SpecialHolidayAmounts;
@@ -592,10 +586,6 @@ void cLabor::Exchange(){
     int date1=0,date2=0;
     date1=RandomChooseDay(Day,Z);
     date2=RandomChooseDay(Day,W);
-    //cout<<"Exchange"<<endl;
-    //cout<<"Date 1 "<<date1<<endl;
-    //cout<<"Date 2 "<<date2<<endl;
-    //system("pause");
     Day[date1].attribute=W;
     Day[date2].attribute=Z;
 }
@@ -844,6 +834,7 @@ public:
     void test();
     void ShowLastSchedule();
     void Scheduling();
+    void OutPut();
 };
 void cBoss::OpenRule(){
     Queue<Queue <string> > data;
@@ -1013,6 +1004,9 @@ void cBoss::Scheduling(){
         x.second.Secheduling();
         x.second.ShowCalendar();
     }
+}
+void cBoss::OutPut(){
+  
 }
 
 int main(){
