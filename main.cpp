@@ -1,9 +1,11 @@
 #include<iostream>
+#include<stdio.h>
 #include<vector>
 #include<string>
 #include<fstream>
 #include<map>
 #include<time.h>
+#include<math.h>
 #include<algorithm>
 using namespace std;
 
@@ -57,7 +59,8 @@ public:
 	int Wdc, Xdc;
     int PQ;
 	cBase(){
-		W6 = X6 = Wdc = Xdc = 1;
+		W6=2000;
+        Wdc=1500;
         PQ=0;
 	}
 private:virtual void function()=0;
@@ -80,6 +83,7 @@ private:
 	int Wh, Xh;
 	int Wf, Xf;
 	int Wff, Xff;
+    int Wz,Xz;
 	string attribute;
 	string next_attr;
 	map<int,string>rule;
@@ -100,12 +104,14 @@ private:
     //void SetHoliday(int order,Map<int,cDay>&what_day);
     //void init(Queue<cDay>day,Map<int,cDay>&NewDay);
     int ComputeHoliday(int begin,int end);//Compute the amount of day which has "Z" attribute
-private:
+    void Parameter();
+public:
     int ComputeXh();
     int ComputeX6();
     int ComputeXdc();
     int ComputeXf();
     int ComputeXff();
+    int ComputeXz();
 public:
     cLabor(char attr,char next_attribute){
         reset();
@@ -114,6 +120,7 @@ public:
     }
     cLabor(){
         reset();
+        
     }
     void GetRule(Queue<string> rule);
     void ShowRule();
@@ -143,6 +150,7 @@ public:
     void InitHoliday(int begin,int end,int specialholidayamount,int month);
     int DaySize(){return Day_size;}
     void test();
+    void ShowRest();
     Map<int,cDay> Days();
 };
 void cLabor::ShowRule(){
@@ -153,9 +161,12 @@ void cLabor::ShowRule(){
     printf("\n");
 }
 void cLabor::reset(){
-    Wh = Xh = Wf = Xf = Wff = Xff = 1;
+    //Parameter();
+    Wh=1;
+    Wf=100;
+    Wff=1;
+    Wz=100;
     SpecialHolidayAmounts=0;
-    //HolidayAmounts=0;
     month=0;
     Day_size=0;
 }
@@ -475,12 +486,32 @@ int cLabor::ComputeXff(){
     Xff=difference;
     return difference;
 }
+int cLabor::ComputeXz(){
+    Queue<Map<int,cDay>::iterator>::iterator QMiit;
+    Queue<int>record;
+    unsigned int num=0;
+    int count=0;
+    for(QMiit=DBegin;QMiit!=Combine.end();++QMiit){
+        if((*QMiit)->second.attribute=="Z"){
+            ++count;
+        }else{
+            count=0;
+        }
+        if(count>1){
+            record.enqueue(count);
+        }
+    }
+    num=record.size();
+    Xz=(int)pow(5,num);
+    return Xz;
+}
 int cLabor::ComputePQ(){
     ComputeXh();
     ComputeX6();
     ComputeXdc();
     ComputeXf();
     ComputeXff();
+    ComputeXz(); 
     /*
     cout<<"Xh = "<<Xh<<endl;
     cout<<"X6 = "<<X6<<endl;
@@ -488,7 +519,7 @@ int cLabor::ComputePQ(){
     cout<<"Xf = "<<Xf<<endl;
     cout<<"Xff = "<<Xff<<endl;
     */
-    PQ=Wh*Xh+W6*X6+Wdc*Xdc+Wf*Xf+Wff*Xff;
+    PQ=Wh*Xh+W6*X6+Wdc*Xdc+Wf*Xf+Wff*Xff+Wz*Xz;
     return PQ;
 }
 string cLabor::DayAttr(int date){
@@ -518,6 +549,24 @@ void cLabor::ReAsign(cLabor S){
 }
 Map<int,cDay> cLabor::Days(){
     return Day;
+}
+void cLabor::Parameter(){
+    ifstream parameters("parameter.txt");
+    if(parameters.is_open()){
+        parameters>>Wh>>W6>>Wdc>>Wf>>Wff>>Wz;
+    }
+    parameters.close();
+}
+void cLabor::ShowRest(){
+    string Z="Z";
+    cout<<"Name = "<<Name<<endl;
+    for(auto x:Day){
+        if(x.second.attribute==Z){
+            cout<<"month = "<<x.second.month<<endl;
+            cout<<"date = "<<x.second.date<<endl;
+            cout<<"\n";
+        }
+    }
 }
 
 
@@ -631,10 +680,15 @@ int cGroup::ComputeX1(int begin,int end){
 }
 double cGroup::ComputeTQ(int begin,int end){
     ComputePQ();
-    ComputeXno(begin,end);
-    ComputeX1(begin,end);
+    //cout<<"Xno = "<<ComputeXno(begin,end)<<endl;
+    //cout<<"X1 = "<<ComputeX1(begin,end)<<endl;
     sort(PQ.begin(),PQ.end());
-    TQ=Wno*Xno+W1*X1+(*PQ.begin()+*(PQ.end()-1))/3;
+    //cout<<*PQ.begin()<<" "<<*(PQ.end()-1)<<endl;
+    TQ=Wno*Xno+W1*X1+(*(PQ.end()-1)-(*PQ.begin()))/3;
+    for(unsigned int i=0;i<PQ.size();i++){
+        TQ+=PQ[i];
+    }
+    //cout<<"TQ = "<<TQ<<endl;
     return TQ;
 }
 void cGroup::Record(map<string,cLabor>&for_what){
@@ -673,15 +727,40 @@ void cGroup::Secheduling(){
     double TQp=0.0;
     string name;
     Record(Smin);
+    Record(S);
+    /*
+    for(auto x:plabors){
+        cout<<"Name "<<x.first<<endl;
+        x.second->ShowRest();
+        system("pause");
+    }
+    for(auto x:Smin){
+        cout<<"Name "<<x.first<<endl;
+        x.second.ShowRest();
+        system("pause");
+    }
+    */
     TQmin=ComputeTQ(1,DaySize);
+    //cout<<"TQmin = "<<TQmin<<endl;
     T=0.05*TQmin;
     while(r<20){
         while(c<100){
+            /*
+            cout<<"in the while loop"<<endl;
+            for(auto x:plabors){
+                cout<<"Name "<<x.first<<endl;
+                x.second->ShowRest();
+                system("pause");
+            }
+            */
             i++;
             name=RandomChooseName();
             plabors[name]->Exchange();
+            //plabors[name]->ShowRest();
             TQp=ComputeTQ(1,DaySize);
+            //cout<<"TQp = "<<TQp<<endl;
             if(TQp<TQmin){
+                //cout<<"TQ<TQmin"<<endl;
                 TQmin=TQp;
                 Record(Smin);
                 Record(Sp);
@@ -689,16 +768,20 @@ void cGroup::Secheduling(){
                 c=0;
             }
             else if(TQp<TQmin+T){
+                //cout<<"TQ<TQmin+T"<<endl;
                 Record(S);
                 ++c;
             }
             qi.enqueue(i);
             qT.enqueue(T);
             qQmin.enqueue(TQmin);//Record;
+            //cout<<"i = "<<i<<" TQp = "<<TQp<<" TQmin = "<<TQmin<<endl;
+            cout<<"R = "<<r<<" C = "<<c<<endl;
             ReAssign(S);
+            //system("pause");
         }
         c=0;
-        T=0.99*T;
+        T=0.9*T;
         ++r;
     }
     ReAssign(Smin);
@@ -948,7 +1031,10 @@ void cBoss::test(){
     pre_process();
     GroupUp();
     init();
-    //labors["陳榮洲"].ComputeXdc();
+    int XZ=0;
+    labors["陳榮洲"].ShowCalendar();
+    XZ=labors["陳榮洲"].ComputeXz();
+    cout<<"XZ = "<<XZ<<endl;
 
 }
 void cBoss::ShowLastSchedule(){
