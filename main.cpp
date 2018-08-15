@@ -60,7 +60,7 @@ public:
     int PQ;
 	cBase(){
 		W6=2000;
-        Wdc=1500;
+        Wdc=5000;
         PQ=0;
 	}
 private:virtual void function()=0;
@@ -455,14 +455,14 @@ int cLabor::ComputeXdc(){
         if ((*(DBegin-1))->second.attribute!=Z){
             //cout<<"intersection between last and now"<<endl;
             Xdc=1;
-            return 1;
+            return Xdc;
         }
     }
     if(Day[Day_size+1].attribute==C){
         if(Day[Day_size].attribute!=Z){
             Xdc=1;
             //cout<<"intersection betweem now and next"<<endl;
-            return 1;
+            return Xdc;
         }
     }
     Xdc=0;
@@ -540,7 +540,7 @@ void cLabor::Exchange(){
        date2=RandomChooseDay(Day_size+1,Day.size(),rule[month+1]);
        Day[date1].attribute=rule[month+1];
    }
-   cout<<"date1 = "<<date1<<" date2 = "<<date2<<endl;
+   //cout<<"date1 = "<<date1<<" date2 = "<<date2<<endl;
     Day[date2].attribute=Z;
     
 }
