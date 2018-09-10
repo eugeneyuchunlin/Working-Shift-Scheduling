@@ -1079,7 +1079,7 @@ Queue<Queue<string> > FileProcess(const char *File_name){
     string spread;
     Queue<string> linedata;
     Queue<Queue<string> > data;
-    char str[100];
+    char str[150];
     char *pch;
     int i=0;
     if(file.is_open()){
