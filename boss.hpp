@@ -16,11 +16,12 @@ void cBoss::readCalendar()
 {
     sData data;
     sData package;
-    data = reading("calendar.csv");
+    data = reading("calendar.csv",1);
     string name;
     for(unsigned int i = 0;i<data.data.size();i++){
         name = data.data[i][0];
         package = cBoss::package(data.data[i],data);
+        cout<<"package.date[0] = "<<package.date[0]<<endl;
         labors[name].getCalendar(package);
     }
 }
@@ -39,7 +40,7 @@ void cBoss::readSchedule()
 {
     sData data;
     sData package;
-    data = reading("schedule.csv");
+    data = reading("schedule.csv",2);
     string name;
     for(unsigned int i = 0;i<data.data.size(); i++){
         name = data.data[i][0];
@@ -50,6 +51,18 @@ void cBoss::readSchedule()
 
         // package.data.clear();
 
+    }
+}
+void cBoss::readNextCalendar()
+{
+    sData data;
+    sData package;
+    data = reading("next.csv",1);
+    string name;
+    for(unsigned int i = 0;i<data.data.size(); i++){
+        name = data.data[i][0];
+        package = cBoss::package(data.data[i],data);
+        labors[name].getNextCalendar(package);
     }
 }
 
@@ -66,7 +79,7 @@ void cBoss::readRule()
     }
 }
 
-sData cBoss::reading(const char *FileName)
+sData cBoss::reading(const char *FileName,int num)
 {
     Queue<Queue<string> > data;
     Queue<string> string_date;
@@ -79,8 +92,8 @@ sData cBoss::reading(const char *FileName)
     string_date = data.dequeue();
     days = data.dequeue();
 
-    days.dequeue(2);
-    string_date.dequeue(2);
+    days.dequeue(num);
+    string_date.dequeue(num);
     date = strings_to_int(string_date);
 
     day_info.data = data;

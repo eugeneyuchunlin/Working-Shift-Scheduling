@@ -17,5 +17,7 @@ int main()
     cBoss boss(5);
     boss.readRule();
     boss.readSchedule();
-    // boss.readCalendar();
+    boss.readCalendar();
+    boss.readNextCalendar();
+    return 0;
 }

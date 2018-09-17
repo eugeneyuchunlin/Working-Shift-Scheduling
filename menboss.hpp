@@ -13,7 +13,7 @@ private:
 private:
     Queue<int> strings_to_int(Queue<string> date);
     sData package(Queue<string> attr,sData data);
-    sData reading(const char *File_name);
+    sData reading(const char *File_name,int num);
 
     // File Process
 // private:
@@ -21,7 +21,7 @@ public:
     void readRule();
     void readSchedule();
     void readCalendar();
-
+    void readNextCalendar();
 
     // constructor
 public:

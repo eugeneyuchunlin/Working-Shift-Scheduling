@@ -4,9 +4,7 @@
 
 Map<int,cDay> cLabor::getDay(sData data,int remain,char mode){
     Map<int, cDay> Days;
-
     data = PackagePreProcess(data,remain,mode);
-   
     Days = DayPackage(data);
     return Days;
 }
@@ -67,12 +65,18 @@ void cLabor::getRule(Queue<string> ruleData,string name){
 
 void cLabor::getSchedule(sData data){
     Last7 = getDay(data,7,'d');
-    Show(Last7);
+    // Show(Last7);
 }
 
 void cLabor::getCalendar(sData data){
-    cout<<"Get Calendar"<<endl;
     Days = getDay(data);
+    // Show(Days);
+}
+
+void cLabor::getNextCalendar(sData data){
+    Map<int,cDay> Next;
+    Next = getDay(data,7,'p');
+    Days = combine(Days,Next);
     Show(Days);
     system("pause");
 }
@@ -90,6 +94,13 @@ void cLabor::Show(Map<int,cDay>day){
     cout<<"\n\n";
 }
 
+Map<int,cDay> cLabor::combine(Map<int,cDay>big,Map<int,cDay>small){
+    unsigned int day_amount = big.size();
+    for(unsigned int i = 0;i<small.size();i++){
+        big[i+day_amount] = small[i];
+    }
+    return big;
+}
 
 
 #endif

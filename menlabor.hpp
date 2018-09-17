@@ -19,19 +19,21 @@ private:
     sData PackagePreProcess(sData data,int remain,char mode);// Low level and it can dequeue or pop_back
 
     Map<int,cDay> DayPackage(sData data);// mid level recieve the sData type and return Map<int,cDay> type
-    
+
     Map<int,cDay> getDay(sData data);//package,high level
     Map<int,cDay> getDay(sData data,int remain,char mode);
+
+    Map<int, cDay> combine(Map<int,cDay>d1,Map<int,cDay>d2);
 
 public:
     // Interface between labor and boss
     void getRule(Queue<string> ruleData,string name);
     void getSchedule(sData data);
     void getCalendar(sData data);
-    // void getNextCalendar(sData data);
+    void getNextCalendar(sData data);
 
 
-    // Show
+    // Show and Output
 private:
     void Show(Map<int,cDay> day);
 };
