@@ -104,4 +104,11 @@ sData cBoss::reading(const char *FileName,int num)
     return day_info;
 }
 
+void cBoss::ReadFiles(){
+    readRule();
+    readSchedule();
+    readCalendar();
+    readNextCalendar();
+}
+
 #endif

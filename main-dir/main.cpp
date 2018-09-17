@@ -15,9 +15,6 @@ using namespace std;
 int main()
 {
     cBoss boss(5);
-    boss.readRule();
-    boss.readSchedule();
-    boss.readCalendar();
-    boss.readNextCalendar();
+    boss.ReadFiles();
     return 0;
 }
