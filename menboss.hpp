@@ -16,10 +16,18 @@ private:
     sData reading(const char *File_name);
 
     // File Process
-private:
+// private:
+public:
     void readRule();
     void readSchedule();
-    void readCalendar(const char *File_name);
+    void readCalendar();
+
+
+    // constructor
+public:
+    cBoss(int i){
+        month = i;
+    }
 };
 
 

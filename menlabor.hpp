@@ -15,7 +15,13 @@ private:
 
     //-------Data process function----------
 private:
+    sData PackagePreProcess(sData &data);// Low level
+    sData PackagePreProcess(sData data,int remain,char mode);// Low level and it can dequeue or pop_back
+
+    Map<int,cDay> DayPackage(sData data);// mid level recieve the sData type and return Map<int,cDay> type
+    
     Map<int,cDay> getDay(sData data);//package,high level
+    Map<int,cDay> getDay(sData data,int remain,char mode);
 
 public:
     // Interface between labor and boss
@@ -24,6 +30,10 @@ public:
     void getCalendar(sData data);
     // void getNextCalendar(sData data);
 
+
+    // Show
+private:
+    void Show(Map<int,cDay> day);
 };
 
 #endif

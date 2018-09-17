@@ -12,7 +12,7 @@ Queue<int> cBoss::strings_to_int(Queue<string> date)
     return date_int;
 }
 
-void cBoss::readCalendar(const char *File_name)
+void cBoss::readCalendar()
 {
     sData data;
     sData package;
@@ -21,6 +21,7 @@ void cBoss::readCalendar(const char *File_name)
     for(unsigned int i = 0;i<data.data.size();i++){
         name = data.data[i][0];
         package = cBoss::package(data.data[i],data);
+        labors[name].getCalendar(package);
     }
 }
 

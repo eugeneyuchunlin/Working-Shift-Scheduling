@@ -2,22 +2,55 @@
 #define __labor_hpp__
 #include"menlabor.hpp"
 
-Map<int,cDay> cLabor::getDay(sData data){
+Map<int,cDay> cLabor::getDay(sData data,int remain,char mode){
     Map<int, cDay> Days;
-    Queue<string>attr;
-    int dequeueNum = data.day_amount - 6;
+
+    data = PackagePreProcess(data,remain,mode);
+   
+    Days = DayPackage(data);
+    return Days;
+}
+
+Map<int,cDay> cLabor::getDay(sData data){
+    Map<int,cDay> Days;
+    data = PackagePreProcess(data);
+    Days = DayPackage(data);
+    return Days;
+}
+
+sData cLabor::PackagePreProcess(sData data,int remain,char mode){
+    unsigned int rm_amount = data.day_amount - remain;
+
+    PackagePreProcess(data);
+    if(mode == 'p'){
+        data.data[0].pop_back(rm_amount);
+        data.data.pop_back(rm_amount);
+        data.day.pop_back(rm_amount);
+    }
+    else if (mode == 'd'){
+        data.data[0].dequeue(rm_amount);
+        data.date.dequeue(rm_amount);
+        data.day.dequeue(rm_amount);
+    }
+    
+    data.day_amount = remain;
+    
+    return data;
+}
+
+sData cLabor::PackagePreProcess(sData &data){
+    data.data[0].dequeue(2);
+    return data;
+}
+
+Map<int,cDay> cLabor::DayPackage(sData data){
+    Queue<string> attr;
+    Map<int,cDay> Days;
     attr = data.data[0];
-    attr.dequeue(2);
-    attr.dequeue(dequeueNum);
-    data.date.dequeue(dequeueNum);
-    data.day.dequeue(dequeueNum);
     cDay day;
-    for (int i = 0; i < data.date.size(); i++)
-    {
-        day.date = data.date[i];
-        day.day = data.day[i];
-        day.attribute = attr[i];
-        Days[data.date[i]] = day;
+    for (int i = 0; i < attr.size();i++){
+        day.get(data.date[i],data.day[i],attr[i]);
+        Days[i] = day;
     }
     return Days;
 }
@@ -33,15 +66,30 @@ void cLabor::getRule(Queue<string> ruleData,string name){
 }
 
 void cLabor::getSchedule(sData data){
-    Last7 = getDay(data);
+    Last7 = getDay(data,7,'d');
+    Show(Last7);
 }
 
 void cLabor::getCalendar(sData data){
+    cout<<"Get Calendar"<<endl;
     Days = getDay(data);
+    Show(Days);
+    system("pause");
 }
 
-// void cLabor::getNextCalendar(sData data){
-    
-// }
+void cLabor::Show(Map<int,cDay>day){
+    cout<<"Name : "<<Name<<"\n\n";
+    Map<int,cDay>::iterator it = day.begin();
+    for(;it!=day.end();it++){
+        cout<<"number : "<<it->first<<endl;
+        cout<<"Date : "<<it->second.date<<endl;
+        cout<<"Day : "<<it->second.day<<endl;
+        cout<<"Attr : "<<it->second.attribute<<endl;
+        cout<<"\n";
+    }
+    cout<<"\n\n";
+}
+
+
 
 #endif

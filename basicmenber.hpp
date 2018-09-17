@@ -10,14 +10,14 @@ class cDay
     string day;
     int month;
     void get(int dt, string str, string attr);
-    // {
-    //     date = dt;
-    //     day = str;
-    //     attribute = attr;
-    //     month = 0;
-    // }
 };
 
+void cDay::get(int dt,string str,string attr){
+    date = dt;
+    day = str;
+    attribute = attr;
+    month = 0;
+}
 
 struct sData
 {
