@@ -1,7 +1,7 @@
 #ifndef __menboss_hpp__
 #define __menboss_hpp__
-#include"basicmenber.hpp"
-#include"labor.hpp"
+#include"../basic/basicmenber.hpp"
+#include"../labor/labor.hpp"
 
 class cBoss{
 private:
@@ -16,13 +16,15 @@ private:
     sData reading(const char *File_name,int num);
 
     // File Process
-// private:
-public:
+private:
     void readRule();
     void readSchedule();
     void readCalendar();
     void readNextCalendar();
+public:
+    void ReadFiles();
 
+    
     // constructor
 public:
     cBoss(int i){

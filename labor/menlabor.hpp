@@ -1,7 +1,7 @@
 #ifndef __menlabor_hpp__
 #define __menlabor_hpp__
-#include"DataStructure.hpp"
-#include"basicmenber.hpp"
+#include"../basic/DataStructure.hpp"
+#include"../basic/basicmenber.hpp"
 
 class cLabor{
 

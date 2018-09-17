@@ -1,7 +1,7 @@
 #ifndef __boss_hpp__
 #define __boss_hpp__
 #include"menboss.hpp"
-#include"fileprocess.hpp"
+#include"../basic/fileprocess.hpp"
 
 Queue<int> cBoss::strings_to_int(Queue<string> date)
 {
@@ -16,7 +16,7 @@ void cBoss::readCalendar()
 {
     sData data;
     sData package;
-    data = reading("calendar.csv",1);
+    data = reading("../main-dir/files/calendar.csv",1);
     string name;
     for(unsigned int i = 0;i<data.data.size();i++){
         name = data.data[i][0];
@@ -40,7 +40,7 @@ void cBoss::readSchedule()
 {
     sData data;
     sData package;
-    data = reading("schedule.csv",2);
+    data = reading("../main-dir/files/schedule.csv",2);
     string name;
     for(unsigned int i = 0;i<data.data.size(); i++){
         name = data.data[i][0];
@@ -57,7 +57,7 @@ void cBoss::readNextCalendar()
 {
     sData data;
     sData package;
-    data = reading("next.csv",1);
+    data = reading("../main-dir/files/next.csv",1);
     string name;
     for(unsigned int i = 0;i<data.data.size(); i++){
         name = data.data[i][0];
@@ -69,7 +69,7 @@ void cBoss::readNextCalendar()
 void cBoss::readRule()
 {
     Queue<Queue<string> > data;
-    data = FileProcess("rule.csv");
+    data = FileProcess("../main-dir/files/rule.csv");
     data.dequeue();
     string name;
     for (int i = 0; i < data.size(); i++)
@@ -102,6 +102,13 @@ sData cBoss::reading(const char *FileName,int num)
     day_info.day_amount = date.size();
 
     return day_info;
+}
+
+void cBoss::ReadFiles(){
+    readRule();
+    readSchedule();
+    readCalendar();
+    readNextCalendar();
 }
 
 #endif

@@ -5,8 +5,8 @@
 #include <map>
 #include <time.h>
 #include <algorithm>
-#include"boss.hpp"
-#include"labor.hpp"
+#include"../boss/boss.hpp"
+#include"../labor/labor.hpp"
 
 using namespace std;
 
