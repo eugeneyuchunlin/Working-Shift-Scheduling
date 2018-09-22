@@ -2,6 +2,8 @@
 #define __menboss_hpp__
 #include"../basic/basicmenber.hpp"
 #include"../labor/labor.hpp"
+#include"../group/group.hpp"
+
 
 class cBoss{
 private:
@@ -9,6 +11,7 @@ private:
     Map<string,cLabor> labors;
     Map<int,string>rule;
     
+    Map<string,cGroup> groups;
     // basic process function
 private:
     Queue<int> strings_to_int(Queue<string> date);
@@ -24,7 +27,10 @@ private:
 public:
     void ReadFiles();
 
-    
+
+public:
+    void GroupUp();
+
     // constructor
 public:
     cBoss(int i){

@@ -1,0 +1,2 @@
+a=$(./test)
+echo $a
