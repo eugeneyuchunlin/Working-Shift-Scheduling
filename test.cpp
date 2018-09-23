@@ -1,40 +1,69 @@
-// #include<iostream>
-// using namespace std;
-
-// class point{
-// public:
-//     int a;
-//     void f(int b){
-//         cout<<"In f The Value of b is  "<<b<<endl;
-//     }
-//     void f2(int b){
-//         cout<<"In f2 the Value of b is "<<b<<endl;
-//     }
-//     void (point::*p)(int);
-//     void ((point::*ar[10]))(int);
-//     point(){
-//         p = &point::f;
-//         ar[0] = &point::f;
-//         ar[1] = &point::f2;
-//     }
-
-// };
+// #include<stdio.h>
 
 // int main(){
-//     // int point::*p;
-//     point pp;
-//     (pp.*(pp.p))(10);
-//     for(int i = 0;i<2;i++){
-//         pp.*(pp.ar[i])(i);
+//     int x,result;
+//     printf("please input a number : ");
+//     result = scanf("%d",&x);
+//     if(result == EOF){
+//         printf("EOF\n");
+//     }
+//     else{
+//         printf("x = %d\n",x);
 //     }
 //     return 0;
 // }
-
-#include<stdio.h>
+#include <stdio.h>
+#include <string.h>
 
 int main(){
-    // int pf = 0;
-    // pf = printf("H\n");
-    // printf("pf = %d\n",pf);
-    return 100;
+  char key[100];
+  while(EOF!=scanf("%s",key)){
+
+  // scanf("%s", key);
+
+  if(strcmp(key, "apple") == 0){
+    printf("蘋果\n");
+  }
+
+  else if(strcmp(key, "banana") == 0){
+    printf("香蕉\n");
+  }
+
+  else if(strcmp(key, "orange") == 0){
+    printf("柳丁\n");
+  }
+
+  else if(strcmp(key,"grape") == 0){
+    printf("葡萄\n");
+  }
+
+  else if(strcmp(key,"peach") == 0){
+    printf("桃子\n");
+  }
+
+  else if(strcmp(key, "mango") == 0){
+    printf("芒果\n");
+  }
+
+  else if(strcmp(key, "kiwifruit") == 0){
+    printf("奇異果\n");
+  }
+
+  else if(strcmp(key, "cherry") == 0){
+    printf("櫻桃\n");
+  }
+
+  else if(strcmp(key, "pineapple") == 0){
+    printf("鳳梨\n");
+  }
+
+  else if(strcmp(key, "lemon") == 0){
+    printf("檸檬\n");
+  }
+
+  else if(strcmp(key,"0") == 0) break;
+  
+  else
+    printf("李公蝦毀!?\n");
+  }
 }

@@ -10,6 +10,7 @@ private:
     string Name;
     Map<int, cDay> Last7;
     Map<int,cDay>Days;
+    Map<int,cDay*>Combine;
     Map<int,string> Rule;
 
 
@@ -25,17 +26,25 @@ private:
 
     Map<int, cDay> combine(Map<int,cDay>d1,Map<int,cDay>d2);
 
+
+
 public:
     // Interface between labor and boss
     void getRule(Queue<string> ruleData,string name);
     void getSchedule(sData data);
     void getCalendar(sData data);
     void getNextCalendar(sData data);
-
+    Map<int,Map<int,cDay>::iterator>combine();
 
     // Show and Output
 private:
     void Show(Map<int,cDay> day);
+
+    // Interface of Show
+public:
+    void ShowRule();
+    void ShowSchedule();
+    void ShowCalendar();
 };
 
 #endif

@@ -9,6 +9,13 @@ private:
     // Interface
 public:
     void getMenber(string name,cLabor *);
+
+    // Interface of Show and OutPut
+public:
+    void ShowRule();
+    void ShowCalendar();
+    void ShowSchedule();
+    
 };
 
 #endif

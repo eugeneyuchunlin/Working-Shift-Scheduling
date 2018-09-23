@@ -1,6 +1,7 @@
 #ifndef __labor_hpp__
 #define __labor_hpp__
 #include"menlabor.hpp"
+#include"dataprocess.hpp"
 
 Map<int,cDay> cLabor::getDay(sData data,int remain,char mode){
     Map<int, cDay> Days;
@@ -102,5 +103,23 @@ Map<int,cDay> cLabor::combine(Map<int,cDay>big,Map<int,cDay>small){
     return big;
 }
 
+void cLabor::ShowCalendar(){
+    Show(Days);
+}
+
+void cLabor::ShowSchedule(){
+    Show(Last7);
+}
+
+void cLabor::ShowRule(){
+    Map<int,string>::iterator misit;
+    cout<<"name : "<<Name<<endl;
+    for(misit = Rule.begin();misit!=Rule.end();misit++){
+        printf("month = %d, attr : %s\n",misit->first,misit->second.c_str());
+    }
+}
+Map<int,Map<int,cDay>::iterator> cLabor::combine(){
+    
+}
 
 #endif
