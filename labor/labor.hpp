@@ -103,23 +103,21 @@ Map<int,cDay> cLabor::combine(Map<int,cDay>big,Map<int,cDay>small){
     return big;
 }
 
-void cLabor::ShowCalendar(){
-    Show(Days);
-}
 
-void cLabor::ShowSchedule(){
-    Show(Last7);
-}
-
-void cLabor::ShowRule(){
-    Map<int,string>::iterator misit;
-    cout<<"name : "<<Name<<endl;
-    for(misit = Rule.begin();misit!=Rule.end();misit++){
-        printf("month = %d, attr : %s\n",misit->first,misit->second.c_str());
+Queue<Map<int,cDay>::iterator> cLabor::combine(){
+    // Add the Schedule into the Combine
+    Map<int,cDay>::iterator midit;
+    for(midit=Last7.begin();midit!=Last7.end();midit++){
+        Combine.enqueue(midit);
     }
-}
-Map<int,Map<int,cDay>::iterator> cLabor::combine(){
     
+    // Add the Day into the Combine
+    for(midit=Days.begin();midit!=Days.end();midit++){
+        Combine.enqueue(midit);
+    }
+    return Combine;
 }
+
+
 
 #endif

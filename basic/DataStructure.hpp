@@ -12,6 +12,7 @@ class Queue : public vector<T>
   public:
     void enqueue(T ob)
     {
+        // Actually enqueue is push_back like append in python
         vector<T>::push_back(ob);
     }
     void dequeue(unsigned int num)

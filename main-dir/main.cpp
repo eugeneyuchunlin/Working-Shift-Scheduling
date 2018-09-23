@@ -16,5 +16,6 @@ int main()
 {
     cBoss boss(5);
     boss.ReadFiles();
+    boss.GroupUp();
     return 0;
 }

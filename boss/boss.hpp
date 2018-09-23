@@ -111,4 +111,8 @@ void cBoss::ReadFiles(){
     readNextCalendar();
 }
 
+void cBoss::GroupUp(){
+    
+}
+
 #endif
