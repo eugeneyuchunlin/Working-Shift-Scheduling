@@ -75,7 +75,7 @@ void cBoss::readRule()
     for (int i = 0; i < data.size(); i++)
     {
         name = data[i].dequeue();
-        labors[name].getRule(data[i], name);
+        labors[name].getRule(data[i], name,month);
     }
 }
 
@@ -112,7 +112,46 @@ void cBoss::ReadFiles(){
 }
 
 void cBoss::GroupUp(){
-    
+    for(map<string,cLabor>::iterator it=labors.begin();it!=labors.end();it++){
+        groups[it->second.Label()].getMenber(it->first,&it->second);
+        it->second.combine();
+    }
+    string D = "D";
+    string A = "A";
+    string special_name = "吳榮鈞";
+    Map<string,cGroup>::iterator it;
+    it = groups.find(D);
+    groups.erase(it);
+    cLabor *ps;
+    ps = &labors[special_name];
+    groups[A].getMenber(special_name,ps);
 }
 
+void cBoss::ShowGroupCalendar(){
+    Map<string,cGroup>::iterator it;
+    for(it = groups.begin();it!=groups.end();it++){
+        cout<<"Group "<<it->first<<endl;
+        it->second.ShowCalendar();
+        system("pause");
+    }
+}
+
+void cBoss::ShowGroupSchedule(){
+    Map<string,cGroup>::iterator it;
+    for(it = groups.begin();it!=groups.end();it++){
+        cout<<"Group "<<it->first<<endl;
+        it->second.ShowSchedule();
+        system("pause");
+
+    }
+}
+
+void cBoss::ShowGroupCombine(){
+    Map<string,cGroup>::iterator it;
+    for(it = groups.begin();it!=groups.end();it++){
+        cout<<"Group "<<it->first<<endl;
+        it->second.ShowCombine();
+        system("pause");
+    }
+}
 #endif

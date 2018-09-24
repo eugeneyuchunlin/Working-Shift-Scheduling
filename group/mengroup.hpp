@@ -15,7 +15,7 @@ public:
     void ShowRule();
     void ShowCalendar();
     void ShowSchedule();
-    
+    void ShowCombine();
 };
 
 #endif

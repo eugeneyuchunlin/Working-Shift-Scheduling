@@ -27,7 +27,8 @@
         "system_error": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "utility": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

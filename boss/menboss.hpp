@@ -28,16 +28,28 @@ public:
     void ReadFiles();
 
 
-    // Group Process
+    // Group Process and interface
 public:
     void GroupUp();
+    void ShowGroupCalendar();
+    void ShowGroupSchedule();
+    void ShowGroupCombine();
 
     // constructor
 public:
     cBoss(int i){
         month = i;
     }
+
+public:
+    void test();
 };
+
+void cBoss::test(){
+    for(auto x:labors){
+        x.second.Test_Interface();
+    }
+}
 
 
 #endif

@@ -12,7 +12,12 @@ private:
     Map<int,cDay>Days;
     Queue<Map<int,cDay>::iterator> Combine;
     Map<int,string> Rule;
-
+    int Month;
+    
+    // Basic information
+public:
+    string name(); // return name;
+    string Label(); // return the month attr of labor
 
     //-------Data process function----------
 private:
@@ -30,7 +35,7 @@ private:
 
 public:
     // Interface between labor and boss
-    void getRule(Queue<string> ruleData,string name);
+    void getRule(Queue<string> ruleData,string name,int month);
     void getSchedule(sData data);
     void getCalendar(sData data);
     void getNextCalendar(sData data);
@@ -40,14 +45,13 @@ public:
 private:
     void Show(Map<int,cDay> day);
 
-
-
     // Interface of Show
 public:
     void ShowRule();
     void ShowSchedule();
     void ShowCalendar();
     void ShowCombine();
+    void Test_Interface();
 };
 
 #endif

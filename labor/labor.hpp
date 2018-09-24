@@ -1,6 +1,8 @@
 #ifndef __labor_hpp__
 #define __labor_hpp__
 #include"menlabor.hpp"
+#include"labor_test.hpp"
+#include"labor_info.hpp"
 #include"dataprocess.hpp"
 
 Map<int,cDay> cLabor::getDay(sData data,int remain,char mode){
@@ -54,7 +56,7 @@ Map<int,cDay> cLabor::DayPackage(sData data){
     return Days;
 }
 
-void cLabor::getRule(Queue<string> ruleData,string name){
+void cLabor::getRule(Queue<string> ruleData,string name,int month){
     Name = name;
     int i = 0;
     while (!ruleData.empty())
@@ -62,6 +64,7 @@ void cLabor::getRule(Queue<string> ruleData,string name){
         Rule[i] = ruleData.dequeue();
         ++i;
     }
+    Month = month;
 }
 
 void cLabor::getSchedule(sData data){
@@ -78,8 +81,8 @@ void cLabor::getNextCalendar(sData data){
     Map<int,cDay> Next;
     Next = getDay(data,7,'p');
     Days = combine(Days,Next);
-    Show(Days);
-    system("pause");
+    // Show(Days);
+    // system("pause");
 }
 
 void cLabor::Show(Map<int,cDay>day){

@@ -1,10 +1,7 @@
-#ifndef __group_hpp__
-#define __group_hpp__
+#ifndef __test_group_hpp__
+#define __test_group_hpp__
 #include"mengroup.hpp"
 
-void cGroup::getMenber(string name,cLabor * laborPointer){
-    plabor[name] = laborPointer;
-}
 
 void cGroup::ShowRule(){
     Map<string,cLabor *>::iterator msplit;
@@ -33,5 +30,4 @@ void cGroup::ShowCombine(){
         msplit->second->ShowCombine();
     }
 }
-
 #endif

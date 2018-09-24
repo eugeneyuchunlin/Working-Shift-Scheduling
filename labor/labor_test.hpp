@@ -22,9 +22,16 @@ void cLabor::ShowCombine(){
     Queue<Map<int,cDay>::iterator>::iterator qmiditit;
     cout<<"Name : "<<Name<<endl<<endl;
     for(qmiditit = Combine.begin();qmiditit!=Combine.end();qmiditit++){
-        printf("%d   %d   %s   %s",(*qmiditit)->first,(*qmiditit)->second.date,(*qmiditit)->second.day.c_str(),(*qmiditit)->second.attribute.c_str());
+        printf("%d   %d   %s   %s \n",(*qmiditit)->first,(*qmiditit)->second.date,(*qmiditit)->second.day.c_str(),(*qmiditit)->second.attribute.c_str());
     }
     printf("\n\n");
 }
 
+void cLabor::Test_Interface(){
+    
+    // printf("Special : %d %d %s %s \n",Combine[5]->first,Combine[5]->second.date,Combine[5]->second.day.c_str(),Combine[5]->second.attribute.c_str());
+    // printf("Special :%s %s\n",/*Combine[6]->first,Combine[6]->second.date,*/Combine[6]->second.day.c_str(),Combine[6]->second.attribute.c_str());
+    // printf("%s",Combine[6]->second.day.c_str());
+    cout<<Combine[6]->second.day.c_str();
+}
 #endif
