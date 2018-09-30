@@ -121,6 +121,14 @@ Queue<Map<int,cDay>::iterator> cLabor::combine(){
     return Combine;
 }
 
-
+Map<int,cDay> cLabor::RecordHoliday(){
+    Map<int,cDay>::iterator midit;
+    string Z = "Z",z = "z";
+    for(midit = Days.begin();midit != Days.end(); midit++){
+        if(midit->second.attribute == Z || midit->second.attribute == z)
+            Holiday[midit->first] = midit->second;
+    }
+    return Holiday;
+}
 
 #endif

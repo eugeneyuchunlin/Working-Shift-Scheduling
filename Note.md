@@ -7,3 +7,7 @@
     * finish checking combine
     * I wanna create the new object 'Weight' So I commit and checkout the new branch
     * <b>Next Step</b> : record the holiday
+
+* 9/30
+    * finish Record Holiday
+    

@@ -10,6 +10,7 @@ class cDay
     string day;
     int month;
     void get(int dt, string str, string attr);
+    void Show();
 };
 
 void cDay::get(int dt,string str,string attr){
@@ -17,6 +18,12 @@ void cDay::get(int dt,string str,string attr){
     day = str;
     attribute = attr;
     month = 0;
+}
+
+void cDay::Show(){
+    cout<<"Day : "<<day<<endl;
+    cout<<"Date : "<<date<<endl;
+    cout<<"Attreibute : "<<attribute<<endl<<endl;
 }
 
 struct sData

@@ -46,9 +46,12 @@ public:
 };
 
 void cBoss::test(){
-    for(auto x:labors){
-        x.second.Test_Interface();
-    }
+    // for(auto x:labors){
+    //     x.second.Test_Interface();
+    // }
+    string name = "林建弘";
+    cout<<"Name : "<<labors[name].name()<<endl;
+    labors[name].ShowCalendar();
 }
 
 

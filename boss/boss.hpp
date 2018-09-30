@@ -21,7 +21,7 @@ void cBoss::readCalendar()
     for(unsigned int i = 0;i<data.data.size();i++){
         name = data.data[i][0];
         package = cBoss::package(data.data[i],data);
-        cout<<"package.date[0] = "<<package.date[0]<<endl;
+        // cout<<"package.date[0] = "<<package.date[0]<<endl;
         labors[name].getCalendar(package);
     }
 }

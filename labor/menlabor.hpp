@@ -10,6 +10,7 @@ private:
     string Name;
     Map<int, cDay> Last7;
     Map<int,cDay>Days;
+    Map<int,cDay>Holiday;
     Queue<Map<int,cDay>::iterator> Combine;
     Map<int,string> Rule;
     int Month;
@@ -31,8 +32,6 @@ private:
 
     Map<int,cDay> combine(Map<int,cDay>big,Map<int,cDay>small);
 
-
-
 public:
     // Interface between labor and boss
     void getRule(Queue<string> ruleData,string name,int month);
@@ -52,6 +51,10 @@ public:
     void ShowCalendar();
     void ShowCombine();
     void Test_Interface();
+
+    // Record the Holiday
+private:
+    Map<int,cDay> RecordHoliday();
 };
 
 #endif
