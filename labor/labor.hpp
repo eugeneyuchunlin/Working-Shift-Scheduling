@@ -37,7 +37,7 @@ sData cLabor::PackagePreProcess(sData data,int remain,char mode){
 }
 
 sData cLabor::PackagePreProcess(sData &data){
-    data.data[0].dequeue(2);
+    data.data[0].dequeue(1);
     return data;
 }
 
