@@ -40,7 +40,7 @@ void cBoss::readSchedule()
 {
     sData data;
     sData package;
-    data = reading("../main-dir/files/schedule.csv",2);
+    data = reading("../main-dir/files/schedule.csv",1);
     string name;
     for(unsigned int i = 0;i<data.data.size(); i++){
         name = data.data[i][0];
