@@ -10,11 +10,8 @@ class cDay
     string day;
     int month;
     void get(int dt, string str, string attr);
-<<<<<<< HEAD
     void Show();
-=======
     void ShowDay();
->>>>>>> module
 };
 void cDay::ShowDay(){
     printf("%d %s %s\n",date,day.c_str(),attribute.c_str());
