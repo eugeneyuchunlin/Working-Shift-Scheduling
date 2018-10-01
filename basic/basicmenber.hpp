@@ -18,6 +18,14 @@ void cDay::ShowDay(){
 }
 
 void cDay::get(int dt,string str,string attr){
+    /*
+    Get the attribute of Day
+
+    Prameter : 
+    dt : date,
+    str : day,
+    attr : attribute
+    */
     date = dt;
     day = str;
     attribute = attr;
