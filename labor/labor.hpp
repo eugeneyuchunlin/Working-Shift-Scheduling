@@ -107,18 +107,9 @@ Map<int,cDay> cLabor::combine(Map<int,cDay>big,Map<int,cDay>small){
 }
 
 
-Queue<Map<int,cDay>::iterator> cLabor::combine(){
-    // Add the Schedule into the Combine
-    Map<int,cDay>::iterator midit;
-    for(midit=Last7.begin();midit!=Last7.end();midit++){
-        Combine.enqueue(midit);
-    }
-    
-    // Add the Day into the Combine
-    for(midit=Days.begin();midit!=Days.end();midit++){
-        Combine.enqueue(midit);
-    }
-    return Combine;
+Schedule cLabor::combine(){
+    Combine.Combine(Last7,Days);
+    ShowCombine();
 }
 
 Map<int,cDay> cLabor::RecordHoliday(){

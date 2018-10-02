@@ -2,6 +2,8 @@
 #define __menlabor_hpp__
 #include"../basic/DataStructure.hpp"
 #include"../basic/basicmenber.hpp"
+#include"../schedule/schedule.hpp"
+// #include"../requirements.hpp"
 
 class cLabor{
 
@@ -11,7 +13,8 @@ private:
     Map<int, cDay> Last7;
     Map<int,cDay>Days;
     Map<int,cDay>Holiday;
-    Queue<Map<int,cDay>::iterator> Combine;
+    // Combine;
+    Schedule Combine;
     Map<int,string> Rule;
     int Month;
     
@@ -38,7 +41,7 @@ public:
     void getSchedule(sData data);
     void getCalendar(sData data);
     void getNextCalendar(sData data);
-    Queue<Map<int,cDay>::iterator>combine();
+    Schedule combine();
 
     // Show and Output
 private:

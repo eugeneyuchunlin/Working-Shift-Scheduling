@@ -1,7 +1,7 @@
 #ifndef __labor_test_show_hpp__
 #define __labor_test_show_hpp__
 #include"menlabor.hpp"
-#include"../requirements.hpp"
+// #include"../requirements.hpp"
 
 void cLabor::ShowCalendar(){
     Show(Days);
@@ -22,7 +22,7 @@ void cLabor::ShowRule(){
 void cLabor::ShowCombine(){
     Queue<Map<int,cDay>::iterator>::iterator qmiditit;
     cout<<"Name : "<<Name<<endl<<endl;
-    for(qmiditit = Combine.begin();qmiditit!=Combine.end();qmiditit++){
+    for(qmiditit = Combine.schedule().begin();qmiditit!=Combine.schedule().end();qmiditit++){
         printf("%d   %d   %s   %s \n",(*qmiditit)->first,(*qmiditit)->second.date,(*qmiditit)->second.day.c_str(),(*qmiditit)->second.attribute.c_str());
     }
     printf("\n\n");

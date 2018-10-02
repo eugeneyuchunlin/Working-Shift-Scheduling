@@ -1,5 +1,6 @@
 #ifndef __mengroup_hpp__
 #define __mengroup_hpp__
+// #include"../requirements.hpp"
 #include"../labor/labor.hpp"
 
 class cGroup{

@@ -1,20 +1,6 @@
 #ifndef __schedule_hpp__
 #define __schedule_hpp__
-#include"../requirements.hpp"
-
-class Schedule{
-
-    // basic menber
-private:
-    Queue<Map<int,cDay>::iterator>__combine;
-
-public:
-    Queue<Map<int,cDay>::iterator> schedule();
-
-    // help labors combine the days and last7
-public:
-    Queue<Map<int,cDay>::iterator> Combine(Map<int,cDay> &Last7, Map<int,cDay> &Days);
-};
+#include"mainSchedul.hpp"
 
 
 
@@ -31,7 +17,7 @@ Queue<Map<int,cDay>::iterator> Schedule::Combine(Map<int,cDay> &Last7, Map<int,c
     
     // Add the Day into the Combine
     for(midit=Days.begin();midit!=Days.end();midit++){
-        __combine.enqueue(midit);
+       __combine.enqueue(midit);
     }
     return __combine;
 }
