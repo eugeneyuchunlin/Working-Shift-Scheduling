@@ -14,3 +14,7 @@
 * 10/2
     * test RecordHoliday function
     
+* 10/2
+    * add the Schedule object
+        * object helps labor combine the days and last7
+    * merge back to the schedule

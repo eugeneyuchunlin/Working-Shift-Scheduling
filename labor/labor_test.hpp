@@ -1,6 +1,7 @@
 #ifndef __labor_test_show_hpp__
 #define __labor_test_show_hpp__
 #include"menlabor.hpp"
+#include"../requirements.hpp"
 
 void cLabor::ShowCalendar(){
     Show(Days);
@@ -36,17 +37,9 @@ void cLabor::Test_Interface(){
     // printf("Special : %d %d %s %s \n",Combine[5]->first,Combine[5]->second.date,Combine[5]->second.day.c_str(),Combine[5]->second.attribute.c_str());
     // printf("Special :%s %s\n",/*Combine[6]->first,Combine[6]->second.date,*/Combine[6]->second.day.c_str(),Combine[6]->second.attribute.c_str());
     // printf("%s",Combine[6]->second.day.c_str());
-    // cout<<Combine[6]->second.day.c_str();
-    // cout<<"Name : "<<name()<<endl;
-    // Map<int,cDay> test;
-    // test = RecordHoliday();
-    // Map<int,cDay>::iterator midit;
-    // for(midit = test.begin();midit!=test.end();midit++){
-    //     cout<<"first : "<<midit->first<<endl;
-    //     midit->second.Show();
-    // }
-    // system("pause");
-    RecordHoliday();
-    ShowHoliday();
+    Schedule test;
+    Combine = test.Combine(Last7,Days);
+    // cout<<"Combine.size() "<<Combine.size()<<endl;
+    ShowCombine();
 }
 #endif

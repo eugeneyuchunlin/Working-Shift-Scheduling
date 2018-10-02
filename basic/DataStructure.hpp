@@ -50,9 +50,5 @@ public:
     // Map<T1,T2> operator +=(Map<T1,T2> &data);
 };
 
-// template <class T1, class T2>
-// Map<T1,T2> Map<T1,T2>::operator +=(Map<T1,T2> &data){
-    
-// }
 
 #endif
