@@ -10,4 +10,7 @@
 
 * 9/30
     * finish Record Holiday
+    * find the bug on Reading file
+* 10/2
+    * test RecordHoliday function
     

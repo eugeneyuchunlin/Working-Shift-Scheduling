@@ -14,9 +14,10 @@ using namespace std;
 
 int main()
 {
-    cBoss boss(5);
-    boss.ReadFiles();
-    boss.GroupUp();
-    boss.RecordHoliday();
+    // cBoss boss(5);
+    // boss.ReadFiles();
+    // boss.GroupUp();
+    // boss.RecordHoliday();
+    cout<<sizeof(cDay *)<<endl;
     return 0;
 }

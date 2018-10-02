@@ -10,12 +10,13 @@ private:
 public:
     void getMenber(string name,cLabor *);
 
-    // Interface of Show and OutPut
+    // Interface of Show and Output
 public:
     void ShowRule();
     void ShowCalendar();
     void ShowSchedule();
     void ShowCombine();
+    
 };
 
 #endif

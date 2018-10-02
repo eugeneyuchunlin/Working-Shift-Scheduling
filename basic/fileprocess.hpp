@@ -1,8 +1,10 @@
 #ifndef __fileprocess_hpp__
 #define __fileprocess_hpp__
 #include"DataStructure.hpp"
+#include"basicmenber.hpp"
 #include<fstream>
 #include<string>
+
 using namespace std;
 
 Queue<Queue<string> > FileProcess(const char *File_name){
@@ -32,6 +34,13 @@ Queue<Queue<string> > FileProcess(const char *File_name){
         }
     }
     return data;
+}
+
+void OutputCSV(string Name,Schedule data)
+{
+    ofstream file;
+    string path = "/Users/yu-chun/Desktop/schedule/main-dir/result/";
+    
 }
 
 #endif
