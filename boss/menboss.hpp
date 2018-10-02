@@ -35,6 +35,11 @@ public:
     void ShowGroupSchedule();
     void ShowGroupCombine();
 
+    // Holiday process
+public:
+    void RecordHoliday();
+    void ShowHoliday();
+
     // constructor
 public:
     cBoss(int i){
@@ -49,9 +54,12 @@ void cBoss::test(){
     // for(auto x:labors){
     //     x.second.Test_Interface();
     // }
-    string name = "林建弘";
-    cout<<"Name : "<<labors[name].name()<<endl;
-    labors[name].ShowCalendar();
+    Map<string,cLabor>::iterator midit;
+    for(midit = labors.begin();midit!=labors.end();midit++){
+        midit->second.Test_Interface();
+        system("pause");
+    }
+    
 }
 
 

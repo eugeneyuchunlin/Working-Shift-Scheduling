@@ -50,10 +50,11 @@ public:
     void ShowSchedule();
     void ShowCalendar();
     void ShowCombine();
+    void ShowHoliday();
     void Test_Interface();
 
     // Record the Holiday
-private:
+public:
     Map<int,cDay> RecordHoliday();
 };
 

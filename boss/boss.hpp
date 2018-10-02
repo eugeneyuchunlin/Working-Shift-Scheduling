@@ -127,6 +127,13 @@ void cBoss::GroupUp(){
     groups[A].getMenber(special_name,ps);
 }
 
+void cBoss::RecordHoliday(){
+    Map<string,cLabor>::iterator midit;
+    for(midit = labors.begin();midit!=labors.end();midit++){
+        midit->second.RecordHoliday();
+    }
+}
+
 void cBoss::ShowGroupCalendar(){
     Map<string,cGroup>::iterator it;
     for(it = groups.begin();it!=groups.end();it++){
@@ -152,6 +159,13 @@ void cBoss::ShowGroupCombine(){
         cout<<"Group "<<it->first<<endl;
         it->second.ShowCombine();
         system("pause");
+    }
+}
+
+void cBoss::ShowHoliday(){
+    Map<string,cLabor>::iterator midit;
+    for(midit = labors.begin();midit!=labors.end();midit++){
+        midit->second.ShowHoliday();
     }
 }
 #endif

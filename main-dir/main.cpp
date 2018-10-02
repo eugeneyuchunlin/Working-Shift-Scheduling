@@ -17,7 +17,6 @@ int main()
     cBoss boss(5);
     boss.ReadFiles();
     boss.GroupUp();
-    // boss.ShowGroupCombine();
-    boss.test();
+    boss.RecordHoliday();
     return 0;
 }

@@ -1,69 +1,26 @@
-// #include<stdio.h>
-
-// int main(){
-//     int x,result;
-//     printf("please input a number : ");
-//     result = scanf("%d",&x);
-//     if(result == EOF){
-//         printf("EOF\n");
-//     }
-//     else{
-//         printf("x = %d\n",x);
-//     }
-//     return 0;
-// }
 #include <stdio.h>
-#include <string.h>
 
 int main(){
-  char key[100];
-  while(EOF!=scanf("%s",key)){
-
-  // scanf("%s", key);
-
-  if(strcmp(key, "apple") == 0){
-    printf("蘋果\n");
-  }
-
-  else if(strcmp(key, "banana") == 0){
-    printf("香蕉\n");
-  }
-
-  else if(strcmp(key, "orange") == 0){
-    printf("柳丁\n");
-  }
-
-  else if(strcmp(key,"grape") == 0){
-    printf("葡萄\n");
-  }
-
-  else if(strcmp(key,"peach") == 0){
-    printf("桃子\n");
-  }
-
-  else if(strcmp(key, "mango") == 0){
-    printf("芒果\n");
-  }
-
-  else if(strcmp(key, "kiwifruit") == 0){
-    printf("奇異果\n");
-  }
-
-  else if(strcmp(key, "cherry") == 0){
-    printf("櫻桃\n");
-  }
-
-  else if(strcmp(key, "pineapple") == 0){
-    printf("鳳梨\n");
-  }
-
-  else if(strcmp(key, "lemon") == 0){
-    printf("檸檬\n");
-  }
-
-  else if(strcmp(key,"0") == 0) break;
-  
-  else
-    printf("李公蝦毀!?\n");
-  }
+	int c;
+	int nc=0,nl=0;
+	int na=0,ne=0,ni=0,no=0,nu=0;
+	int nodd=0;
+	int ndigit=0;
+	
+	while((c=getchar())!=EOF){
+		nc++;
+		if(c=='\n')nl++;
+		if((c=='a')||(c=='A'))na++;
+    if((c=='e')||(c=='E'))ne++;
+    if((c=='i')||(c=='I'))ni++;
+    if((c=='o')||(c=='O'))no++;
+    if((c=='u')||(c=='U'))nu++;
+		if((c=='1')||(c=='3')||(c=='5')||(c=='7')||(c=='9'))nodd++;
+    if(c<='9'&&c>='0')ndigit++;
+	}
+	printf("number of lines: %d\n",nl);
+	printf("number of vowels: %d\n",na+ne+ni+no+nu);
+	printf("number of digits: %d\n",ndigit);
+	printf("number of odds: %d\n",nodd);
+	printf("number of characters: %d\n",nc); 
 }
