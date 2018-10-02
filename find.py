@@ -38,6 +38,7 @@ def head_process(argvs:list):
     all_argvs = ' '
     all_argvs.join(argvs)
     print(all_argvs)
+    
 if __name__ == '__main__':
     
     print('-'*80)
