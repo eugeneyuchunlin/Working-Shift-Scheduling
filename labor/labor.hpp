@@ -109,7 +109,10 @@ Map<int,cDay> cLabor::combine(Map<int,cDay>big,Map<int,cDay>small){
 
 Schedule cLabor::combine(){
     Combine.Combine(Last7,Days);
-    ShowCombine();
+    // system("echo cLabor combine");
+    // system("pause");
+    // ShowCombine();
+    return Combine;
 }
 
 Map<int,cDay> cLabor::RecordHoliday(){

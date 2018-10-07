@@ -8,7 +8,9 @@ Queue<Map<int,cDay>::iterator> Schedule::schedule(){
     return __combine;
 }
 
-Queue<Map<int,cDay>::iterator> Schedule::Combine(Map<int,cDay> &Last7, Map<int,cDay> &Days){
+
+
+Schedule Schedule::Combine(Map<int,cDay> &Last7, Map<int,cDay> &Days){
     // Add the Schedule into the Combine
     Map<int,cDay>::iterator midit;
     for(midit=Last7.begin();midit!=Last7.end();midit++){
@@ -19,7 +21,19 @@ Queue<Map<int,cDay>::iterator> Schedule::Combine(Map<int,cDay> &Last7, Map<int,c
     for(midit=Days.begin();midit!=Days.end();midit++){
        __combine.enqueue(midit);
     }
-    return __combine;
+    // Queue<Map<int,cDay>::iterator>::iterator qmiditit;
+    // for(qmiditit = __combine.begin();qmiditit != __combine.end() ; qmiditit++){
+    //     (*qmiditit)->second.Show();
+    // }
+    // system("pause");
+    return *this;
+}
+
+void Schedule::ShowSchedule(){
+    Queue<Map<int,cDay>::iterator>::iterator qmiditit;
+    for(qmiditit = __combine.begin();qmiditit != __combine.end();qmiditit++){
+        (*qmiditit)->second.Show();
+    }
 }
 
 #endif

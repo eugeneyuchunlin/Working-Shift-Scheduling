@@ -50,6 +50,9 @@ public:
     void test();
 };
 
+
+
+
 void cBoss::test(){
     // for(auto x:labors){
     //     x.second.Test_Interface();

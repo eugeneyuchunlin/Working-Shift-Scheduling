@@ -1,7 +1,7 @@
 #ifndef __mainSchedule_hpp__
 #define __mainSchedule_hpp__
-#include"../basic/basicmenber.hpp"
-#include"../basic/DataStructure.hpp"
+#include "../basic/basicmenber.hpp"
+#include "../basic/DataStructure.hpp"
 
 class Schedule{
 
@@ -14,6 +14,10 @@ public:
 
     // help labors combine the days and last7
 public:
-    Queue<Map<int,cDay>::iterator> Combine(Map<int,cDay> &Last7, Map<int,cDay> &Days);
+    Schedule Combine(Map<int,cDay> &Last7, Map<int,cDay> &Days);
+
+    // Show and Output Interface
+public:
+    void ShowSchedule();
 };
 #endif

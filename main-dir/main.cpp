@@ -18,6 +18,7 @@ int main()
     boss.ReadFiles();
     boss.GroupUp();
     boss.RecordHoliday();
+    // boss.test();
     // cout<<sizeof(cDay *)<<endl;
     return 0;
 }

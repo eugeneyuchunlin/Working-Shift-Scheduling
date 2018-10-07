@@ -116,6 +116,8 @@ void cBoss::GroupUp(){
         groups[it->second.Label()].getMenber(it->first,&it->second);
         it->second.combine();
     }
+    // system("echo BeforePause");
+    // system("pause");
     string D = "D";
     string A = "A";
     string special_name = "吳榮鈞";
@@ -125,6 +127,8 @@ void cBoss::GroupUp(){
     cLabor *ps;
     ps = &labors[special_name];
     groups[A].getMenber(special_name,ps);
+    // system("echo BeforePause");
+    // system("pause");
 }
 
 void cBoss::RecordHoliday(){

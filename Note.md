@@ -18,3 +18,5 @@
     * add the Schedule object
         * object helps labor combine the days and last7
     * merge back to the schedule
+* 10/7
+    * fix ShowCombine in cLabor and add ShowSchedule function in  Schedule object
