@@ -7,6 +7,7 @@
 #include <algorithm>
 #include"../boss/boss.hpp"
 #include"../labor/labor.hpp"
+#include"../basic/outputmanager.hpp"
 
 using namespace std;
 

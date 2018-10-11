@@ -20,3 +20,4 @@
     * merge back to the schedule
 * 10/7
     * fix ShowCombine in cLabor and add ShowSchedule function in  Schedule object
+    * creat the cOutputManager class
