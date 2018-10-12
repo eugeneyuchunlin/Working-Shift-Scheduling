@@ -1,4 +1,6 @@
 import json as js
+from os import system
+from copy import deepcopy
 
 class Player:
     def __init__(self):
@@ -71,3 +73,65 @@ class Player:
 
     def __repr__(self):
         return self.__str__()
+
+    def Pool(self):
+        return self.__pool
+
+
+def Add(player:Player):
+    print('Which ability do you want : ')
+    print(
+        """
+        Strength
+        Health
+        Wisdom
+        Dexterity
+        """
+    )
+    inp = input()
+    num = int(input('How many point do you wnat to add '))
+
+    player.Add(inp,num)
+    return player
+
+def Subtract(player:Player):
+    print('Which ability do you want : ')
+    print(
+        """
+        Strength
+        Health
+        Wisdom
+        Dexterity
+        """
+    )
+    inp = input()
+    num = int(input('How many point do you wnat to subtract '))
+    player.Subtract(inp,num)
+    return player
+
+
+def main():
+    player = Player()
+
+    while(player.Pool()!=0):
+        print(
+            """
+            0 - Quit
+            1 - Add Point
+            2 - Subtract Point
+            """
+        )
+        inp = input()
+        if inp == '0':
+            exit()
+        elif inp == '1':
+            player = Add(player)
+        elif inp == '2':
+            player = Subtract(deepcopy(player))
+        print('-'*80)
+        print(player)
+        print('-'*80)
+
+
+if __name__ == '__main__':
+    main()
