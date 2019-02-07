@@ -4,11 +4,12 @@
 
 
 // constructor
-cDay::cDay(String dy, int dt, int mon,String atr){
+cDay::cDay(String dy, int dt, int mon,String atr, int impot){
     day = dy;
     date = dt;
     month = mon;
     attr = atr;
+    importance = impot;
 }
 
 cDay::cDay(){
@@ -16,27 +17,31 @@ cDay::cDay(){
     date = 0;
     month = 0;
     attr = "none";
+    importance = 0;
 }
 
-cDay::cDay(String dy, String dt, String mon, String atr){
+cDay::cDay(String dy, String dt, String mon, String atr, String impot){
     day = dy;
     date = stoi(dt);
     month = stoi(mon);
     attr = atr;
+    importance = stoi(impot);
 }
 
-cDay::cDay(const char * dy, const char * dt, const char * mon, const char * atr){
+cDay::cDay(const char * dy, const char * dt, const char * mon, const char * atr, const char * impot){
     day = dy;
     date = atoi(dt);
     month = atoi(mon);
     attr = atr;
+    importance = atoi(impot);
 }
 
-cDay::cDay(const char * dy, int dt, int mon, const char * atr){
+cDay::cDay(const char * dy, int dt, int mon, const char * atr, int impot){
     day = dy;
     date = dt;
     month = mon;
     attr = atr;
+    importance = impot;
 }
 
 // Data
@@ -54,6 +59,10 @@ int cDay::Month(){
 
 String cDay::Attr(){
     return attr;
+}
+
+int cDay::Importance(){
+    return importance;
 }
 
 // Editor
@@ -87,24 +96,34 @@ String cDay::Attr(const char *c_str){
     return attr;
 }
 
+int cDay::Importance(int ni){
+    importance = ni;
+    return importance;
+}
+
 // output
 String cDay::Data(){
     char * s = (char *)malloc(60 * sizeof(char));
-    sprintf(s,"Day(%s) Date(%d) Mon(%d) Attr(%s)",day.c_str(),date,month,attr.c_str());
+    sprintf(s,"Day(%s) Date(%d) Mon(%d) Attr(%s) Importance(%d)",day.c_str(),date,month,attr.c_str(), importance);
     String str = s;
     free(s);
     return str;
 }
 
+
+#ifndef __DAY_UNIT_TEST
 // Day unit test
-// int main(){
-//     cDay d("Mon",12,5,"Z");
-//     cout<<d<<endl;
-//     cDay d2;
-//     d2.Day("Mon");
-//     d2.Month(9);
-//     d2.Date(10);
-//     cout<<d2<<endl;
-// }
+#else
+int main(){
+    cDay d("Mon",12,5,"Z",5);
+    cout<<d<<endl;
+    cDay d2;
+    d2.Day("Mon");
+    d2.Month(9);
+    d2.Date(10);
+    cout<<d2<<endl;
+}
+
+#endif
 
 #endif

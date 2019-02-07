@@ -8,10 +8,20 @@
 using namespace DS;
 
 
+
+// Maintain the rule the schedule should obey
+// Also generate the new rule for new year.
 class Rule{
-// private:
+private:
+    String year;
+    deque<deque<String> > rs;
+    Map<String,deque<String> > labor_with_rules;
+    Map<String, deque<String> > load();
 public:
-    void load();
+    Map<String,deque<String> > Rules();
+    Rule(const char * y);
+    Rule(String y);
+
 public:
 
 };
