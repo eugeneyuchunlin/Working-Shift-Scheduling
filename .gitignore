@@ -1,2 +1,6 @@
 .vscode/
 env/
+threadtest.cpp
+cmake-build-debug/
+
+*/cmake-build-debug/

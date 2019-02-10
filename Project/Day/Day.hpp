@@ -20,13 +20,16 @@ private:
     int month;
     String attr;
     int importance;
+    String expect;
+    String colorAttr;
 public:
     // Constructor
-    cDay(String dy, int dt, int mon, String attr,int impot);
     cDay();
+    cDay(String dy, int dt, int mon, String attr,int impot);
     cDay(String dy, String dt, String mon,String atr ,String impot);
     cDay(const char * dy, const char * dt, const char * mon, const char * atr, const char * impot);
     cDay(const char * dy, int dt, int mon, const char * atr , int impot);
+    cDay(String dy, String dt, int mon, String attr,int impot);
 
 
     // Data
@@ -35,6 +38,7 @@ public:
     int Month();
     String Attr();
     int Importance();
+    String Expect();
 
     // Editor
     String Day(String);
@@ -44,6 +48,9 @@ public:
     String Attr(String);
     String Attr(const char *);
     int Importance(int);
+    void setExpectAttr();
+    void setColor();
+    void resetColor();
 
 
     // output

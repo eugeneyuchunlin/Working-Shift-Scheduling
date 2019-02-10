@@ -281,6 +281,44 @@ T deque<T>::operator=(T & object){
     vector<T>::operator=(object);
 }
 
+template <class T>
+void deque<T>::pop_front(unsigned int num) {
+    if(num > vector<T>::size()){
+        out_of_range e(to_string(num) + " is larger than its size");
+        throw e;
+    }
+    vector<T>::erase(vector<T>::begin() , vector<T>::begin() + num);
+}
+
+template <class T>
+void deque<T>::pop_back(unsigned int num) {
+    if(num > vector<T>::size()){
+        out_of_range s(to_string(num) + " is larger than its size");
+        throw s;
+    }
+    vector<T>::erase(vector<T>::end() - num, vector<T>::end());
+}
+
+
+template <class T>
+deque<T> deque<T>::operator+=(deque<T> &obj) {
+    for(int i = 0; i < obj.size(); i++){
+        push_back(obj[i]);
+    }
+    return  *this;
+}
+
+template <class T>
+deque<T> deque<T>::operator+(deque<T> &obj) {
+    deque<T> temp = *this;
+    for(int i = 0 ; i < obj.size(); i++){
+        temp.push_back(obj[i]);
+    }
+    return  temp;
+}
+
+
+
 // DS::Map
 // Define All of the Data Structure's prototype
 
@@ -436,6 +474,23 @@ int String::operator==(const char chr){
     return strcmp(this->c_str(),s.c_str());
 }
 
+String String::operator*(unsigned int num){
+    String s;
+    for(int i = 0; i < num; i++){
+        s+=*this;
+    }
+    return s;
+}
+
+String String::operator*=(unsigned int num) {
+    String s;
+    for(int i = 0; i < num; i++){
+        s+=*this;
+    }
+    *this = s;
+    return s;
+}
+
 string String::sData(){
     string s = c_str();
     return s;
@@ -540,6 +595,54 @@ int main(){
     for(int i = 0, length = stringsplit.size();i < length; i++){
         cout<<"'"<<stringsplit[i]<<"'"<<endl;
     }
+
+    cout<<"---------------------------------"<<endl;
+    cout<<"deque<test\n\n";
+    deque<int> di;
+    for(int i = 0 ; i < 10; i++){
+        di.push_back(i);
+    }
+    for(int i = 0; i < di.size(); i++){
+        cout<<di[i];
+    }
+    cout<<endl;
+
+//    di.pop_front(11);
+    for(int i = 0; i < di.size(); i++){
+        cout<<di[i];
+    }
+    cout<<endl;
+    cout<<"-------------------------------------------"<<endl;
+    cout<<"test deque concat"<<endl;
+    di.clear();
+    for(int i = 0; i < 10; i++){
+        di.push_back(i);
+    }
+
+    deque<int>d2;
+    for(int i = 12; i < 20; i++){
+        d2.push_back(i);
+    }
+
+    deque<int>d3;
+
+    di += d2;
+    for(int i = 0; i < di.size(); i++){
+        cout<<di[i]<<" ";
+    }
+    cout<<endl;
+
+    d3 = di + d2;
+    for(int i = 0; i < d3.size(); i++){
+        cout<<d3[i]<<" ";
+    }
+    cout<<endl;
+
+    cout<<"----------------------------------------"<<endl;
+    cout<<"operator *  test"<<endl;
+    String s_ = "- ";
+    cout<<(s_*=5)<<endl;
+
 }
 
 #endif

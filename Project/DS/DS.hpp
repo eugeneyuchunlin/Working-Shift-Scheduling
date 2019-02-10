@@ -24,6 +24,10 @@ namespace DS
         T operator=(T & obj);
         T pop_back();
         T pop_front();
+        void pop_back(unsigned int);
+        void pop_front(unsigned int);
+        deque<T> operator+=(deque <T> &obj);
+        deque<T> operator+(deque <T> &obj);
     };
 
     template<class T1, class T2>
@@ -57,6 +61,9 @@ namespace DS
         int operator==(const string & str);
         int operator==(const String& str);
         int operator==(const char);
+
+        String operator *(unsigned int num);
+        String operator *=(unsigned int num);
 
         string sData();
         deque<String> split(const char * sub); 

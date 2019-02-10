@@ -10,6 +10,7 @@ cDay::cDay(String dy, int dt, int mon,String atr, int impot){
     month = mon;
     attr = atr;
     importance = impot;
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
 }
 
 cDay::cDay(){
@@ -18,6 +19,7 @@ cDay::cDay(){
     month = 0;
     attr = "none";
     importance = 0;
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
 }
 
 cDay::cDay(String dy, String dt, String mon, String atr, String impot){
@@ -26,6 +28,7 @@ cDay::cDay(String dy, String dt, String mon, String atr, String impot){
     month = stoi(mon);
     attr = atr;
     importance = stoi(impot);
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
 }
 
 cDay::cDay(const char * dy, const char * dt, const char * mon, const char * atr, const char * impot){
@@ -34,6 +37,7 @@ cDay::cDay(const char * dy, const char * dt, const char * mon, const char * atr,
     month = atoi(mon);
     attr = atr;
     importance = atoi(impot);
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
 }
 
 cDay::cDay(const char * dy, int dt, int mon, const char * atr, int impot){
@@ -42,6 +46,17 @@ cDay::cDay(const char * dy, int dt, int mon, const char * atr, int impot){
     month = mon;
     attr = atr;
     importance = impot;
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
+}
+
+
+cDay::cDay(String dy, String dt, int mon, String atr, int impot) {
+    day = dy;
+    date = stoi(dt);
+    month = mon;
+    attr = atr;
+    importance = impot;
+    colorAttr = "\033[1;31m" + attr + "\033[0m";
 }
 
 // Data
@@ -63,6 +78,10 @@ String cDay::Attr(){
 
 int cDay::Importance(){
     return importance;
+}
+
+String cDay::Expect() {
+    return expect;
 }
 
 // Editor
@@ -101,6 +120,19 @@ int cDay::Importance(int ni){
     return importance;
 }
 
+void cDay::setColor() {
+    swap(colorAttr,attr);
+}
+
+void cDay::setExpectAttr() {
+    expect = attr;
+}
+
+void cDay::resetColor(){
+    swap(colorAttr,attr);
+}
+
+
 // output
 String cDay::Data(){
     char * s = (char *)malloc(60 * sizeof(char));
@@ -111,11 +143,22 @@ String cDay::Data(){
 }
 
 
-#ifndef __DAY_UNIT_TEST
+
+
+//#define __DAY_UNIT_TEST__
+#ifdef __DAY_UNIT_TEST__
 // Day unit test
-#else
 int main(){
     cDay d("Mon",12,5,"Z",5);
+    String dy = "Mon";
+    String dt = "12";
+    String mon = "4";
+    String atr = "W";
+    String impot = "5";
+
+    cDay d3(dy,dt,mon,atr,impot);
+    cout<<d3<<endl;
+
     cout<<d<<endl;
     cDay d2;
     d2.Day("Mon");
