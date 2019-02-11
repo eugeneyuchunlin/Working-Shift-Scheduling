@@ -5,14 +5,16 @@
 
 #include "./boss.hpp"
 
+
 using namespace DS;
 
 
-Boss::Boss(int mon, int y){
+Boss::Boss(int mon, int y):schedule(mon){
     month = mon;
     year = y;
-    Rule r(y);
+    Rule r(year);
     CreateLabor(r);
+
 }
 
 void Boss::CreateLabor(Rule r){
@@ -24,14 +26,21 @@ void Boss::CreateLabor(Rule r){
         temp.getRules(msdsit->second);
         labors[n] = temp;
     }
-    
+    for(Map<String, Labor>::iterator it = labors.begin(); it != labors.end(); it++){
+        schedule.loadLabor(it->second);
+    }
+
+    // test labor if them has the rule;
+
+    cout<<(labors.begin())->second.Data()<<endl;
 }
 
 
 
+
+
 #define __BOSS_UNITTEST__
-#ifndef __BOSS_UNITTEST__
-#else
+#ifdef __BOSS_UNITTEST__
 int main(){
     Boss b(5,2018);
     

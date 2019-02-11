@@ -8,6 +8,25 @@ Labor::Labor(String name,int mon){
     Labor::name = name;
 }
 
+Labor::Labor() {
+    month = 0;
+}
+
+String Labor::Name(String n) {
+    name = n;
+    return  name;
+}
+
+int Labor::Month() {
+    return  month;
+
+}
+
+int Labor::Month(int mon) {
+    month = mon;
+    return month;
+}
+
 Map<int , String> Labor::getRules(deque<String> rs){
     for(int i = 0; i < rs.size(); i++){
         rules[i] = rs[i];
@@ -21,6 +40,50 @@ Map<int,String> Labor::Rules(){
 
 String Labor::Name(){
     return name;
+}
+
+void Labor::loadSchedule(deque<cDay *> s) {
+    for(int i = 0; i < s.size(); i++){
+        schedule.push_back(s[i]);
+    }
+}
+
+String Labor::Data(int head = 7, int tail = 39) {
+
+    String top;
+    String form;
+
+    String stash = "-";
+    String abso = "|";
+    String plus = "+";
+    String space = " ";
+    String nwline = "\n";
+
+    //date:(length is 4, so, total length must be 6
+    top += plus;
+    top += stash * 7;
+
+    String day;
+    day = plus + stash*5;
+    top += day * (tail - head) + plus;
+    top += nwline;
+    form += top;
+
+    String secondline;
+    secondline = (abso + space + "Date" + space * 2);
+
+    for(int i = 7; i < schedule.size(); i++){
+        String dt;
+        String space1;
+        dt = to_string(schedule[i]->Date());
+        space1 = space*((5 - dt.length())/2);
+        secondline += abso + space1 + dt + space * (5 - space1.length() - dt.length());
+    }
+    secondline += abso + nwline;
+
+    form += secondline;
+    return  form;
+
 }
 
 #endif

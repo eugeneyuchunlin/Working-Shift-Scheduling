@@ -2,7 +2,7 @@
 #ifndef __SCHEDULE_CPP__
 #define __SCHEDULE_CPP__
 
-#include "./schedule.hpp"
+#include "schedule.hpp"
 
 
 Schedule::Schedule(int mon){
@@ -252,18 +252,25 @@ String Schedule::Data(int head = 0, int tail = 39) {
     return form;
 }
 
+void Schedule::loadLabor(Labor & l) {
+    deque<cDay *> ddp;
+    for(int i = 0 ; i < base[l.Name()].size(); i++){
+        ddp.push_back(&((base[l.Name()])[i]));
+    }
+    l.loadSchedule(ddp);
+}
+
 ostream & operator<<(ostream &out, Schedule & d){
 return out << d.Data();
 }
 
 #endif
 
-#define __SCHEDULE_CPP_UNIT_TEST__
+//#define __SCHEDULE_CPP_UNIT_TEST__
 #ifdef __SCHEDULE_CPP_UNIT_TEST__
 int main(){
     Schedule s(5);
-//    system("pause");
-    cout<<s<<endl;
-}
 
+}
+//
 #endif

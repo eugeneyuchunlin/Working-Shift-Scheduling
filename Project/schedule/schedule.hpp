@@ -4,6 +4,9 @@
 
 #include "../DS/DS.cpp"
 #include "../Day/Day.cpp"
+#include "../labor/labor.cpp"
+#include "../outputManager/output.cpp"
+
 #include <fstream>
 
 using namespace DS;
@@ -71,9 +74,11 @@ private:
                         deque<String> lday);
 
 
+
 public:
     Schedule(int mon);
     String Data(int head, int tail);
+    void loadLabor(Labor & l);
 
 };
 

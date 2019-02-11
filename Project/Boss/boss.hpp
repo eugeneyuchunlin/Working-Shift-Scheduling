@@ -6,6 +6,7 @@
 
 #include "../Rule/rule.cpp"
 #include "../labor/labor.cpp"
+#include "../schedule/schedule.cpp"
 #include "../DS/DS.cpp"
 
 using namespace DS;
@@ -15,6 +16,7 @@ private:
     Map<String,Labor> labors;
     int month;
     int year;
+    Schedule schedule;
     void CreateLabor(Rule);
 public:
     
