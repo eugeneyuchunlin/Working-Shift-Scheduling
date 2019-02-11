@@ -15,6 +15,10 @@ using namespace DS;
 
 class cDay{
 private:
+    String colorCodeH;
+    String colorCodeT;
+    void setColorCode();
+private:
     String day;
     int date;
     int month;

@@ -30,9 +30,11 @@ void Boss::CreateLabor(Rule r){
         schedule.loadLabor(it->second);
     }
 
-    // test labor if them has the rule;
-
-    cout<<(labors.begin())->second.Data()<<endl;
+//    // test labor if they have the schedule;
+//    for(Map<String, Labor>::iterator mslit = labors.begin(); mslit != labors.end(); mslit++){
+//        cout<<mslit->second.Data()<<endl;
+//    }
+    cout<<schedule<<endl;
 }
 
 

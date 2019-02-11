@@ -458,20 +458,20 @@ String String::operator=(const char chr){
 }
 
 int String::operator==(const char * s){
-    return strcmp(this->c_str(),s);
+    return !strcmp(this->c_str(),s);
 }
 
 int String::operator==(const string& str){
-    return strcmp(this->c_str(), str.c_str());
+    return !strcmp(this->c_str(), str.c_str());
 }
 
 int String::operator==(const String & str){
-    return strcmp(this->c_str(), str.c_str());
+    return !strcmp(this->c_str(), str.c_str());
 }
 
 int String::operator==(const char chr){
     String s = chr;
-    return strcmp(this->c_str(),s.c_str());
+    return !strcmp(this->c_str(),s.c_str());
 }
 
 String String::operator*(unsigned int num){
@@ -642,6 +642,10 @@ int main(){
     cout<<"operator *  test"<<endl;
     String s_ = "- ";
     cout<<(s_*=5)<<endl;
+
+    cout<<"== test ============================================"<<endl;
+    String Z = "Z";
+    cout<<((Z == "Z") ? "True" : "False")<<endl;
 
 }
 

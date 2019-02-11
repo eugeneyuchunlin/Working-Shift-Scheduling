@@ -192,64 +192,34 @@ String Schedule::Data(int head = 0, int tail = 39) {
         swap(head,tail);
     }
 
-    String top;
-    String form;
+    outputManager om;
+    deque<cDay> d = base.begin()->second;
 
-    String stash = "-";
-    String abso = "|";
-    String plus = "+";
-    String space = " ";
-    String nwline = "\n";
-
-    //create the top
-
-    //date:(length is 4, so, total length must be 6
-    top += plus;
-    top += stash * 7;
-
-
-
-    // each day has length 3, so the total length must be 5
-    String day;
-    day = plus + stash*5;
-    top += day * (tail - head) + plus;
-    top += nwline;
-    form += top;
-
-
-    //----------------------------------------//
-    // creat second line (date)
-    deque<cDay> dd = (base.begin())->second;
-    String second;
-    second += abso + space + "Date" + space*2;
-
-    String dt;
+    deque<String> dt;
+    String date = "Date";
+    dt.push_back(date);
     for(int i = head; i < tail; i++){
-        String space1 = space*((5 - to_string(dd[i].Date()).length())/2);
-        second += abso + space1 + to_string(dd[i].Date()) + space*(5 - to_string(dd[i].Date()).length() - space1.length());
-    }
-    second += abso + nwline;
-    form += second;
-    form += top;
-//    system("pause");
-    //--------------------------------------//
-    //create labor's line
-    deque<String> laborsline;
-    for(Map<String, deque<cDay> >::iterator msddit = base.begin(); msddit != base.end(); msddit++){
-        String labor;
-        labor = abso + space + msddit->first;
-        for(int i = head; i < tail; i++){
-            labor += abso + space * 2 +msddit->second[i].Attr() + space * 2;
-        }
-        labor += abso + nwline;
-        laborsline.push_back(labor);
+        dt.push_back(to_String(d[i].Date()));
     }
 
-    for(int i = 0; i < laborsline.size(); i++){
-        form += laborsline[i];
+    deque<String> dy;
+    String day = "Day";
+    dy.push_back(day);
+    for(int i = head; i < tail; i++){
+        dy.push_back(d[i].Day());
     }
-    form += top;
-    return form;
+
+    deque<deque<String> > content;
+    for(Map<String, deque<cDay> >::iterator msdit = base.begin(); msdit != base.end(); msdit++){
+        deque<String> c;
+        c.push_back(msdit->first);
+        for(int i = head ; i < tail; i++){
+            c.push_back((msdit->second)[i].Attr());
+        }
+        content.push_back(c);
+    }
+
+    return  om.createform(dt,dy,content);
 }
 
 void Schedule::loadLabor(Labor & l) {
@@ -270,7 +240,7 @@ return out << d.Data();
 #ifdef __SCHEDULE_CPP_UNIT_TEST__
 int main(){
     Schedule s(5);
-
+    cout<<s<<endl;
 }
 //
 #endif

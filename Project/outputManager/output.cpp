@@ -21,8 +21,8 @@ String outputManager::createTop(T firstline) {
     String top;
     String mid;
     short int size = firstline.size() - 1;
-    // 7 5 5 ...
-    top = plus + stash * 7;
+    // 8 5 5 ...
+    top = plus + stash * 8;
     mid = plus + stash * 5;
 
     top += mid * size;
@@ -32,19 +32,20 @@ String outputManager::createTop(T firstline) {
 
 template <class T>
 String outputManager::createLine(T aline) {
-
     String line;
     String space1;
-    space1 = space*((7 - aline[0].length()) / 2);
-    line += abso + space1 + aline[0] + space * (7 - space1.length() - aline[0].length());
+
+    space1 = space*((8 - (aline[0].length() > 5 ? 6 : aline[0].length())) / 2);
+    line += abso + space1 + aline[0] + space * (8 - space1.length() - (aline[0].length() > 5 ? 6 : aline[0].length()));
 
     for(int i = 1; i < aline.size(); i++){
         String d;
-        space1 = space*((5 - aline[i].length()) / 2);
-        d = abso + space1 + aline[i] + space * (5 - space1.length() - aline[i].length());
+        space1 = space*((5 - (aline[i].length() > 3 ? 1 : aline[i].length())) / 2);
+        d = abso + space1 + aline[i] + space * (5 - space1.length() - (aline[i].length() > 3 ? 1 : aline[i].length()));
         line += d;
     }
     line += abso + nwline;
+
 
     return line;
 

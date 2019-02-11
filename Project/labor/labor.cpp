@@ -44,45 +44,65 @@ String Labor::Name(){
 
 void Labor::loadSchedule(deque<cDay *> s) {
     for(int i = 0; i < s.size(); i++){
+        if(s[i]->Attr() == "W"){
+            s[i]->Attr(rules[month]);
+        }
+
+//        else{
+//            s[i]->setColor();
+//        }
+
+        s[i]->setExpectAttr();
+        if(s[i]->Attr() == "Z"){
+            s[i]->setColor();
+        }
+//        cout<<i<<endl;
         schedule.push_back(s[i]);
     }
+
+//    system("pause");
+    for(int i = 0; i < schedule.size(); i++){
+    }
+
 }
 
-String Labor::Data(int head = 7, int tail = 39) {
-
-    String top;
-    String form;
-
-    String stash = "-";
-    String abso = "|";
-    String plus = "+";
-    String space = " ";
-    String nwline = "\n";
-
-    //date:(length is 4, so, total length must be 6
-    top += plus;
-    top += stash * 7;
-
-    String day;
-    day = plus + stash*5;
-    top += day * (tail - head) + plus;
-    top += nwline;
-    form += top;
-
-    String secondline;
-    secondline = (abso + space + "Date" + space * 2);
-
-    for(int i = 7; i < schedule.size(); i++){
-        String dt;
-        String space1;
-        dt = to_string(schedule[i]->Date());
-        space1 = space*((5 - dt.length())/2);
-        secondline += abso + space1 + dt + space * (5 - space1.length() - dt.length());
+String Labor::Data(int head = 0, int tail = 39) {
+    head += 7;
+    tail += 7;
+    if(tail > schedule.size()){
+        tail = schedule.size();
     }
-    secondline += abso + nwline;
+    if(head > tail){
+        swap(head,tail);
+    }
 
-    form += secondline;
-    return  form;
+    deque<String> dt;
+    dt.push_back(String("Date"));
+    for(int i = head; i < tail; i++){
+        dt.push_back(to_String(schedule[i]->Date()));
+    }
+
+//    cout<<"dt.size = "<<dt.size()<<endl;
+
+    deque<String> dy;
+    dy.push_back(String("Day"));
+    for(int i = head; i < tail; i++){
+        dy.push_back(schedule[i]->Day());
+    }
+
+
+    deque<deque<String> > content;
+    deque<String> c;
+    c.push_back(name);
+    for(int i = head; i < tail; i++){
+        c.push_back(schedule[i]->Attr());
+    }
+
+    content.push_back(c);
+
+    outputManager om;
+
+    return om.createform(dt,dy,content);
 
 }
 

@@ -6,6 +6,7 @@
 #include "../Rule/rule.cpp"
 #include "../DS/DS.cpp"
 #include "../Day/Day.cpp"
+#include "../outputManager/output.cpp"
 //#include "../schedule/schedule.cpp"
 
 using namespace DS;

@@ -2,61 +2,72 @@
 #define __DAY_CPP__
 #include "Day.hpp"
 
+void cDay::setColorCode() {
+    colorCodeH = "\033[1;41m";
+    colorCodeT = "\033[0m";
+}
+
 
 // constructor
 cDay::cDay(String dy, int dt, int mon,String atr, int impot){
+    setColorCode();
     day = dy;
     date = dt;
     month = mon;
     attr = atr;
     importance = impot;
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 cDay::cDay(){
+    setColorCode();
     day = "none";
     date = 0;
     month = 0;
     attr = "none";
     importance = 0;
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 cDay::cDay(String dy, String dt, String mon, String atr, String impot){
+    setColorCode();
     day = dy;
     date = stoi(dt);
     month = stoi(mon);
     attr = atr;
     importance = stoi(impot);
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 cDay::cDay(const char * dy, const char * dt, const char * mon, const char * atr, const char * impot){
+    setColorCode();
     day = dy;
     date = atoi(dt);
     month = atoi(mon);
     attr = atr;
     importance = atoi(impot);
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 cDay::cDay(const char * dy, int dt, int mon, const char * atr, int impot){
+    setColorCode();
     day = dy;
     date = dt;
     month = mon;
     attr = atr;
     importance = impot;
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 
 cDay::cDay(String dy, String dt, int mon, String atr, int impot) {
+    setColorCode();
     day = dy;
     date = stoi(dt);
     month = mon;
     attr = atr;
     importance = impot;
-    colorAttr = "\033[1;31m" + attr + "\033[0m";
+    colorAttr = colorCodeH + attr + colorCodeT;
 }
 
 // Data
@@ -103,6 +114,8 @@ int cDay::Month(int nmon){
 
 String cDay::Attr(String na){
     attr = na;
+//    colorAttr = attr;
+    colorAttr = colorCodeH + attr + colorCodeT;
     return attr;
 }
 
@@ -112,6 +125,7 @@ String cDay::Day(const char *c_str){
 }
 String cDay::Attr(const char *c_str){
     attr = c_str;
+    colorAttr = colorCodeH + attr + colorCodeT;
     return attr;
 }
 
