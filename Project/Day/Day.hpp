@@ -23,6 +23,7 @@ private:
     int date;
     int month;
     String attr;
+    String backup;
     int importance;
     String expect;
     String colorAttr;
@@ -33,7 +34,7 @@ public:
     cDay(String dy, String dt, String mon,String atr ,String impot);
     cDay(const char * dy, const char * dt, const char * mon, const char * atr, const char * impot);
     cDay(const char * dy, int dt, int mon, const char * atr , int impot);
-    cDay(String dy, String dt, int mon, String attr,int impot);
+    cDay(String dy, String dt, int mon, String attr, int impot);
 
 
     // Data
@@ -55,6 +56,8 @@ public:
     void setExpectAttr();
     void setColor();
     void resetColor();
+    void Backup();
+    void restore();
 
 
     // output

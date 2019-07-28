@@ -6,35 +6,35 @@
 #include "../Day/Day.cpp"
 #include "../labor/labor.cpp"
 #include "../outputManager/output.cpp"
+#include "../schedule_base/schedule_base.cpp"
 
 #include <fstream>
 
 using namespace DS;
 
-class Schedule{
+class Schedule:protected __Schedule_base__{
 private:
     Map<String, deque<cDay> > base;
-    deque<String> date;
-    deque<String> day;
+    deque<cDay> holiday;
 private:
+    void virtualfunction(){}
     int month;
-    int dayAmounts;
-
-    /**
-     * Load the file_name File and generate the deque<String> type variables
-     * @param file_name The name of file
-     * @return lines
-     */
-    deque<String> load(string file_name);
-
-    /**
-     * Split the lines to generate the content of schedule
-     * Function may return the 2-D array object
-     *
-     * @param lines load from the csv file
-     * @return lines content
-     */
-    deque<deque<String> > linesSplit(deque<String> lines);
+//
+//    /**
+//     * Load the file_name File and generate the deque<String> type variables
+//     * @param file_name The name of file
+//     * @return lines
+//     */
+//    deque<String> load(string file_name);
+//
+//    /**
+//     * Split the lines to generate the content of schedule
+//     * Function may return the 2-D array object
+//     *
+//     * @param lines load from the csv file
+//     * @return lines content
+//     */
+//    deque<deque<String> > linesSplit(deque<String> lines);
 
     /**
      * create schedule data structure
@@ -44,7 +44,7 @@ private:
      * @param lastContent
      */
     void createScheduleDataStructure(deque<deque<String> > calendarContent, deque<deque<String> > weightContent,
-                                     deque<deque<String> > lastContent);
+                                     deque<deque<String> > lastContent, deque<deque<String> > nextContent);
 
     /**
      * To modify the last schedule content for the last 7 day
@@ -53,13 +53,18 @@ private:
      */
     void lastCalendarProcess(deque<deque<String> > & lastContent);
 
+    void nextCalendarProcess(deque<deque<String> > & nextContent);
+
+    void holidayProcess(deque<deque<String> > holiday);
+
     /**
      *
      * @param last
      * @param now
      * @return string map to series of day info
      */
-    Map<String, deque<String> > calendarConcat(deque<deque<String> > last, deque<deque<String> > now);
+    Map<String, deque<String> >
+    calendarConcat(deque<deque<String> > last, deque<deque<String> > now, deque<deque<String> > next);
 
     /**
      * create the base
@@ -70,12 +75,14 @@ private:
      * @param ldate
      * @param lday
      */
-    void createBase(Map<String, deque<String> > calendarcat, deque<String> cdate, deque<String> cday, deque<String> ldate,
-                        deque<String> lday);
+    void createBase(Map<String, deque<String> > calendarcat, Map<String, deque<String> > dayWeights,
+                    deque<String> cdate, deque<String> cday, deque<String> ldate, deque<String> lday,
+                    deque<String> ndate, deque<String> nday);
 
 
-
+    Map<String, deque<String> > weightProcess(deque<deque<String> > weightContent);
 public:
+    Schedule();
     Schedule(int mon);
     String Data(int head, int tail);
     void loadLabor(Labor & l);

@@ -13,4 +13,4 @@ add_executable(
         Project/Boss/boss.cpp Project/Boss/boss.cpp
         Project/DS/DS.cpp Project/DS/DS.hpp
 
-)
+        Project/Holiday/Holiday.hpp Project/Holiday/Holiday.cpp Project/schedule_base/schedule_base.cpp Project/schedule_base/schedule_base.hpp Project/group/group.cpp Project/group/group.hpp)

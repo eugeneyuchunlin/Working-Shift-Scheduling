@@ -42,27 +42,27 @@ String Labor::Name(){
     return name;
 }
 
-void Labor::loadSchedule(deque<cDay *> s) {
+void Labor::loadSchedule(deque<cDay *> s, deque<cDay> holiday) {
     for(int i = 0; i < s.size(); i++){
         if(s[i]->Attr() == "W"){
             s[i]->Attr(rules[month]);
         }
 
-//        else{
-//            s[i]->setColor();
-//        }
-
         s[i]->setExpectAttr();
         if(s[i]->Attr() == "Z"){
+            s[i]->Attr(rules[month]);
             s[i]->setColor();
         }
-//        cout<<i<<endl;
         schedule.push_back(s[i]);
     }
 
-//    system("pause");
-    for(int i = 0; i < schedule.size(); i++){
+    for(int i = 0; i < holiday.size(); i++){
+        if(holiday[i].Attr() == "Z")
+            Labor::holiday.push_back(holiday[i]);
     }
+
+    for(int i = 0; i < Labor::holiday.size(); i++)
+        cout<<Labor::holiday[i]<<endl;
 
 }
 
@@ -104,6 +104,18 @@ String Labor::Data(int head = 0, int tail = 39) {
 
     return om.createform(dt,dy,content);
 
+}
+
+void Labor::BackupSchedule() {
+    for(int i = 7; i < schedule.size(); i++){
+        schedule[i]->Backup();
+    }
+}
+
+void Labor::RestoreSchedule() {
+    for(int i = 7; i < schedule.size(); i++){
+        schedule[i]->restore();
+    }
 }
 
 #endif

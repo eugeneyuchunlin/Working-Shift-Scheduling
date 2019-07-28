@@ -39,6 +39,7 @@ if __name__ == '__main__':
         if pattern.search(i) is not None:
             cmd.append(i)
     cmd = ' '.join(cmd)
-    os.system(cmd)
+    print(cmd)
+    # os.system(cmd)
     
     pass

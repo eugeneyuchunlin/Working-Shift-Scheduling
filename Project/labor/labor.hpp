@@ -18,6 +18,7 @@ private:
     String name;
     int month;
     deque<cDay *> schedule;
+    deque<cDay> holiday;
 public:
     // constructor
     Labor(String,int);
@@ -34,7 +35,9 @@ public:
     int Month(int mon);
 
 
-    void loadSchedule(deque<cDay *> s);
+    void loadSchedule(deque<cDay *> s, deque<cDay> holiday);
+    void BackupSchedule(void);
+    void RestoreSchedule(void);
     String Data(int head, int tail);
 };
 

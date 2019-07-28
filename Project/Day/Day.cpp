@@ -146,6 +146,14 @@ void cDay::resetColor(){
     swap(colorAttr,attr);
 }
 
+void cDay::Backup() {
+    backup = attr;
+}
+
+void cDay::restore() {
+    attr = backup;
+}
+
 
 // output
 String cDay::Data(){
