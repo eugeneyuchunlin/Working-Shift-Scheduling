@@ -1,4 +1,5 @@
 #include "day.h"
+#include <cstddef>
 
 Day::Day(int mon, std::string day, int date,std::string attribute){
 	Day::_month = mon;
@@ -32,5 +33,13 @@ int Day::date(){
 
 std::ostream & operator <<(std::ostream & out, Day & d){
 	out<<"Day object "<<d._month<<"/"<<d._date<<" "<<d._day<<" "<<d._attr;
+	return out;
+}
+
+std::ostream & operator <<(std::ostream & out, std::vector<Day> days){
+	for(int i = 0,size = days.size();i < size; ++i){
+		out<<"| "<<days[i]._date<<" ";
+	}
+	out<<"|";
 	return out;
 }

@@ -11,9 +11,9 @@ Labor::Labor(string name, int targetMonth, vector<Day> lastMonth, vector<Day> cu
 	for(int i = lastMonth.size() - 7; i < lastMonth.size(); ++i) schedule.push_back(lastMonth[i]);
 	for(int i = 0; i < currentMonth.size(); ++i) schedule.push_back(currentMonth[i]);
 	for(int i = 0; i < 7; ++i) schedule.push_back(nextMonth[i]);
-
-	for(int i = 0; i < schedule.size(); ++i)
-		cout<<schedule[i].attr()<<" ";
+cout<<schedule<<endl;
+//	for(int i = 0; i < schedule.size(); ++i)
+//		cout<<schedule[i].attr()<<" ";
 	cout<<endl;
 
 }

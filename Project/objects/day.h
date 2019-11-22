@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 class Day{ 
 private:
@@ -18,9 +19,11 @@ public:
 	int month();
 	int date();
 	friend std::ostream & operator <<(std::ostream & out , Day & d);
+	friend std::ostream & operator <<(std::ostream & out, std::vector<Day> days);
 
 };
 
 std::ostream & operator <<(std::ostream & out, Day & d);
+std::ostream & operator <<(std::ostream & out, std::vector<Day> days);
 
 #endif 

@@ -21,6 +21,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path){
 	// create holiday;
 	string h("Holiday");
 	vector<Day> days = holiday[h];
+	
 	calendar = new Calendar(current_month, days);
 	cout<<*calendar<<endl;
 }
@@ -29,11 +30,33 @@ map<string, Labor *> Boss::Labors(){
 	return labors;
 }
 
+
+// map<string, vector<Day> > Boss::openCalendar(string path, int month) 
+// 
+// function : 
+// 		This function is to open the calendar and specify the path and month of calendar
+// 		return { NAME : vector<Day> } NAME mapping to a vector of Day
+//
+// 	parameter : 
+// 		string path : The path of the calendar
+// 		int month : The month of the calendar.
+//	
+//	return map<string, vector<Day> > : { NAME : vector<Day> }
 map<string, vector<Day> > Boss::openCalendar(string path, int month){
 	string filename = path +"calendar" + to_string(month) + ".csv";
 	return openCalendar(filename);
 }
 
+
+// map<string, vector<Day> > Boss::openCalendar(string filename)
+// function : 
+// 		this function is to open the Calendar return { NAME : vector<Day> } NAME mapping to a vector of Day
+// 
+// parameter : 
+// 		string filename : specify the FILE NAME
+//
+// return : 
+// 		map<string, vector<Day> > : { NAME : vector<Day> }
 map<string, vector<Day> > Boss::openCalendar(string filename){
 	ifstream file(filename);
 	csv csv_file(file);
