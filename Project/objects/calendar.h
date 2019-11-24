@@ -1,25 +1,19 @@
-#ifndef __CALENDAR_h__
-#define __CALENDAR_h__
-
-#include <string>
-#include <iostream>
+#ifndef __CALENDAR_H__
+#define __CALENDAR_H__ 
+#include <stringlib.h>
 #include <vector>
+#include <map>
+#include "labor.h"
+#include "day.h"
 
-#include "./day.h"
-
-using namespace std;
+typedef std::map<std::string, std::vector<Day *> > StringMapVectorDayPointer;
 
 class Calendar{
 private:
-	vector<Day> cal;
-	int month;
+	std::map<std::string, std::vector<Day *> * > schedule;
 public:
-	Calendar(int mon, vector<string> day,vector<string> date);
-	Calendar(int mon, vector<string> day,vector<string> date, vector<string> attr);
-	Calendar(int mon, vector<Day> days);
-	friend ostream & operator<<(ostream & out, Calendar & cal);
+	Calendar(std::map<std::string, Labor *> labors);
+	Calendar(){}
 };
-
-ostream & operator<<(ostream & out, Calendar & cal);
 
 #endif

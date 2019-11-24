@@ -9,21 +9,19 @@
 // include object
 #include "./labor.h"
 #include "./day.h"
-#include "./calendar.h"
+#include "calendar.h"
 
 class Boss{
 	private:
 	int month;
 	map<string, Labor *> labors;
-	Calendar * calendar;
 public:
 	Boss(int last_month, int current_month, int next_month, string path);
 	map<string, Labor *> Labors();
 private:
-	map<string,vector<Day> > openCalendar(string filename, int month);
-	map<string, vector<Day> >openCalendar(string filename);
+	map<string,vector<Day *> > openCalendar(string filename, int month);
+	map<string, vector<Day *> >openCalendar(string filename);
 };
 
-ostream & operator<<(ostream & out, map<string,vector<Day> > & schedule);
 
 #endif

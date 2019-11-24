@@ -38,7 +38,15 @@ std::ostream & operator <<(std::ostream & out, Day & d){
 
 std::ostream & operator <<(std::ostream & out, std::vector<Day> days){
 	for(int i = 0,size = days.size();i < size; ++i){
-		out<<"| "<<days[i]._date<<" ";
+		out<<"| "<<days[i]._attr<<" ";
+	}
+	out<<"|";
+	return out;
+}
+
+std::ostream & operator <<(std::ostream & out, std::vector<Day *>days){
+	for(int i = 0,size = days.size(); i < size; ++i){
+		out<<"|  "<<days[i]->_attr<<" ";
 	}
 	out<<"|";
 	return out;

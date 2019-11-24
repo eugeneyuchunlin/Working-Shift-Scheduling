@@ -20,10 +20,12 @@ public:
 	int date();
 	friend std::ostream & operator <<(std::ostream & out , Day & d);
 	friend std::ostream & operator <<(std::ostream & out, std::vector<Day> days);
+	friend std::ostream & operator <<(std::ostream & out, std::vector<Day *> days_pointer);
 
 };
 
 std::ostream & operator <<(std::ostream & out, Day & d);
 std::ostream & operator <<(std::ostream & out, std::vector<Day> days);
+std::ostream & operator <<(std::ostream & out, std::vector<Day *> days_pointer);
 
 #endif 
