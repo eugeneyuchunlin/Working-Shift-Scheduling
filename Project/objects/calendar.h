@@ -11,9 +11,13 @@ typedef std::map<std::string, std::vector<Day *> > StringMapVectorDayPointer;
 class Calendar{
 private:
 	std::map<std::string, std::vector<Day *> * > schedule;
+	std::map<std::string, std::vector<std::string> >stored_schedule;
 public:
-	Calendar(std::map<std::string, Labor *> labors);
 	Calendar(){}
+	void addSchedule(std::string name, std::vector<Day *> * schedule);
+	void backupTheSchedule();
+	void restoreTheSchedule();
+	void testing();
 };
 
 #endif

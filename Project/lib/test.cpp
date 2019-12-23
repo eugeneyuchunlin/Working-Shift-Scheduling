@@ -4,22 +4,13 @@
 #include <vector>
 #include "stringlib.h"
 #include "csv.h"
+#include "colored.h"
 
 using namespace std;
 
 int main(int argc, char * argv[]){
-	   // string token(argv[2]);
-	   // string str(argv[1]);
-	   // cout<<(str == token)<<endl;
-	std::vector<std::vector<std::string> > testData;
-		ifstream f;
-		f.open("../Files/calendar4.csv", std::ifstream::in);
-		std::cout<<"is good " << (f.good() ? "good" : "not good")<< "\n";
-		csv c(f);
-
-	   // cout<<str.substr(2,3)<<endl;
-	  // vector<string> test = split(str,token);
-	   //for(auto i : test) cout<<i<<endl;
-
-  return 0;
+	cout<<colored("BLINK",fontstyle::BLINK)<<endl;
+	cout<<"Normal \e[5mBlink \e[25mNormal"<<endl;
+	cout<<"Test"<<endl;
+  	return 0;
 }

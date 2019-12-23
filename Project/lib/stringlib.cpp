@@ -77,6 +77,15 @@ std::string to_string(std::string s){
 	return s;
 }
 
-std::string colorful(std::string s){
+std::ostream & operator<<(std::ostream & out, std::vector<std::string> data){
+	for(unsigned int i = 0; i < data.size(); ++i){
+		out<<data[i]<<" ";
+	}
+	return out;
+}
 
+std::ostream & operator<<(std::ostream & out, std::vector<std::vector<std::string> > data){
+	for(unsigned int i = 0; i < data.size(); ++i)
+		out<<data[i]<<std::endl;
+	return out;
 }

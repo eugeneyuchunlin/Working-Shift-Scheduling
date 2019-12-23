@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 #include <regex>
 
 
@@ -12,5 +13,6 @@ std::string  operator *(std::string  s, int n);
 std::string  operator *(int n, std::string s);
 std::vector<std::string>  split(std::string  s, std::string & substring);
 std::string to_string(std::string);
-std::string colorful(std::string s);
+std::ostream & operator<<(std::ostream &, std::vector<std::string> );
+std::ostream & operator<<(std::ostream & ,std::vector<std::vector<std::string> >);
 #endif
