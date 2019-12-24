@@ -21,13 +21,21 @@ private:
 	default_random_engine generator;
 	uniform_int_distribution<int> * distZ;
 	uniform_int_distribution<int> * distW;
+	uniform_int_distribution<int> * nextDistZ;
+	uniform_int_distribution<int> * nextDistW;
+	uniform_int_distribution<int> * selector;
 	vector<Day *>* schedule;
 	vector<Day *>* holidays;
 	vector<int> Zdays;
 	vector<int> Wdays;
+	vector<int> nextZdays;
+	vector<int> nextWdays;
 	string currentRule;
 	string nextRule;
 	string name;
+
+private:
+	void swapDay(uniform_int_distribution<int> * distZ, uniform_int_distribution<int> * distW, vector<int> Zdays, vector<int>Wdays);
 		
 public:
 	Labor(string name,int target_month, PersonalSchedulePkg * pkg);
@@ -45,7 +53,10 @@ public:
 	/* computation of personal quality*/
 public:
 	bool isDWhithC();
-
+	bool isWorkingManyDays(int num=7);
+	int holidayIsNotZ();
+	int SpecialHoliday();
+	bool isWoringThisDay(int i, int num=7);
 };
 
 

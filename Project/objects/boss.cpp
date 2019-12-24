@@ -9,20 +9,24 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	map<string, vector<Day *> > holiday;
 	calendar = new class Calendar();
 	string hol("holiday");
-	currentGroups["A"] = new Group("A");
-	currentGroups["B"] = new Group("B");
-	currentGroups["C"] = new Group("C");
 	
-	nextGroups["A"] = new Group("A");
-	nextGroups["B"] = new Group("B");
-	nextGroups["C"] = new Group("C");
-
-
 	// open files
 	calendar_last = openCalendar(path + "calendar" + to_string(last_month) + ".csv",last_month);
 	calendar_cur = openCalendar(path + "calendar" + to_string(current_month) + ".csv",current_month);
 	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
 	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
+
+	int currentDayAmount = calendar_last.begin()->second.size();
+	// declare the Group
+	currentGroups["A"] = new Group("A", currentDayAmount);
+	currentGroups["B"] = new Group("B", currentDayAmount);
+	currentGroups["C"] = new Group("C", currentDayAmount);
+	
+	nextGroups["A"] = new Group("A", 7);
+	nextGroups["B"] = new Group("B", 7);
+	nextGroups["C"] = new Group("C", 7);
+
+
 	//=========================== open files end=========================
 	
 	int holidays = computeHolidayDays(holiday["Holiday"]);

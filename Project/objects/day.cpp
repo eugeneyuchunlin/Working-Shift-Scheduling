@@ -1,7 +1,7 @@
 #include "day.h"
 #include <cstddef>
 
-Day::Day(int mon, std::string day, int date,std::string attribute){
+Day::Day(int mon, std::string day, int date,std::string attribute):_original_attr(attribute){
 	Day::_month = mon;
 	Day::_day = day;
 	Day::_date = date;
@@ -17,13 +17,24 @@ Day::Day(int mon, std::string day, std::string date, std::string attribute){
 	Day::_prefer_holiday = Day::_attr == "Z" ? true : false;
 }
 
+
 std::string Day::attr(){
 	return _attr;;
 }
 
-std::string Day::setAttr(std::string attr){
-	_attr = attr;
+std::string Day::setHoliday(){
+	_attr = "Z";
 	return _attr;
+}
+
+std::string Day::setWorkDay(){
+	_attr = _original_attr;
+	return _attr;
+}
+
+std::string Day::setAttr(std::string attribute){
+	_original_attr = _attr = attribute;
+	return _original_attr;
 }
 
 std::string Day::day(){
@@ -57,8 +68,12 @@ bool Day::operator==(std::string attr){
 	return _attr == attr;
 }
 
+std::string Day::originalAttr(){
+	return _original_attr;
+}
+
 std::ostream & operator <<(std::ostream & out, Day & d){
-	out<<"Day object "<<d._month<<"/"<<d._date<<" "<<d._day<<" "<<d._attr;
+	out<<"Day object "<<d._month<<"/"<<d._date<<" "<<d._day<<" "<<d._attr<<" isPreferHoliday : " << (d._prefer_holiday ? "True" : "False");
 	return out;
 }
 

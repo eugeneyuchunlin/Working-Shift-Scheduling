@@ -5,12 +5,14 @@
 #include <iostream>
 #include <vector>
 #include <stringlib.h>
+#include <colored.h>
 
 class Day{ 
 private:
 	int _month;
 	std::string _day;
 	std::string _attr;
+	std::string _original_attr;
 	int _date;
 	bool _prefer_holiday;
 public:
@@ -18,7 +20,10 @@ public:
 	Day(int mon, std::string day, std::string date, std::string attribute);
 	std::string day();
 	std::string attr();
-	std::string setAttr(std::string attr);
+	std::string setWorkDay();
+	std::string originalAttr();
+	std::string setHoliday();
+	std::string setAttr(std::string attribute);
 	int month();
 	int date();
 	bool isPreferHoliday();
