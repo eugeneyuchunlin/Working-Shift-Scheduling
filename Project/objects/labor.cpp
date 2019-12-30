@@ -9,6 +9,10 @@ Labor::Labor(string name,int target_month, PersonalSchedulePkg * pkg){
 	schedule = new vector<Day * >();
 	schedule = pkg->schedule;
 	selector = new uniform_int_distribution<int>(0,1);
+	W6 = 100000;
+	Wh = 2000;
+	Wdc = 10000;
+	Wf = 1500;
 }
 
 
@@ -147,9 +151,15 @@ void Labor::setHolidayAmount(int amount){
 }
 
 void Labor::testing(){
-	schedule->at(10)->setHoliday();
+	// schedule->at(10)->setHoliday();
+	cout<<name<<endl;
+	cout<<schedule->size()<<endl;
+	for(unsigned int i = 0; i < schedule->size(); i++){
+		cout<<i<<" "<<*schedule->at(i)<<endl;	
+	}
+	cout<<endl;
 	// for(int i = 7, size = schedule->size(); i < size; ++i)
-	//	cout<<*(schedule->at(i))<<endl;
+	// cout<<*(schedule->at(i))<<endl;
 	// cout<<"Days = "<<SpecialHoliday()<<endl;
 	// cout<<"Labor name : "<<this->name<<endl;
 	// cout<<*schedule<<endl;
@@ -161,8 +171,10 @@ void Labor::randomlySwapDayType(){
 	// if select = 1
 	if(select){ // current schedule
 		swapDay(distZ, distW, Zdays, Wdays);
+		isGoingToSelectTheCurrentMonthDay = true;
 	}else{ // next schedule
 		swapDay(nextDistZ, nextDistW, nextZdays, nextWdays);
+		isGoingToSelectTheCurrentMonthDay = false;
 	}
 }
 
@@ -171,15 +183,20 @@ void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution
 	int rnd1, rnd2;
 	rnd1 = dZ->operator()(generator);
 	zd = schedule->at(Zs[rnd1]);
-
+	lastWday = rnd1; // store the last Swap Z day's number
 	// select a wday;
 	rnd2 = dW->operator()(generator);
 	wd = schedule->at(Ws[rnd2]);
-
-	swap(Zs[rnd1], Ws[rnd2]);
-
+	lastZday = rnd2; // store the last swap W day's number
+	//cout<<Zs[rnd1]<<", "<<Ws[rnd2]<<endl;
+	int temp = Zs[rnd1];
+	Zs[rnd1] = Ws[rnd2];
+	Ws[rnd2] = temp;
 	zd->setWorkDay();
 	wd->setHoliday();
+
+	zd->setColored();
+	wd->setColored();
 }
 
 // check function 
@@ -220,6 +237,43 @@ int Labor::SpecialHoliday(){
 }
 
 bool Labor::isWoringThisDay(int i, int default_num){
+#ifdef DEBUG
 	cout<<*schedule->at(i + default_num)<<endl;
+#endif
 	return !(schedule->at(i + default_num)->attr() == "Z");
+}
+
+int Labor::ComputationPersonalQuality(){
+	int quality = 0;
+	int hf = SpecialHoliday();
+	int hh = holidayIsNotZ();
+	int dc = isDWhithC();
+	int h6 = isWorkingManyDays();
+	quality += Wf * hf;
+	quality += Wh * hh;
+	quality += Wdc * dc;
+	quality += W6 * h6;
+	// printf("dc = %s, hh = %d, hf = %d, h6 = %s, quality = %d\n", (dc ? "True" : "False"), hh, hf, (h6 ?"True" : "False"), quality);
+	return quality;
+}
+
+void Labor::restoreLastSchedule(){
+	if(isGoingToSelectTheCurrentMonthDay){
+		restoreDay(Zdays, Wdays);
+	}else{
+		restoreDay(nextZdays, nextWdays);
+	}
+}
+
+void Labor::restoreDay(vector<int> zdays, vector<int> wdays){
+	Day * wd, *zd;
+	wd = schedule->at(zdays[lastWday]);
+
+	zd = schedule->at(wdays[lastZday]);
+	
+	wd->setHoliday();
+	zd->setWorkDay();
+	wd->setColored(fontstyle::GREEN);
+	zd->setColored(fontstyle::GREEN);
+	swap(zdays[lastWday], wdays[lastZday]);
 }

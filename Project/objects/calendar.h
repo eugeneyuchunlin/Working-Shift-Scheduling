@@ -3,6 +3,7 @@
 #include <stringlib.h>
 #include <vector>
 #include <map>
+#include <random>
 #include "labor.h"
 #include "day.h"
 
@@ -12,6 +13,7 @@ class Calendar{
 private:
 	std::map<std::string, std::vector<Day *> * > schedule;
 	std::map<std::string, std::vector<std::string> >stored_schedule;
+	uniform_int_distribution<int> * selector;	
 public:
 	Calendar(){}
 	void addSchedule(std::string name, std::vector<Day *> * schedule);

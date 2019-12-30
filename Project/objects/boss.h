@@ -28,6 +28,7 @@ private:
 public:
 	Boss(int last_month, int current_month, int next_month, string path);
 	map<string, Labor *> Labors();
+	map<string, Group *> Groups();
 private:
 	map<string,vector<Day *> > openCalendar(string filename, int month=0);
 	PersonalSchedulePkg * jointSchedule(vector<Day *> last_month, vector<Day *> current_month, vector<Day *> next_month);
@@ -35,6 +36,7 @@ private:
 public:
 	void setUpRule(std::string path);
 	Calendar * Calendar();
+	double CreateSchedule(Group *, int rmax = 20, int cmax = 100,unsigned int wrappermax = 100000);
 };
 
 

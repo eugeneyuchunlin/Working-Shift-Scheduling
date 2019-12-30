@@ -15,7 +15,6 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	calendar_cur = openCalendar(path + "calendar" + to_string(current_month) + ".csv",current_month);
 	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
 	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
-
 	int currentDayAmount = calendar_last.begin()->second.size();
 	// declare the Group
 	currentGroups["A"] = new Group("A", currentDayAmount);
@@ -39,9 +38,10 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 		calendar->addSchedule(it->first, pkg->schedule); // calendar's schedule point to labor's schedule
 		delete pkg;
 	}
-
 	setUpRule("../Files/rule2018.csv");
 
+
+	// group up
 	for(map<string, Labor*>::iterator it = labors.begin(); it != labors.end(); it++){
 		if (it->second->Name() == "黃文松")
 			continue;
@@ -55,9 +55,6 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 		}
 	}
 
-	// calendar->testing();
-
-	// calendar->backupTheSchedule();
 
 	for(map<string, Group*>::iterator it = currentGroups.begin(), end = currentGroups.end(); it != end; it++)
 		it->second->setUpHoliday();
@@ -121,7 +118,7 @@ map<string, vector<Day *> > Boss::openCalendar(string filename, int month){
 	date = data[0];
 	Day * day_pointer;
 	for(unsigned int i = 2; i < data.size(); ++i){
-		calendar[data[i][0]];
+		calendar[data[i][0]].clear();
 		for(unsigned int j = 1; j < data[i].size(); ++j){
 			day_pointer = new Day(month, day[j], date[j], data[i][j]);
 			//Day d(month, day[j], date[j], data[i][j]);
@@ -188,4 +185,49 @@ int Boss::computeHolidayDays(std::vector<Day *> holiday){
  */
 Calendar * Boss::Calendar(){
 	return calendar;
+}
+
+map<string, Group *> Boss::Groups(){
+	return currentGroups;
+}
+
+
+double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrappermax ){
+	double Qmin = g->ComputationGroupQuality();
+	double Q = 0;
+	int c, r;
+	double T = Qmin * 0.05;
+	unsigned int wrapper = 0;
+	c = r = 0;
+	cout<<"Qmin = "<<Qmin<<endl;
+	system("pause");
+	while(r <= rmax){
+		while(c <= cmax){
+			// calendar->backupTheSchedule();
+			g->randomlySelectLaborSwapTheDay();
+			Q = g->ComputationGroupQuality();
+			// cout<<"Q = "<<Q<<endl;
+			// cout<<"Qmin = "<<Qmin<<endl;
+			if(Q < Qmin){
+				// cout<<"Q < Qmin"<<endl;
+				Qmin = Q;
+				calendar->backupTheSchedule();
+				c = 0;
+			}else if(Q < Qmin + T){
+				// cout<<"Q < Qmin + T"<<endl;
+				c++;
+			}else{
+				// cout<<"else"<<endl;
+				g->laborScheduleRestore();
+			}
+			cout<<"r = "<<r<<" c = "<<c<<" wrapper = "<<wrapper<<endl;
+			++wrapper;
+			if(wrapper > wrappermax)
+				return Qmin;
+		}
+		T = 0.99 * T;
+		c = 0;
+		++r;
+	}
+	return Qmin;
 }

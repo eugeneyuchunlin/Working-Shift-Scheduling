@@ -19,19 +19,8 @@ int main(){
 	// testing start
 	string name = "林建弘";
 	labors[name]->testing();
-	labors["劉昌仁"]->testing();
-	labors["黃裕淵"]->testing();
-	// labors[name]->testing();
-	// labors[name]->randomlySwapDayType();
-	// labors[name]->testing();
-	Group g("A", 31);
-	g.addMember(labors[name]);
-	g.addMember(labors["劉昌仁"]);
-	g.addMember(labors["黃裕淵"]);
-	int num1 = g.PeopleWorkDays();
-	cout<<"num = "<<num1<<endl;
-	int num2 = g.PeopleWorkDays(2);
-	cout<<"num2 = "<<num2<<endl;
-	// for(map<string, Labor *>::iterator it = labors.begin(); it != labors.end(); it++)
-	// 	it->second->testing();
+	labors[name]->randomlySwapDayType();
+	labors[name]->testing();
+	labors[name]->restoreLastSchedule();
+	labors[name]->testing();
 }

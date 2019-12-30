@@ -33,10 +33,14 @@ private:
 	string currentRule;
 	string nextRule;
 	string name;
+	int lastWday;
+	int lastZday;
+	bool isGoingToSelectTheCurrentMonthDay;
+	int Wh, W6, Wdc, Wf;
 
 private:
 	void swapDay(uniform_int_distribution<int> * distZ, uniform_int_distribution<int> * distW, vector<int> Zdays, vector<int>Wdays);
-		
+	void restoreDay(vector<int> zdays, vector<int> wdays);	
 public:
 	Labor(string name,int target_month, PersonalSchedulePkg * pkg);
 	Labor();
@@ -49,14 +53,16 @@ public:
 	void setHoliday(int start, int num=3);
 	void testing();
 	void randomlySwapDayType();
-
+	void restoreLastSchedule();
 	/* computation of personal quality*/
 public:
 	bool isDWhithC();
 	bool isWorkingManyDays(int num=7);
 	int holidayIsNotZ();
 	int SpecialHoliday();
+	int ComputationPersonalQuality();
 	bool isWoringThisDay(int i, int num=7);
+	
 };
 
 

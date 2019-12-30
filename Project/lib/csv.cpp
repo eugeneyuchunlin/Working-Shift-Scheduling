@@ -38,12 +38,12 @@ std::vector<std::vector<std::string> > csv::parseCSV(std::ifstream & in_file){
 	std::string sub(","); // split a line by a string
 	std::vector<std::string> line_split; // 1-D array, produced by split(line,sub)
 	std::vector<std::vector<std::string> > result; // return data(2-D<string>
-	while(!in_file.eof()){
-		in_file>>line; // scan a line a time
-		//std::cout<<line<<"\n"<<"**************"<<std::endl;
+	while(std::getline(in_file, line)){
+		 // scan a line a time
+		// std::cout<<line<<"\n"<<"**************"<<std::endl;
 		line_split = split(line,sub); // split a line 
 		result.push_back(line_split); // store 1-D<string> into result
 	}
-
+	
 	return result;
 }

@@ -1,16 +1,17 @@
-#include <string>
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include "stringlib.h"
+#include <fstream>
 #include "csv.h"
-#include "colored.h"
 
 using namespace std;
 
-int main(int argc, char * argv[]){
-	cout<<colored("BLINK",fontstyle::BLINK)<<endl;
-	cout<<"Normal \e[5mBlink \e[25mNormal"<<endl;
-	cout<<"Test"<<endl;
-  	return 0;
+int main(){
+	ifstream file("../Files/calendar5.csv");
+	string line;
+//	while (std::getline(file, line))
+//	{
+//		cout<<line<<endl;
+//	}
+	csv csv_file(file);
+	// csv_file.CSVData();
 }

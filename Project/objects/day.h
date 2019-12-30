@@ -13,8 +13,10 @@ private:
 	std::string _day;
 	std::string _attr;
 	std::string _original_attr;
+	std::string _data;
 	int _date;
 	bool _prefer_holiday;
+
 public:
 	Day(int mon, std::string day, int date, std::string attribute);
 	Day(int mon, std::string day, std::string date, std::string attribute);
@@ -29,6 +31,8 @@ public:
 	bool isPreferHoliday();
 	bool isSatisfiedExpectation();
 	bool operator == (std::string attr);
+	void setColored(std::string color = fontstyle::RED);
+
 	friend std::ostream & operator <<(std::ostream & out , Day & d);
 	friend std::ostream & operator <<(std::ostream & out, std::vector<Day> days);
 	friend std::ostream & operator <<(std::ostream & out, std::vector<Day *> days_pointer);
