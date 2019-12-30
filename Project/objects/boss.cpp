@@ -40,7 +40,6 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	}
 	setUpRule("../Files/rule2018.csv");
 
-
 	// group up
 	for(map<string, Labor*>::iterator it = labors.begin(); it != labors.end(); it++){
 		if (it->second->Name() == "黃文松")
@@ -83,7 +82,7 @@ void Boss::setUpRule(std::string path){
 	string name;
 	for(unsigned int i = 0; i < data.size(); ++i){
 		name = data[i][0];
-		cout<<colored(name, fontstyle::RED)<<endl;
+		// cout<<colored(name, fontstyle::RED)<<endl;
 		for(unsigned int j = 1; j < data[i].size(); ++j){
 			tmp = new PersonalMonthlyType;
 			tmp->month = stoi(month[j]);
@@ -199,8 +198,8 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 	double T = Qmin * 0.05;
 	unsigned int wrapper = 0;
 	c = r = 0;
-	cout<<"Qmin = "<<Qmin<<endl;
-	system("pause");
+	// cout<<"Qmin = "<<Qmin<<endl;
+	// system("pause");
 	while(r <= rmax){
 		while(c <= cmax){
 			// calendar->backupTheSchedule();
@@ -220,7 +219,7 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 				// cout<<"else"<<endl;
 				g->laborScheduleRestore();
 			}
-			cout<<"r = "<<r<<" c = "<<c<<" wrapper = "<<wrapper<<endl;
+			// cout<<"r = "<<r<<" c = "<<c<<" wrapper = "<<wrapper<<endl;
 			++wrapper;
 			if(wrapper > wrappermax)
 				return Qmin;

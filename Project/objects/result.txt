@@ -1,0 +1,15 @@
+劉昌仁 Z C C C C Z Z A A A A A A Z A A Z A A Z A A Z A A Z A A Z A A Z A A Z A A Z B B Z B B Z B 
+吳榮鈞 D D D Z D Z Z D D D D Z D D Z D D Z D D Z D D Z D D Z D D Z D D Z D D Z D D Z D D Z D D Z 
+李世鴻 C Z Z C C C C B B Z B B B Z B B Z B B Z B B Z B B Z B B Z B B B B B Z B B Z Z Z A Z A A Z 
+林建弘 A A A Z Z A A B B B B Z B B Z B B Z B B Z B B Z B B Z B B Z B B Z B B Z B B C Z Z C Z Z C 
+洪博章 C C C Z C Z C B B B B B Z B B Z B B Z B B Z B B Z B B Z B B Z B B Z B B Z B C C C Z C Z Z 
+羅國祐 B B B B B Z Z C Z C C Z C Z C C Z C C Z C C Z C C Z C C Z C C C C C Z C C Z A Z A Z Z A Z 
+陳修緯 A Z A A Z Z Z C C Z Z C C C Z C C Z C C Z C C Z C C Z C C Z C C Z C C Z C C B Z B B Z B B 
+陳榮洲 B B Z Z B B B A A A A A Z A A Z A A Z A A Z A A Z A A Z A A Z A A Z A A Z A C Z C C Z C C 
+黃文松 D D D D Z Z D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D 
+黃裕淵 Z Z B B Z Z B C C C C C Z C C Z C C Z C C Z C C Z C C Z C C Z C C Z C C Z Z Z B Z Z B Z Z 
+Testing ============
+Li 19500
+qAmin = 15500
+qBmin = 16000
+qCmin = 14000

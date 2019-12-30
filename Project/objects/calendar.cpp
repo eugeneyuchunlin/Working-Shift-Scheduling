@@ -47,10 +47,9 @@ void Calendar::testing(){
 	// 	cout<<endl;
 	// 	cout.flush();
 	// }
-//	backupTheSchedule();	
-	cout<<"size2 = "<<stored_schedule.begin()->second.size()<<endl;
+//	backupTheSchedule();
 	for(std::map<std::string, std::vector<std::string> >::iterator it = stored_schedule.begin(), end = stored_schedule.end(); it != end; it++){
-		cout<<it->first<<endl;
+		cout<<it->first<<" ";
 		for(vector<string>::iterator it2 = it->second.begin(), end2 = it->second.end(); it2 != end2; it2++)
 			cout<<*it2<<" ";
 		cout<<endl;

@@ -24,7 +24,7 @@ int main(){
 	Group * gA = Groups["A"];
 	Group * gB = Groups["B"];
 	Group * gC = Groups["C"];
-	c->testing();
+	//c->testing();
 	qAmin = b.CreateSchedule(gA, 100,100, 100000);
 	qBmin = b.CreateSchedule(gB, 30,100, 70000);
 	qCmin = b.CreateSchedule(gC, 100,100, 100000);
