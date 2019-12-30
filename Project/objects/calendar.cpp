@@ -50,8 +50,18 @@ void Calendar::testing(){
 //	backupTheSchedule();
 	for(std::map<std::string, std::vector<std::string> >::iterator it = stored_schedule.begin(), end = stored_schedule.end(); it != end; it++){
 		cout<<it->first<<" ";
-		for(vector<string>::iterator it2 = it->second.begin(), end2 = it->second.end(); it2 != end2; it2++)
-			cout<<*it2<<" ";
+		// for(vector<string>::iterator it2 = it->second.begin(), end2 = it->second.end(); it2 != end2; it2++)
+		//		cout<<*it2<<" ";
+		for(unsigned int i = 0; i < 7; ++i)
+			cout<<it->second.at(i)<<" ";
+		cout<<"| ";
+		for(unsigned int i = 7, size = it->second.size() - 7; i < size; ++i){
+			cout<<it->second.at(i)<<" ";
+		}
+		cout<<"| ";
+		for(unsigned int i = it->second.size() - 7, size = it->second.size(); i < size; ++i){
+			cout<<it->second.at(i)<<" ";
+		}
 		cout<<endl;
 	}
 }
