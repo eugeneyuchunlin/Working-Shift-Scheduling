@@ -18,6 +18,7 @@ private:
 	int month;
 	int targetMonth;
 	int holidayAmount;
+	vector<string> store_schedule;
 	default_random_engine generator;
 	uniform_int_distribution<int> * distZ;
 	uniform_int_distribution<int> * distW;
@@ -36,10 +37,10 @@ private:
 	int lastWday;
 	int lastZday;
 	bool isGoingToSelectTheCurrentMonthDay;
-	int Wh, W6, Wdc, Wf;
+	int Wh, W7, Wdc, Wf, W6;
 
 private:
-	void swapDay(uniform_int_distribution<int> * distZ, uniform_int_distribution<int> * distW, vector<int> Zdays, vector<int>Wdays);
+	void swapDay(uniform_int_distribution<int> * distZ, uniform_int_distribution<int> * distW, vector<int> &  Zdays, vector<int> & Wdays);
 	void restoreDay(vector<int> zdays, vector<int> wdays);	
 public:
 	Labor(string name,int target_month, PersonalSchedulePkg * pkg);
@@ -54,6 +55,8 @@ public:
 	void testing();
 	void randomlySwapDayType();
 	void restoreLastSchedule();
+	void backupSchedule();
+	void restoreSchedule();
 	/* computation of personal quality*/
 public:
 	bool isDWhithC();
@@ -61,8 +64,7 @@ public:
 	int holidayIsNotZ();
 	int SpecialHoliday();
 	int ComputationPersonalQuality();
-	bool isWoringThisDay(int i, int num=7);
-	
+	bool isWoringThisDay(int i, int num=7);		
 };
 
 

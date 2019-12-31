@@ -82,3 +82,38 @@ void Group::laborScheduleRestore(){
 	if(lastSelectedLabor)
 		lastSelectedLabor->restoreLastSchedule();
 }
+
+void Group::showUpGroupSchedule(){
+	for(map<string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
+		vector<Day *> * d = new vector<Day *>();
+		d = it->second->PersonalSchedule();
+		cout<<it->first<<" ";
+		int i = 0;	
+		for(; i < 7; ++i){
+			cout<<d->at(i)->attr()<<" ";	
+		}
+		cout<<"| ";
+		for(int size = d->size() - 7; i < size; ++i){
+			// if(d->at(i)->attr() == "Z"){
+			// 	d->at(i)->setColored();
+			// }
+			cout<<d->at(i)->attr()<<" ";
+		}
+		cout<<"| ";
+		for(int size = d->size(); i < size; ++i)
+			cout<<d->at(i)->attr()<<" ";
+		cout<<endl;
+	}
+}
+
+void Group::backup(){
+	for(map<string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
+		it->second->backupSchedule();
+	}
+}
+
+void Group::restore(){
+	for(map<string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
+		it->second->restoreSchedule();
+	}
+}

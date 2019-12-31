@@ -24,6 +24,10 @@ std::string Day::attr(){
 	return _attr;;
 }
 
+std::string Day::data(){
+	return _data;
+}
+
 std::string Day::setHoliday(){
 	_data = _attr = "Z";
 	return _attr;

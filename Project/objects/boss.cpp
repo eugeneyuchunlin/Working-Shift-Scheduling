@@ -198,35 +198,35 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 	double T = Qmin * 0.05;
 	unsigned int wrapper = 0;
 	c = r = 0;
-	// cout<<"Qmin = "<<Qmin<<endl;
-	// system("pause");
 	while(r <= rmax){
 		while(c <= cmax){
-			// calendar->backupTheSchedule();
 			g->randomlySelectLaborSwapTheDay();
 			Q = g->ComputationGroupQuality();
-			// cout<<"Q = "<<Q<<endl;
-			// cout<<"Qmin = "<<Qmin<<endl;
 			if(Q < Qmin){
-				// cout<<"Q < Qmin"<<endl;
 				Qmin = Q;
-				calendar->backupTheSchedule();
+				g->backup();
+				// calendar->backupTheSchedule();
+				// cout<<"Q = "<<Q<<endl;
+				// g->showUpGroupSchedule();
+				// system("pause");
 				c = 0;
 			}else if(Q < Qmin + T){
-				// cout<<"Q < Qmin + T"<<endl;
 				c++;
 			}else{
-				// cout<<"else"<<endl;
 				g->laborScheduleRestore();
 			}
 			// cout<<"r = "<<r<<" c = "<<c<<" wrapper = "<<wrapper<<endl;
 			++wrapper;
-			if(wrapper > wrappermax)
+			if(wrapper > wrappermax){
+				g->restore();
 				return Qmin;
+			}
 		}
 		T = 0.99 * T;
 		c = 0;
 		++r;
+	
 	}
+	g->restore();
 	return Qmin;
 }

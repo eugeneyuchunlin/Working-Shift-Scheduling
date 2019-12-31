@@ -22,6 +22,7 @@ public:
 	Day(int mon, std::string day, std::string date, std::string attribute);
 	std::string day();
 	std::string attr();
+	std::string data();
 	std::string setWorkDay();
 	std::string originalAttr();
 	std::string setHoliday();

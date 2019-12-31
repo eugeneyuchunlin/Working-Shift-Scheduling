@@ -9,7 +9,8 @@ Labor::Labor(string name,int target_month, PersonalSchedulePkg * pkg){
 	schedule = new vector<Day * >();
 	schedule = pkg->schedule;
 	selector = new uniform_int_distribution<int>(0,1);
-	W6 = 100000;
+	W7 = 100000;
+	W6 = 50000;
 	Wh = 2000;
 	Wdc = 10000;
 	Wf = 1500;
@@ -112,11 +113,15 @@ void Labor::setHoliday(int start, int num){
 	
 }
 
-
+// string Labor::CurrentRule()
+// function : return the rule of current month
 string Labor::CurrentRule(){
 	return currentRule;
 }
 
+
+// string Labor::NextRule()
+// function : return the rule of next month
 string Labor::NextRule(){
 	return nextRule;
 }
@@ -155,7 +160,7 @@ void Labor::testing(){
 	cout<<name<<endl;
 	cout<<schedule->size()<<endl;
 	for(unsigned int i = 0; i < schedule->size(); i++){
-		cout<<i<<" "<<*schedule->at(i)<<endl;	
+		cout<<schedule->at(i)->attr()<<" ";
 	}
 	cout<<endl;
 	// for(int i = 7, size = schedule->size(); i < size; ++i)
@@ -178,7 +183,7 @@ void Labor::randomlySwapDayType(){
 	}
 }
 
-void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution<int> * dW, vector<int> Zs, vector<int> Ws){
+void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution<int> * dW, vector<int> &  Zs, vector<int> &  Ws){
 	Day * zd, *wd;
 	int rnd1, rnd2;
 	rnd1 = dZ->operator()(generator);
@@ -195,16 +200,24 @@ void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution
 	zd->setWorkDay();
 	wd->setHoliday();
 
-	zd->setColored();
-	wd->setColored();
+	zd->setColored(fontstyle::GREEN);
+	wd->setColored(fontstyle::GREEN);
 }
 
 // check function 
-
+/* function : check if D day with C day
+ */
 bool Labor::isDWhithC(){
+	// check the border between last month and current month
+	// and also check the current month and next month
 	return (schedule->at(7)->attr() == "C"  && (schedule->at(6)->attr() == "D" || schedule->at(6)->attr() == "A")) ||((*(schedule->end() - 8))->attr() == "C" && ((*(schedule->end() - 7))->attr() == "D" || (*(schedule->end() - 7))->attr() == "A" ));
 }
 
+/* bool Labor::isWorkingManyDays(int num)
+ * function : check if labor work more then #num days
+ * parameter:
+ * 		int num(defualt = 3) : the number of days
+ */
 bool Labor::isWorkingManyDays(int num){
 	int count = 0;
 	for(unsigned int i = 0, size = schedule->size(); i < size; ++i){
@@ -248,10 +261,12 @@ int Labor::ComputationPersonalQuality(){
 	int hf = SpecialHoliday();
 	int hh = holidayIsNotZ();
 	int dc = isDWhithC();
-	int h6 = isWorkingManyDays();
+	int h7 = isWorkingManyDays();
+	int h6 = isWorkingManyDays(6);
 	quality += Wf * hf;
 	quality += Wh * hh;
 	quality += Wdc * dc;
+	quality += W7 * h7;
 	quality += W6 * h6;
 	// printf("dc = %s, hh = %d, hf = %d, h6 = %s, quality = %d\n", (dc ? "True" : "False"), hh, hf, (h6 ?"True" : "False"), quality);
 	return quality;
@@ -276,4 +291,24 @@ void Labor::restoreDay(vector<int> zdays, vector<int> wdays){
 	wd->setColored(fontstyle::GREEN);
 	zd->setColored(fontstyle::GREEN);
 	swap(zdays[lastWday], wdays[lastZday]);
+}
+
+
+/* void Labor::backupSchedule()
+ * function : backup the attrs of each day in schedule.
+ */
+void Labor::backupSchedule(){
+	store_schedule.clear();
+	for(unsigned int i = 0, size = schedule->size(); i < size; ++i){
+		store_schedule.push_back(schedule->at(i)->attr());	
+	}
+}
+
+
+void Labor::restoreSchedule(){
+	if(store_schedule.size()){
+		for(unsigned int i = 0, size = schedule->size(); i < size; ++i){
+			schedule->at(i)->setAttr(store_schedule.at(i));
+		}
+	}	
 }
