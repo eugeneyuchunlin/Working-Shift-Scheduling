@@ -7,7 +7,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	map<string, vector<Day *> > calendar_cur;
 	map<string, vector<Day *> > calendar_next;
 	map<string, vector<Day *> > holiday;
-	calendar = new class Calendar();
+//	calendar = new class Calendar();
 	string hol("holiday");
 	
 	// open files
@@ -35,7 +35,6 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 		pkg = jointSchedule(it->second, calendar_cur[it->first], calendar_next[it->first]);
 		labors[it->first] = new Labor(it->first, current_month, pkg);
 		labors[it->first]->setHolidayAmount(holidays);
-		calendar->addSchedule(it->first, pkg->schedule); // calendar's schedule point to labor's schedule
 		delete pkg;
 	}
 	setUpRule("../Files/rule2018.csv");
@@ -176,14 +175,6 @@ int Boss::computeHolidayDays(std::vector<Day *> holiday){
 		}
 	}
 	return count;
-}
-
-/* Calendar * Boss::Calendar()
- * function : return calendar
- *
- */
-Calendar * Boss::Calendar(){
-	return calendar;
 }
 
 map<string, Group *> Boss::Groups(){

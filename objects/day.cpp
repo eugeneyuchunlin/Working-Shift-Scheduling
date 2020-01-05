@@ -3,7 +3,7 @@
 
 Day::Day(int mon, std::string day, int date,std::string attribute):_original_attr(attribute){
 	Day::_month = mon;
-	Day::_day = day;
+	Day::_day = day.substr(0,3);
 	Day::_date = date;
 	Day::_attr = attribute[0];
 	Day::_data = attribute[0];
@@ -12,7 +12,7 @@ Day::Day(int mon, std::string day, int date,std::string attribute):_original_att
 
 Day::Day(int mon, std::string day, std::string date, std::string attribute){
 	Day::_month = mon;
-	Day::_day = day;
+	Day::_day = day.substr(0,3);
 	Day::_date = std::stoi(date);
 	Day::_attr = attribute[0];
 	Day::_data = attribute[0];

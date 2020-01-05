@@ -2,7 +2,7 @@
 
 
 
-GXX := g++ --std=c++14 -I../lib -g
+GXX := g++ --std=c++11  -I../lib -g
 
 .PHONY: clean
 

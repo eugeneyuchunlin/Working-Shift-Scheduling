@@ -1,6 +1,5 @@
 
-GXX := g++ --std=c++14 
-
+GXX := g++ --std=c++11 
 .PHONY:clean
 
 all: csv.o stringlib.o colored.o

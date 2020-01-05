@@ -84,24 +84,35 @@ void Group::laborScheduleRestore(){
 }
 
 void Group::showUpGroupSchedule(){
+	map<string, Labor *>::iterator it = members.begin();
+	cout<<"Date,";
+	vector<Day *> * d = new vector<Day *>();
+	d = it->second->PersonalSchedule();
+	for(unsigned int i = 0, size = d->size(); i < size; ++i)
+		cout<<d->at(i)->date()<<",";
+	cout<<endl;
+	cout<<"Day,";
+	for(unsigned int i = 0, size = d->size(); i < size; ++i)
+		cout<<d->at(i)->day()<<",";
+	cout<<endl;
 	for(map<string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
 		vector<Day *> * d = new vector<Day *>();
 		d = it->second->PersonalSchedule();
-		cout<<it->first<<" ";
+		cout<<it->first<<",";
 		int i = 0;	
 		for(; i < 7; ++i){
-			cout<<d->at(i)->attr()<<" ";	
+			cout<<d->at(i)->attr()<<",";	
 		}
-		cout<<"| ";
+		// cout<<"| ";
 		for(int size = d->size() - 7; i < size; ++i){
 			// if(d->at(i)->attr() == "Z"){
 			// 	d->at(i)->setColored();
 			// }
-			cout<<d->at(i)->attr()<<" ";
+			cout<<d->at(i)->attr()<<",";
 		}
-		cout<<"| ";
+		//cout<<"| ";
 		for(int size = d->size(); i < size; ++i)
-			cout<<d->at(i)->attr()<<" ";
+			cout<<d->at(i)->attr()<<",";
 		cout<<endl;
 	}
 }

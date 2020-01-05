@@ -41,7 +41,7 @@ flags = [
 '-x',
 'c++',
 '-isystem',
-'./Project/lib',
+'./lib',
 '-isystem',
 '/usr/include',
 '-isystem',

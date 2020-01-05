@@ -10,7 +10,6 @@
 // include object
 #include "labor.h"
 #include "day.h"
-#include "calendar.h"
 #include "structPkg.h"
 #include "calendar.h"
 #include "group.h"
@@ -24,7 +23,6 @@ private:
 	map<string, Labor *> labors; // link labors' name to the instance(pointer)
 	map<string, Group *> currentGroups;
 	map<string, Group *> nextGroups;
-	Calendar * calendar;
 public:
 	Boss(int last_month, int current_month, int next_month, string path);
 	map<string, Labor *> Labors();
@@ -35,7 +33,6 @@ private:
 	int computeHolidayDays(std::vector<Day *> holiday);
 public:
 	void setUpRule(std::string path);
-	Calendar * Calendar();
 	double CreateSchedule(Group *, int rmax = 20, int cmax = 100,unsigned int wrappermax = 100000);
 };
 

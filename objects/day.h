@@ -1,8 +1,8 @@
 #ifndef __DAY_H__
 #define __DAY_H__
 
-#include <string>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <stringlib.h>
 #include <colored.h>

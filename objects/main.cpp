@@ -25,12 +25,15 @@ int main(){
 	// gA->showUpGroupSchedule();
 	// cout<<"==============\n";
 	// gB->showUpGroupSchedule();
-	qAmin = b.CreateSchedule(gA, 200,100, 100000);
-	qBmin = b.CreateSchedule(gB, 200,100, 100000);
-	qCmin = b.CreateSchedule(gC, 200,100, 100000);
+	qAmin = b.CreateSchedule(gA, 200,500, 500000);
+	qBmin = b.CreateSchedule(gB, 200,500, 500000);
+	qCmin = b.CreateSchedule(gC, 200,500, 500000);
 	gA->showUpGroupSchedule();
+	cout<<endl;
 	gB->showUpGroupSchedule();
+	cout<<endl;
 	gC->showUpGroupSchedule();
+	cout<<endl;
 	cout<<"Testing ============"<<endl;
 	for(map<string, Labor*>::iterator it = Labors.begin(), end = Labors.end(); it != end; it++){
 		cout<<it->first<<" "<<it->second->ComputationPersonalQuality()<<endl;
