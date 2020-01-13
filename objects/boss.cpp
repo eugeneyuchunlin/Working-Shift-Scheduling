@@ -32,6 +32,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 
 	// create labors	
 	for(map<string, vector<Day *> >::iterator it = calendar_last.begin(); it != calendar_last.end(); it++){
+		cout<<"name = "<<it->first<<endl;
 		pkg = jointSchedule(it->second, calendar_cur[it->first], calendar_next[it->first]);
 		labors[it->first] = new Labor(it->first, current_month, pkg);
 		labors[it->first]->setHolidayAmount(holidays);
