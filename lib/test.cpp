@@ -15,10 +15,5 @@ int main(){
 	csv csv_file("../files/calendar5.csv", ios_base::in);
      
 	vector<vector<string> > data = csv_file.CSVData();
-    for(auto i : data){
-        for(auto j : i){
-            cout<<j<<" ";
-        }
-        cout<<endl;
-    }
+   	csv_file.write(); 
 }

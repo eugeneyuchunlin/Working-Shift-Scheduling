@@ -199,9 +199,6 @@ void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution
 	Ws[rnd2] = temp;
 	zd->setWorkDay();
 	wd->setHoliday();
-
-	zd->setColored(fontstyle::GREEN);
-	wd->setColored(fontstyle::GREEN);
 }
 
 // check function 
@@ -311,4 +308,12 @@ void Labor::restoreSchedule(){
 			schedule->at(i)->setAttr(store_schedule.at(i));
 		}
 	}	
+}
+
+vector<string> Labor::currentMonthSchedule(){
+	vector<string> rowData;
+	rowData.push_back(name);
+	for(unsigned int i = 7, size = schedule->size() - 7; i < size; ++i)
+		rowData.push_back(schedule->at(i)->attr());
+	return rowData;
 }

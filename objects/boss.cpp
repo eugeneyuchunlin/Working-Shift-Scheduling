@@ -9,7 +9,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	map<string, vector<Day *> > holiday;
 	
 	// open files
-	calendar_last = openCalendar(path + "calendar" + to_string(last_month) + ".csv",last_month);
+	calendar_last = openCalendar(path + "schedule" + to_string(last_month) + ".csv",last_month);
 	calendar_cur = openCalendar(path + "calendar" + to_string(current_month) + ".csv",current_month);
 	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
 	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
@@ -236,13 +236,27 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 }
 
 void Boss::outputCSVForm(){
-    vector<string> Day;
-    Day.push_back("Day");
-    for(unsigned int i = 0; i < holidays.size(); ++i)
-        Day.push_back(holidays[i]->day());
-    vector<string> Date;
-    Date.push_back("Date");
-    for(unsigned int i = 0; i < holidays.size(); ++i)
-        Date.push_back(to_string(holidays[i]->date()));
-
+	csv file("../files/schedule" + to_string(month) + ".csv", ios_base::out);
+	vector<string> row;
+	row.push_back("Date");
+	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
+		row.push_back(to_string(holidays[i]->date()));	
+	}
+	file.addData(row);
+	row.clear();
+	row.push_back("Day");
+	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
+		row.push_back(holidays[i]->day());	
+	}
+	file.addData(row);
+	row.clear();
+	row.push_back("黃文松");
+	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
+		row.push_back(holidays[i]->attr());	
+	}
+	file.addData(row);	
+	for(map<string, Labor*>::iterator it = labors.begin(), end = labors.end(); it != end ; it++)
+		if(it->first != "黃文松")
+			file.addData(it->second->currentMonthSchedule());
+	file.write();
 }

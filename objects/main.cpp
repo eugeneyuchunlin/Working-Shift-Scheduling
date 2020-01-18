@@ -9,7 +9,6 @@ int main(int argc, char *const argv[]){
 	double qBmin, qAmin, qCmin;
 	srand(time(NULL));
 	Boss b(5,6,7,"../files/");
-
 	int r, c, times;
 	if(argc < 4){
 		r = 200;
@@ -27,8 +26,8 @@ int main(int argc, char *const argv[]){
 	Group * gA = Groups["A"];
 	Group * gB = Groups["B"];
 	Group * gC = Groups["C"];
-
-	cout<<colored("Computing GroupA",fontstyle::RED)<<endl;
+	b.outputCSVForm();
+	// cout<<colored("Computing GroupA",fontstyle::RED)<<endl;
 	qAmin = b.CreateSchedule(gA, r, c, times);
 	gA->showUpGroupSchedule();
 	cout<<endl;
@@ -42,11 +41,12 @@ int main(int argc, char *const argv[]){
 	qCmin = b.CreateSchedule(gC, r, c, times);
 	gC->showUpGroupSchedule();
 	cout<<endl;
-
+	
 	cout<<"Testing ============"<<endl;
 	for(map<string, Labor*>::iterator it = Labors.begin(), end = Labors.end(); it != end; it++)
 		cout<<it->first<<" "<<it->second->ComputationPersonalQuality()<<endl;
 	cout<<"qAmin = "<<qAmin<<endl;
 	cout<<"qBmin = "<<qBmin<<endl;
 	cout<<"qCmin = "<<qCmin<<endl;
+	b.outputCSVForm();
 }

@@ -49,6 +49,7 @@ public:
 	string Name();
 	string CurrentRule();
 	string NextRule();
+	vector<string> currentMonthSchedule();
 	void setMonthlySchedule(vector<PersonalMonthlyType *>);
 	void setHolidayAmount(int amount);
 	void setHoliday(int start, int num=3);

@@ -10,8 +10,8 @@
 class csv{
 private:
 	std::vector<std::vector<std::string> >_data;
-    std::fstream file;
-    
+    std::fstream _file;
+   	std::string _filename; 
 public:
 	csv(std::ifstream & in);
     csv(std::ofstream & out);
@@ -19,6 +19,9 @@ public:
 	std::vector<std::vector<std::string> > parseCSV(std::istream & in);
 	std::vector<std::vector<std::string> > CSVData(); 
     void addData(std::vector<std::string> row);
+	void write(std::string filename);
+	void write();
+	std::string joint(std::vector<std::string> row, std::string comma=",");
 };
 
 
