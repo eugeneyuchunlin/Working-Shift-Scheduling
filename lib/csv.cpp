@@ -1,6 +1,5 @@
 #include "csv.h"
 #include "stringlib.h"
-#include <__config>
 #include <algorithm>
 #include <cstring>
 #include <fstream>
@@ -12,15 +11,25 @@ csv::csv(std::ifstream & in){
 	//std::string t;// temp char
 	if(!in.is_open()){
 		std::cerr<<"The file isn't openned"<<std::endl;
-
-	}else{
-		_data = csv::parseCSV(in);
+	}
+    else{
+		_data = parseCSV(in);
 		//std::cout<<"line 13"<<std::endl;
 	}
 }
 
+csv::csv(std::string filename, std::ios_base::openmode mode):file(filename, mode){
+    if (mode == std::ios_base::in ){
+        _data = parseCSV(file);        
+    }
+}
+
 std::vector<std::vector< std::string> > csv::CSVData(){
 	return _data;
+}
+
+void csv::addData( std::vector<std::string> row){
+    _data.push_back(row);
 }
 
 
@@ -33,7 +42,7 @@ std::vector<std::vector< std::string> > csv::CSVData(){
 // 
 // return : 2-D string array
 // 			
-std::vector<std::vector<std::string> > csv::parseCSV(std::ifstream & in_file){
+std::vector<std::vector<std::string> > csv::parseCSV(std::istream & in_file){
 	std::string line; // line data
 	std::string sub(","); // split a line by a string
 	std::vector<std::string> line_split; // 1-D array, produced by split(line,sub)

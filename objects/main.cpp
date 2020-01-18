@@ -8,7 +8,7 @@
 int main(int argc, char *const argv[]){
 	double qBmin, qAmin, qCmin;
 	srand(time(NULL));
-	Boss b(5,6,7,"../Files/");
+	Boss b(5,6,7,"../files/");
 
 	int r, c, times;
 	if(argc < 4){

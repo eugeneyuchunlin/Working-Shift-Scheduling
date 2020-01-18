@@ -6,12 +6,19 @@
 using namespace std;
 
 int main(){
-	ifstream file("../Files/calendar5.csv");
+	fstream file("../files/calendar5.csv", ios_base::in);
 	string line;
 //	while (std::getline(file, line))
 //	{
 //		cout<<line<<endl;
 //	}
-	csv csv_file(file);
-	// csv_file.CSVData();
+	csv csv_file("../files/calendar5.csv", ios_base::in);
+     
+	vector<vector<string> > data = csv_file.CSVData();
+    for(auto i : data){
+        for(auto j : i){
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
 }

@@ -7,8 +7,6 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	map<string, vector<Day *> > calendar_cur;
 	map<string, vector<Day *> > calendar_next;
 	map<string, vector<Day *> > holiday;
-//	calendar = new class Calendar();
-	string hol("holiday");
 	
 	// open files
 	calendar_last = openCalendar(path + "calendar" + to_string(last_month) + ".csv",last_month);
@@ -16,6 +14,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
 	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
 	int currentDayAmount = calendar_last.begin()->second.size();
+    holidays = holiday["Holiday"];
 	// declare the Group
 	currentGroups["A"] = new Group("A", currentDayAmount);
 	currentGroups["B"] = new Group("B", currentDayAmount);
@@ -28,17 +27,16 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 
 	//=========================== open files end=========================
 	
-	int holidays = computeHolidayDays(holiday["Holiday"]);
+	int holidays_amount = computeHolidayDays(holidays);
 
 	// create labors	
 	for(map<string, vector<Day *> >::iterator it = calendar_last.begin(); it != calendar_last.end(); it++){
-		cout<<"name = "<<it->first<<endl;
 		pkg = jointSchedule(it->second, calendar_cur[it->first], calendar_next[it->first]);
 		labors[it->first] = new Labor(it->first, current_month, pkg);
-		labors[it->first]->setHolidayAmount(holidays);
+		labors[it->first]->setHolidayAmount(holidays_amount);
 		delete pkg;
 	}
-	setUpRule("../Files/rule2018.csv");
+	setUpRule(path + "rule2018.csv");
 
 	// group up
 	for(map<string, Labor*>::iterator it = labors.begin(); it != labors.end(); it++){
@@ -69,10 +67,15 @@ map<string, Labor *> Boss::Labors(){
 }
 
 
-
+/* void Boss::setUpRule(std::string path)
+ * function : setup rule for each labor
+ * parameter:
+ *      std::string path : the path of the file.
+ *
+ */
 void Boss::setUpRule(std::string path){
 	ifstream file(path);
-	csv csv_file(file);
+	csv csv_file(file); // auto parse the file
 	vector< vector<string> > data;
 	data = csv_file.CSVData();
 	vector<string> month = data[0];
@@ -82,7 +85,6 @@ void Boss::setUpRule(std::string path){
 	string name;
 	for(unsigned int i = 0; i < data.size(); ++i){
 		name = data[i][0];
-		// cout<<colored(name, fontstyle::RED)<<endl;
 		for(unsigned int j = 1; j < data[i].size(); ++j){
 			tmp = new PersonalMonthlyType;
 			tmp->month = stoi(month[j]);
@@ -178,11 +180,25 @@ int Boss::computeHolidayDays(std::vector<Day *> holiday){
 	return count;
 }
 
+/* map<string, Group *> Boss::Groups()
+ * function: return Groups;
+ */
 map<string, Group *> Boss::Groups(){
 	return currentGroups;
 }
 
 
+/* double Boss::CreateSchedule(Group * g, int rmax, int cmax, unsigned int wrappermax)
+ * function : given a group and compute the schedule with rmax, cmax, and wrappermax to maxmize the total quailty.
+ * parameter : 
+ *      Group * g : the group you'd like to create Schedule.
+ *      int rmax : Round, each round will decrease the threshold T 0.99 times.
+ *      int cmax : max counter 
+ *      int wrappermax : the wrapper, in case the program fall into infinite loop.
+ *
+ * Complexity: O(n*n)
+ *
+ */
 double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrappermax ){
 	double Qmin = g->ComputationGroupQuality();
 	double Q = 0;
@@ -190,27 +206,23 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 	double T = Qmin * 0.05;
 	unsigned int wrapper = 0;
 	c = r = 0;
+
 	while(r <= rmax){
 		while(c <= cmax){
 			g->randomlySelectLaborSwapTheDay();
 			Q = g->ComputationGroupQuality();
 			if(Q < Qmin){
 				Qmin = Q;
-				g->backup();
-				// calendar->backupTheSchedule();
-				// cout<<"Q = "<<Q<<endl;
-				// g->showUpGroupSchedule();
-				// system("pause");
-				c = 0;
+				g->backup(); // backup the schedule
+    			c = 0;
 			}else if(Q < Qmin + T){
 				c++;
 			}else{
 				g->laborScheduleRestore();
 			}
-			// cout<<"r = "<<r<<" c = "<<c<<" wrapper = "<<wrapper<<endl;
 			++wrapper;
 			if(wrapper > wrappermax){
-				g->restore();
+				g->restore(); // restore the schedule
 				return Qmin;
 			}
 		}
@@ -219,6 +231,18 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 		++r;
 	
 	}
-	g->restore();
+	g->restore(); // restore the schedule
 	return Qmin;
+}
+
+void Boss::outputCSVForm(){
+    vector<string> Day;
+    Day.push_back("Day");
+    for(unsigned int i = 0; i < holidays.size(); ++i)
+        Day.push_back(holidays[i]->day());
+    vector<string> Date;
+    Date.push_back("Date");
+    for(unsigned int i = 0; i < holidays.size(); ++i)
+        Date.push_back(to_string(holidays[i]->date()));
+
 }
