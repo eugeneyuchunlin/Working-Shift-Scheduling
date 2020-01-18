@@ -18,9 +18,9 @@ colored.o: colored.cpp colored.h
 	$(GXX) -c -g colored.cpp 
 
 
-testing: stringlib.o colored.o test.cpp
+testing: stringlib.o colored.o test.cpp csv.o
 	$(GXX) -c -g test.cpp
-	$(GXX) -g -o testing test.o stringlib.o colored.o
+	$(GXX) -g -o testing test.o stringlib.o colored.o csv.o
 
 clean:
 	rm *.o

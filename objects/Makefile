@@ -26,9 +26,9 @@ tday: day.o tday.cpp
 	$(GXX) -c tday.cpp
 	$(GXX) -Wall -o tday tday.o day.o ../lib/stringlib.o
 
-main: boss.o calendar.o group.o main.cpp
+main: boss.o group.o main.cpp
 	$(GXX) -c main.cpp
-	$(GXX) -Wall -o main main.o boss.o day.o labor.o group.o ../lib/stringlib.o ../lib/csv.o calendar.o ../lib/colored.o 
+	$(GXX) -Wall -o main main.o boss.o day.o labor.o group.o ../lib/stringlib.o ../lib/csv.o ../lib/colored.o 
 
 tgroup: boss.o calendar.o group.o
 	$(GXX) -c -g testingGroup.cpp 

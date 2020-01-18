@@ -11,7 +11,6 @@
 #include "labor.h"
 #include "day.h"
 #include "structPkg.h"
-#include "calendar.h"
 #include "group.h"
 
 /*class Boss;
@@ -23,6 +22,7 @@ private:
 	map<string, Labor *> labors; // link labors' name to the instance(pointer)
 	map<string, Group *> currentGroups;
 	map<string, Group *> nextGroups;
+    vector<Day *> holidays;
 public:
 	Boss(int last_month, int current_month, int next_month, string path);
 	map<string, Labor *> Labors();
@@ -34,6 +34,8 @@ private:
 public:
 	void setUpRule(std::string path);
 	double CreateSchedule(Group *, int rmax = 20, int cmax = 100,unsigned int wrappermax = 100000);
+    void outputCSVForm();
+
 };
 
 

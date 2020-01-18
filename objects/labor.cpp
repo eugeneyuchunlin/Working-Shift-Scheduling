@@ -210,7 +210,7 @@ void Labor::swapDay(uniform_int_distribution<int> * dZ, uniform_int_distribution
 bool Labor::isDWhithC(){
 	// check the border between last month and current month
 	// and also check the current month and next month
-	return (schedule->at(7)->attr() == "C"  && (schedule->at(6)->attr() == "D" || schedule->at(6)->attr() == "A")) ||((*(schedule->end() - 8))->attr() == "C" && ((*(schedule->end() - 7))->attr() == "D" || (*(schedule->end() - 7))->attr() == "A" ));
+	return (schedule->at(6)->attr() == "C"  && (schedule->at(7)->attr() == "D" || schedule->at(7)->attr() == "A")) ||((*(schedule->end() - 8))->attr() == "C" && ((*(schedule->end() - 7))->attr() == "D" || (*(schedule->end() - 7))->attr() == "A" ));
 }
 
 /* bool Labor::isWorkingManyDays(int num)
