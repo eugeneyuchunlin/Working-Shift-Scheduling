@@ -1,5 +1,5 @@
 .vscode/
-env/
+venv/
 threadtest.cpp
 cmake-build-debug/
 

@@ -51,6 +51,14 @@ void csv::write(){
 	}
 }
 
+void csv::write(std::ostream & out){
+	std::string row;
+	for(unsigned int i = 0, size = _data.size(); i < size; ++i){
+			row = joint(_data[i]);
+			out<<row<<"\n";
+		}
+}
+
 void csv::write(std::string filename){
 	_file = std::fstream(filename, std::ios_base::out);
 	_filename = filename;

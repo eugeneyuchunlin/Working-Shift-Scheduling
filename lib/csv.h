@@ -21,6 +21,7 @@ public:
     void addData(std::vector<std::string> row);
 	void write(std::string filename);
 	void write();
+	void write(std::ostream & out);
 	std::string joint(std::vector<std::string> row, std::string comma=",");
 };
 

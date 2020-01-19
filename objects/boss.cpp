@@ -9,9 +9,18 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	map<string, vector<Day *> > holiday;
 	
 	// open files
+	//
+	cout<<"Open Schedule of Last month ("<<last_month<<")"<<endl;
+	cout<<path + "schedule" + to_string(last_month) + ".csv"<<endl;
 	calendar_last = openCalendar(path + "schedule" + to_string(last_month) + ".csv",last_month);
+
+	cout<<"Open Calendar of Current month ("<<current_month<<")"<<endl;
 	calendar_cur = openCalendar(path + "calendar" + to_string(current_month) + ".csv",current_month);
+
+	cout<<"Open Calendar of Next month ("<<next_month<<")"<<endl;
 	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
+
+	cout<<"Open Holiday Calendar"<<endl;
 	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
 	int currentDayAmount = calendar_last.begin()->second.size();
     holidays = holiday["Holiday"];
