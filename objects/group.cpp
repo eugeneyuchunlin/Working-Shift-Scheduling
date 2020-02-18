@@ -55,7 +55,7 @@ double Group::ComputationGroupQuality(){
 	quility += Wno * noPeopleWork;
 	quility += W1 * onePeopleWork;
 	for(std::map<std::string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
-		PQ = it->second->ComputationPersonalQuality();
+		PQ = it->second->ComputatePersonalQuality();
 		PQmax_PQmin += PQ;
 		if(PQ > PQmax){
 			PQmax = PQ;

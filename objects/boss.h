@@ -34,7 +34,7 @@ private:
 public:
 	void setUpRule(std::string path);
 	static double CreateSchedule(Group *, int rmax = 20, int cmax = 100,unsigned int wrappermax = 100000);
-    void outputCSVForm();
+    void outputCSVForm(string path = "schedule");
 
 };
 

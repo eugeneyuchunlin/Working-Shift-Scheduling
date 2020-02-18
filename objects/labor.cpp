@@ -253,7 +253,7 @@ bool Labor::isWoringThisDay(int i, int default_num){
 	return !(schedule->at(i + default_num)->attr() == "Z");
 }
 
-int Labor::ComputationPersonalQuality(){
+int Labor::ComputatePersonalQuality(){
 	int quality = 0;
 	int hf = SpecialHoliday();
 	int hh = holidayIsNotZ();

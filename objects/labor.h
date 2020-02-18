@@ -64,7 +64,7 @@ public:
 	bool isWorkingManyDays(int num=7);
 	int holidayIsNotZ();
 	int SpecialHoliday();
-	int ComputationPersonalQuality();
+	int ComputatePersonalQuality();
 	bool isWoringThisDay(int i, int num=7);		
 };
 

@@ -244,8 +244,13 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 	return Qmin;
 }
 
-void Boss::outputCSVForm(){
-	csv file("../files/schedule" + to_string(month) + ".csv", ios_base::out);
+/* void Boss::outputCSVForm(string path)
+ * function: output the working-shift in csv form into the given path
+ * parameter : 
+ * 		string path
+ */
+void Boss::outputCSVForm(string path){
+	csv file(path + to_string(month) + ".csv", ios_base::out);
 	vector<string> row;
 	row.push_back("Date");
 	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
