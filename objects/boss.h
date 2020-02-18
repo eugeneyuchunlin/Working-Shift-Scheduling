@@ -18,13 +18,14 @@
  */
 class Boss{
 private:
+	int year;
 	int month;// record the current month
 	map<string, Labor *> labors; // link labors' name to the instance(pointer)
 	map<string, Group *> currentGroups;
 	map<string, Group *> nextGroups;
     vector<Day *> holidays;
 public:
-	Boss(int last_month, int current_month, int next_month, string path);
+	Boss(int year, int last_month, int current_month, int next_month, string path);
 	map<string, Labor *> Labors();
 	map<string, Group *> Groups();
 private:

@@ -46,6 +46,7 @@ public:
 	Labor(string name,int target_month, PersonalSchedulePkg * pkg);
 	Labor();
 	vector<Day * >* PersonalSchedule(int start=0, int end=0);
+	vector<Day * >* PersonalShift(int start, int length);
 	string Name();
 	string CurrentRule();
 	string NextRule();

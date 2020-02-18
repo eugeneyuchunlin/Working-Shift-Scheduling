@@ -28,7 +28,7 @@ int main(int argc, char *const argv[]){
 
 	map<string, int> argConfigs; // -m : need 4 arguments, -c : need 4 arguments
 	map<string, vector<string> > args;// store the return value
-
+	argConfigs["-y"] = 2;
 	argConfigs["-m"] = 4;
 	argConfigs["-c"] = 4;
 	argConfigs["-p"] = 2;
@@ -53,7 +53,7 @@ int main(int argc, char *const argv[]){
 		exit(-1);
 	}
 	/*Boss(int last_month, int current_month, int next_month, string path) */
-	Boss b(stoi(args["-m"][1]), stoi(args["-m"][2]), stoi(args["-m"][3]), args["-p"][1]);
+	Boss b(stoi(args["-y"][1]),stoi(args["-m"][1]), stoi(args["-m"][2]), stoi(args["-m"][3]), args["-p"][1]);
 	map<string, Group *> Groups = b.Groups();
 	map<string, Labor *> Labors = b.Labors();
 	Group * gA = Groups["A"];
@@ -63,7 +63,6 @@ int main(int argc, char *const argv[]){
 	/*++++++++++++++++START COMPUTING+++++++++++++++++++++*/
 	clock_t start = clock();
 
-	b.CreateSchedule(gC, r, c, times);
 	cout<<colored("Computing GroupA",fontstyle::RED)<<endl;
 	thread athread(b.CreateSchedule, gA, r, c, times);
 
@@ -85,7 +84,7 @@ int main(int argc, char *const argv[]){
 		cout<<it->first<<" "<<it->second->ComputatePersonalQuality()<<endl;
 	b.outputCSVForm();
 	b.outputCSVForm(args["-p"][1]);
-	scheduleReport("Schedule"+to_string(args["-m"][2])+".quality.csv",Labors, Groups);
+	scheduleReport("shift"+to_string(args["-m"][2])+".quality.csv",Labors, Groups);
 }
 
 map<string, vector<string> > parseArguments(int argc, char * const argv[], map<string, int> configs){

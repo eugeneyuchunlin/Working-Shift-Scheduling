@@ -151,6 +151,15 @@ vector<Day *> * Labor::PersonalSchedule(int start, int end){
 	}
 }
 
+vector<Day *> * Labor::PersonalShift(int start, int length){
+	vector<Day *> * data = new vector<Day *>();
+	int i;
+	for(i = start, length += start; i < length; i++){
+		data->push_back(schedule->at(i));
+	}
+	return data;
+}
+
 void Labor::setHolidayAmount(int amount){
 	holidayAmount = amount;
 }
@@ -313,7 +322,7 @@ void Labor::restoreSchedule(){
 vector<string> Labor::currentMonthSchedule(){
 	vector<string> rowData;
 	rowData.push_back(name);
-	for(unsigned int i = 7, size = schedule->size() - 7; i < size; ++i)
+	for(unsigned int i = 6, size = schedule->size() - 7; i < size; ++i)
 		rowData.push_back(schedule->at(i)->attr());
 	return rowData;
 }

@@ -1,7 +1,8 @@
 #include "boss.h"
 
-Boss::Boss(int last_month, int current_month, int next_month, string path):month(current_month){
+Boss::Boss(int year, int last_month, int current_month, int next_month, string path):month(current_month){
 	/* variable initialize and declare*/
+	this->year = year;
 	PersonalSchedulePkg * pkg;
 	map<string, vector<Day *> > calendar_last;
 	map<string, vector<Day *> > calendar_cur;
@@ -11,17 +12,21 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	// open files
 	//
 	cout<<"Open Schedule of Last month ("<<last_month<<")"<<endl;
-	cout<<path + "schedule" + to_string(last_month) + ".csv"<<endl;
-	calendar_last = openCalendar(path + "schedule" + to_string(last_month) + ".csv",last_month);
+	cout<<"Now openning : "<<path + "shift" + to_string(year) +  to_string(last_month) + ".csv"<<endl;
+	calendar_last = openCalendar(path + "shift" + to_string(year) +  to_string(last_month) + ".csv",last_month);
 
 	cout<<"Open Calendar of Current month ("<<current_month<<")"<<endl;
-	calendar_cur = openCalendar(path + "calendar" + to_string(current_month) + ".csv",current_month);
+	cout<<"Now openning : "<<path + "calendar" + to_string(year) + to_string(current_month) + ".csv"<<endl;
+	calendar_cur = openCalendar(path + "calendar" + to_string(year) + to_string(current_month) + ".csv",current_month);
+	
 
 	cout<<"Open Calendar of Next month ("<<next_month<<")"<<endl;
-	calendar_next = openCalendar(path + "calendar" + to_string(next_month) + ".csv",next_month);
+	cout<<"Now openning :"<<path + "calendar" + to_string(year) + to_string(next_month) + ".csv"<<endl;
+	calendar_next = openCalendar(path + "calendar" + to_string(year) + to_string(next_month) + ".csv",next_month);
 
 	cout<<"Open Holiday Calendar"<<endl;
-	holiday = openCalendar(path + "holiday" + to_string(current_month) + ".csv");
+	holiday = openCalendar(path + "holiday"+to_string(year) + to_string(current_month) + ".csv");
+	cout<<"Finish openning all files"<<endl;
 	int currentDayAmount = calendar_last.begin()->second.size();
     holidays = holiday["Holiday"];
 	// declare the Group
@@ -37,7 +42,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 	//=========================== open files end=========================
 	
 	int holidays_amount = computeHolidayDays(holidays);
-
+	cout<<"Create Labors"<<endl;
 	// create labors	
 	for(map<string, vector<Day *> >::iterator it = calendar_last.begin(); it != calendar_last.end(); it++){
 		pkg = jointSchedule(it->second, calendar_cur[it->first], calendar_next[it->first]);
@@ -45,8 +50,9 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 		labors[it->first]->setHolidayAmount(holidays_amount);
 		delete pkg;
 	}
-	setUpRule(path + "rule2018.csv");
-
+	cout<<"Setting Rule"<<endl;
+	setUpRule(path + "rule" + to_string(year) + ".csv");
+	cout<<"Group up"<<endl;
 	// group up
 	for(map<string, Labor*>::iterator it = labors.begin(); it != labors.end(); it++){
 		if (it->second->Name() == "黃文松")
@@ -64,6 +70,7 @@ Boss::Boss(int last_month, int current_month, int next_month, string path):month
 
 	for(map<string, Group*>::iterator it = currentGroups.begin(), end = currentGroups.end(); it != end; it++)
 		it->second->setUpHoliday();
+	cout<<"End of constructor, Ready to arrange the shift"<<endl;
 }
 
 
@@ -250,21 +257,25 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
  * 		string path
  */
 void Boss::outputCSVForm(string path){
-	csv file(path + to_string(month) + ".csv", ios_base::out);
+	csv file(path + "shift" + to_string(year) + to_string(month) + ".csv", ios_base::out);
 	vector<string> row;
 	row.push_back("Date");
+	vector<Day *>  * huang = labors["黃文松"]->PersonalShift(6,1);
+	row.push_back(to_string(huang->at(0)->date()));
 	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
 		row.push_back(to_string(holidays[i]->date()));	
 	}
 	file.addData(row);
 	row.clear();
 	row.push_back("Day");
+	row.push_back(huang->at(0)->day());
 	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
 		row.push_back(holidays[i]->day());	
 	}
 	file.addData(row);
 	row.clear();
 	row.push_back("黃文松");
+	row.push_back(huang->at(0)->attr());
 	for(unsigned int i = 0, size = holidays.size(); i < size; ++i){
 		row.push_back(holidays[i]->attr());	
 	}
