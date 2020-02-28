@@ -25,7 +25,7 @@ void scheduleReport(string filename, map<string, Labor *> labors, map<string, Gr
 int main(int argc, char *const argv[]){
 	/* random num initialize*/
 	srand(time(NULL));
-
+	system("ls");
 	map<string, int> argConfigs; // -m : need 4 arguments, -c : need 4 arguments
 	map<string, vector<string> > args;// store the return value
 	argConfigs["-y"] = 2;
@@ -64,6 +64,7 @@ int main(int argc, char *const argv[]){
 	clock_t start = clock();
 
 	cout<<colored("Computing GroupA",fontstyle::RED)<<endl;
+	//b.CreateSchedule(gA, r, c, times);
 	thread athread(b.CreateSchedule, gA, r, c, times);
 
 	cout<<colored("Computing GroupB",fontstyle::RED)<<endl;
@@ -82,9 +83,9 @@ int main(int argc, char *const argv[]){
 	cout<<"min = "<<(float)end / CLOCKS_PER_SEC << endl;
 	for(map<string, Labor*>::iterator it = Labors.begin(), end = Labors.end(); it != end; it++)
 		cout<<it->first<<" "<<it->second->ComputatePersonalQuality()<<endl;
-	b.outputCSVForm();
 	b.outputCSVForm(args["-p"][1]);
-	scheduleReport("shift"+to_string(args["-m"][2])+".quality.csv",Labors, Groups);
+	scheduleReport("./quality/shift"+args["-y"][1] +args["-m"][2]+".quality.csv",Labors, Groups);
+	return 0;
 }
 
 map<string, vector<string> > parseArguments(int argc, char * const argv[], map<string, int> configs){

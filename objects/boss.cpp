@@ -10,10 +10,9 @@ Boss::Boss(int year, int last_month, int current_month, int next_month, string p
 	map<string, vector<Day *> > holiday;
 	
 	// open files
-	//
 	cout<<"Open Schedule of Last month ("<<last_month<<")"<<endl;
-	cout<<"Now openning : "<<path + "shift" + to_string(year) +  to_string(last_month) + ".csv"<<endl;
-	calendar_last = openCalendar(path + "shift" + to_string(year) +  to_string(last_month) + ".csv",last_month);
+	cout<<"Now openning : "<<path + "shift" + to_string((current_month == 1 ? year - 1 : year)) +  to_string(last_month) + ".csv"<<endl;
+	calendar_last = openCalendar(path + "shift" + to_string((current_month == 1 ? year - 1 : year)) +  to_string(last_month) + ".csv",last_month);
 
 	cout<<"Open Calendar of Current month ("<<current_month<<")"<<endl;
 	cout<<"Now openning : "<<path + "calendar" + to_string(year) + to_string(current_month) + ".csv"<<endl;
@@ -21,8 +20,8 @@ Boss::Boss(int year, int last_month, int current_month, int next_month, string p
 	
 
 	cout<<"Open Calendar of Next month ("<<next_month<<")"<<endl;
-	cout<<"Now openning :"<<path + "calendar" + to_string(year) + to_string(next_month) + ".csv"<<endl;
-	calendar_next = openCalendar(path + "calendar" + to_string(year) + to_string(next_month) + ".csv",next_month);
+	cout<<"Now openning :"<<path + "calendar" + to_string((current_month == 12? year + 1 : year)) + to_string(next_month) + ".csv"<<endl;
+	calendar_next = openCalendar(path + "calendar" + to_string((current_month == 12? year + 1 : year)) + to_string(next_month) + ".csv",next_month);
 
 	cout<<"Open Holiday Calendar"<<endl;
 	holiday = openCalendar(path + "holiday"+to_string(year) + to_string(current_month) + ".csv");
@@ -51,7 +50,14 @@ Boss::Boss(int year, int last_month, int current_month, int next_month, string p
 		delete pkg;
 	}
 	cout<<"Setting Rule"<<endl;
-	setUpRule(path + "rule" + to_string(year) + ".csv");
+	cout<<"current_month = "<<current_month<<endl;
+	if (current_month == 12){ // december's rule will be in the rule{nextyear}.csv
+		cout<<"Now openning "<<path + "rule" + to_string(year + 1) + ".csv"<<endl;
+		setUpRule(path + "rule" + to_string(year + 1) + ".csv");
+	}else{
+		cout<<"Now openning "<<path + "rule" + to_string(year) + ".csv"<<endl;
+		setUpRule(path + "rule" + to_string(year) + ".csv");
+	}
 	cout<<"Group up"<<endl;
 	// group up
 	for(map<string, Labor*>::iterator it = labors.begin(); it != labors.end(); it++){
@@ -109,6 +115,7 @@ void Boss::setUpRule(std::string path){
 		}
 		labors[name]->setMonthlySchedule(monthlySchedule);
 		monthlySchedule.clear();
+		cout<<name<<"Finished"<<endl;
 	}
 }
 
@@ -222,7 +229,6 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 	double T = Qmin * 0.05;
 	unsigned int wrapper = 0;
 	c = r = 0;
-
 	while(r <= rmax){
 		while(c <= cmax){
 			g->randomlySelectLaborSwapTheDay();
