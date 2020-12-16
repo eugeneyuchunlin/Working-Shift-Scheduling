@@ -91,5 +91,8 @@ $ ./main
 
 ## Todo
 
-* GUI develop
-* Simulate and optimize.
+- [ ] Genetic operation : mutation, crossover.
+- [ ] Enable define scheduling range.
+- [ ] Enable load history shift.
+- [ ] Python GUI development.
+- [ ] Simulation and optimization.

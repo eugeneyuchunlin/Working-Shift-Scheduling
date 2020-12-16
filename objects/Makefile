@@ -6,7 +6,7 @@ GXX := g++ --std=c++11  -I../lib -g
 
 .PHONY: clean
 
-all: boss.o labor.o day.o
+all: main
 day.o: day.cpp day.h
 	$(GXX) -c day.cpp
 
@@ -26,9 +26,12 @@ tday: day.o tday.cpp
 	$(GXX) -c tday.cpp
 	$(GXX) -Wall -o tday tday.o day.o ../lib/stringlib.o
 
-main: boss.o group.o main.cpp
+main: main.o day.o labor.o group.o boss.o calendar.o
 	$(GXX) -c -pthread main.cpp
 	$(GXX) -Wall -pthread -o main main.o boss.o day.o labor.o group.o ../lib/stringlib.o ../lib/csv.o ../lib/colored.o 
+
+main.o: main.cpp
+	$(GXX) -c -pthread main.cpp
 
 tgroup: boss.o calendar.o group.o
 	$(GXX) -c -g testingGroup.cpp 
