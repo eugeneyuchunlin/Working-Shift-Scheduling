@@ -1,4 +1,7 @@
 #include "group.h"
+#include <vector>
+#include <algorithm>
+#include <pthread.h>
 
 Group::Group(std::string type, int damount):dayAmount(damount){
 	generator.seed(rand());
@@ -83,41 +86,69 @@ void Group::laborScheduleRestore(){
 		lastSelectedLabor->restoreLastSchedule();
 }
 
-void Group::showUpGroupSchedule(){
+std::vector<std::vector<std::string> >  Group::showUpGroupSchedule(){
 	map<string, Labor *>::iterator it = members.begin();
+	vector<vector<string> > rows;
+	vector<string> row;
 	cout<<"Date  ";
+	row.push_back("Date");	
 	vector<Day *> * d = new vector<Day *>();
 	d = it->second->PersonalSchedule();
-	for(unsigned int i = 0, size = d->size(); i < size; ++i)
-		if (to_string(d->at(i)->date()).length() == 2)
+	for(unsigned int i = 0, size = d->size(); i < size; ++i){
+		row.push_back(to_string(d->at(i)->date()));
+		if (to_string(d->at(i)->date()).length() == 2){
 			cout<<d->at(i)->date()<<"  ";
-		else
+		}else{
 			cout<<d->at(i)->date()<<"   ";
+		}
+	}
 	cout<<endl;
+	
+	rows.push_back(row);
+	row.clear();
+
 	cout<<"Day   ";
-	for(unsigned int i = 0, size = d->size(); i < size; ++i)
+	row.push_back("Day");
+
+	for(unsigned int i = 0, size = d->size(); i < size; ++i){
+		row.push_back(d->at(i)->day());
 		cout<<d->at(i)->day()<<" ";
+	}
+	rows.push_back(row);
+	row.clear();
+
 	cout<<endl;
 	for(map<string, Labor *>::iterator it = members.begin(), end = members.end(); it != end; it++){
 		vector<Day *> * d = new vector<Day *>();
 		d = it->second->PersonalSchedule();
+		row.push_back(it->first);
+
 		cout<<it->first<<"  ";
-		int i = 0;	
+		int i = 0, size = 0;
 		for(; i < 7; ++i){
-			cout<<d->at(i)->attr()<<"   ";	
+			cout<<d->at(i)->attr()<<"  ";	
+				
 		}
 		// cout<<"| ";
-		for(int size = d->size() - 7; i < size; ++i){
+		for(size = d->size() - 7; i < size; ++i){
 			// if(d->at(i)->attr() == "Z"){
 			// 	d->at(i)->setColored();
 			// }
-			cout<<d->at(i)->attr()<<"   ";
+			cout<<d->at(i)->attr()<<"  ";
 		}
 		//cout<<"| ";
-		for(int size = d->size(); i < size; ++i)
-			cout<<d->at(i)->attr()<<"   ";
+		for(size = d->size(); i < size; ++i)
+			cout<<d->at(i)->attr()<<"  ";
+		i = 0;
+		for(size = d->size(); i < size; ++i){
+			row.push_back(d->at(i)->attr());
+		}
+		rows.push_back(row);
+		row.clear();
+
 		cout<<endl;
 	}
+	return rows;
 }
 
 void Group::backup(){

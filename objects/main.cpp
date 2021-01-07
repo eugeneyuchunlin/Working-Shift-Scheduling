@@ -64,14 +64,14 @@ int main(int argc, char *const argv[]){
 	clock_t start = clock();
 
 	cout<<colored("Computing GroupA",fontstyle::RED)<<endl;
-	//b.CreateSchedule(gA, r, c, times);
-	thread athread(b.CreateSchedule, gA, r, c, times);
+	// b.CreateSchedule(gA, 0.01, c, times);
+	thread athread(b.CreateSchedule, gA, 0.001, c, times);
 
 	cout<<colored("Computing GroupB",fontstyle::RED)<<endl;
-	thread bthread(b.CreateSchedule, gB, r, c, times);
+	thread bthread(b.CreateSchedule, gB, 0.001, c, times);
 	
 	cout<<colored("Computing GroupC",fontstyle::RED)<<endl;
-	thread cthread(b.CreateSchedule, gC, r, c, times);	
+	thread cthread(b.CreateSchedule, gC, 0.001, c, times);	
 
 	athread.join();
 	bthread.join();
@@ -85,6 +85,15 @@ int main(int argc, char *const argv[]){
 		cout<<it->first<<" "<<it->second->ComputatePersonalQuality()<<endl;
 	b.outputCSVForm(args["-p"][1]);
 	scheduleReport("./quality/shift"+args["-y"][1] +args["-m"][2]+".quality.csv",Labors, Groups);
+	vector<vector<string> > rows;	
+	csv file("result.csv", ios::ios_base::out); 
+	rows = gA->showUpGroupSchedule();
+	file.addData(rows);
+	rows = gB->showUpGroupSchedule();
+	file.addData(rows);
+	rows = gC->showUpGroupSchedule();
+	file.addData(rows);
+	file.write();
 	return 0;
 }
 
@@ -128,6 +137,8 @@ void scheduleReport(string filename, map<string, Labor *> labors, map<string, Gr
 
 	// labor quality : 
 	for(map<string, Labor *>::iterator it = labors.begin(), end = labors.end(); it != end; it++){
+		if(it->first == "黃文松")
+			continue;
 		row.clear();
 		row.push_back(it->first);
 		row.push_back(it->second->isDWhithC() ? "True" : "False");

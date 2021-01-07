@@ -222,15 +222,16 @@ map<string, Group *> Boss::Groups(){
  * Complexity: O(n*n)
  *
  */
-double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrappermax ){
+double Boss::CreateSchedule(Group * g ,double rmax, int cmax,unsigned int wrappermax ){
 	double Qmin = g->ComputationGroupQuality();
 	double Q = 0;
 	int c, r;
 	double T = Qmin * 0.05;
+	double Tmin = T * rmax;
 	unsigned int wrapper = 0;
 	c = r = 0;
-	while(r <= rmax){
-		while(c <= cmax){
+	while(T >= Tmin){ // Wrapper, times = log(rmax) / log(0.99)
+		while(c <= cmax){ // equilibrum
 			g->randomlySelectLaborSwapTheDay();
 			Q = g->ComputationGroupQuality();
 			if(Q < Qmin){
@@ -244,7 +245,7 @@ double Boss::CreateSchedule(Group * g ,int rmax, int cmax,unsigned int wrapperma
 			}
 			++wrapper;
 			if(wrapper > wrappermax){
-				g->restore(); // restore the schedule
+				g->restore();
 				return Qmin;
 			}
 		}
@@ -291,3 +292,12 @@ void Boss::outputCSVForm(string path){
 			file.addData(it->second->currentMonthSchedule());
 	file.write();
 }
+
+
+// void Boss::outputAllShift(string filename){
+// 	// output title row
+// 	vector<string> row;
+// 	row.push_back("Date");
+// 
+// 	vector<Day *>
+// }

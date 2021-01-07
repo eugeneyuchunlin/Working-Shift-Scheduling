@@ -34,8 +34,10 @@ private:
 	int computeHolidayDays(std::vector<Day *> holiday);
 public:
 	void setUpRule(std::string path);
-	static double CreateSchedule(Group *, int rmax = 20, int cmax = 100,unsigned int wrappermax = 100000);
+	static double CreateSchedule(Group *, double rmax = 0.01, int cmax = 100,unsigned int wrappermax = 100000);
     void outputCSVForm(string path = "schedule");
+
+	// void outputAllShift(string filename="result.csv");
 
 };
 

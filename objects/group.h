@@ -26,7 +26,7 @@ public:
 	Group(){Wno = 20000; W1 = 10000;}
 	void addMember(Labor *);
 	void setUpHoliday();
-	void showUpGroupSchedule();
+	std::vector<std::vector<std::string> > showUpGroupSchedule();
 public:
 	int PeopleWorkDays(unsigned int people_amount = 0);
 	double ComputationGroupQuality();
