@@ -19,6 +19,7 @@ public:
 	std::vector<std::vector<std::string> > parseCSV(std::istream & in);
 	std::vector<std::vector<std::string> > CSVData(); 
     void addData(std::vector<std::string> row);
+	void addData(std::vector<std::vector<std::string> > rows);
 	void write(std::string filename);
 	void write();
 	void write(std::ostream & out);

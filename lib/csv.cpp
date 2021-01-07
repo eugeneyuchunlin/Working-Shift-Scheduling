@@ -106,3 +106,9 @@ std::vector<std::vector<std::string> > csv::parseCSV(std::istream & in_file){
 	
 	return result;
 }
+
+void csv::addData(std::vector<std::vector<std::string> > rows){
+	for(unsigned int i = 0; i < rows.size(); ++i){
+		this->addData(rows[i]);
+	}	
+}
