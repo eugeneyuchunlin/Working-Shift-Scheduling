@@ -1,6 +1,6 @@
 # Working Shift Scheduling
 
-The government executes the new policy of One Mandatory Day Off One Flexible Rest Day(一例一休), resulting in the difficulties of scheduling by manual work. In view of this, I develop a program to schedule working shift arrangement for the Building Management Department of Windsor Hotel,  Taichung(台中裕元花園酒店).The **operating research algorithm** is employed to develop this project.
+The government executes the new policy of One Mandatory Day Off One Flexible Rest Day(一例一休), resulting in the difficulties of scheduling by manual work. In view of this, I develop a program to schedule working shift arrangement for the Building Management Department of Windsor Hotel,  Taichung(台中裕元花園酒店).The **Simulated annealing algorithm** is employed to develop this project.
 
 ## Spec
 
